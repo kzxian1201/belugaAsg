@@ -1,6 +1,79 @@
 package org.redwind.testAuto.beluga.configuration;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
 import org.redwind.testAuto.beluga.utils.APIHelper;
 
-public class RestHelper implements APIHelper {
+import java.io.File;
+import java.net.URL;
+
+public class RestHelper implements APIHelper
+{
+    @Override
+    public Response get(ContentType contentType, URL endpoint, Header authorization) {
+        Response response = null;
+        response = RestAssured.given()
+                              .header(authorization)
+                              .when()
+                              .get(endpoint).then()
+                              .contentType(contentType)
+                              .extract().response();
+        return response;
+    }
+
+    @Override
+    public Response post(ContentType contentType, URL endpoint, Header authorization, File filePath) {
+        Response response = null;
+        response = RestAssured.given()
+                .header(authorization)
+                .contentType(contentType)
+                .body(filePath)
+                .when()
+                .post(endpoint)
+                .then()
+                .contentType(contentType)
+                .extract().response();
+        return response;
+    }
+
+    @Override
+    public Response delete(URL endpoint, Header authorization) {
+        Response response = null;
+        response = RestAssured.given()
+                        .header(authorization)
+                        .when()
+                        .delete(endpoint)
+                        .then()
+                        .extract().response();
+        return response;
+    }
+
+    @Override
+    public Response patch(URL endpoint, Header authorization, ContentType contentType, File body) {
+        Response response = null;
+        response = RestAssured.given()
+                .header(authorization)
+                .contentType(contentType)
+                .body(body)
+                .when()
+                .patch(endpoint)
+                .then()
+                .extract().response();
+        return response;
+    }
+
+    @Override
+    public Response put(URL endpoint, Header authorization, ContentType contentType, File body) {
+        Response response = null;
+        response = RestAssured.given()
+                .header(authorization)
+                .contentType(contentType)
+                .body(body)
+                .when()
+                .put(endpoint)
+                .then().extract().response();
+        return response;
+    }
 }
