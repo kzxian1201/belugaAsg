@@ -33,7 +33,6 @@ public class RestHelper implements APIHelper
                 .when()
                 .post(endpoint)
                 .then()
-                .contentType(contentType)
                 .extract().response();
         return response;
     }
