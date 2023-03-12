@@ -1,5 +1,7 @@
 package org.redwind.testAuto.beluga.steps.apiSteps;
 
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,10 +11,7 @@ import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.redwind.testAuto.beluga.configuration.RestHelper;
-import org.redwind.testAuto.beluga.utils.APIHelper;
-import org.redwind.testAuto.beluga.utils.GenericFunctions;
-import org.redwind.testAuto.beluga.utils.JsonHelper;
-import org.redwind.testAuto.beluga.utils.PropertyReader;
+import org.redwind.testAuto.beluga.utils.*;
 import org.testng.Assert;
 
 import java.io.File;
@@ -45,7 +44,7 @@ public void collectInformation() throws IOException {
 @Then("User performs get calls")
 public void performGetCall() {
    Response response = apiHelper.get(getContentType(),getEndpoint(),getHeader());
-   System.out.println("Response --->  "+ response.asString());
+   ExtentCucumberAdapter.addTestStepLog("Response --->  "+ response.asString());
    setResponse(response);
 }
 
@@ -70,7 +69,7 @@ public void collectPostInformation() throws IOException {
 @When("User performs post call out")
 public void postCallOut() {
     Response response = apiHelper.post(getContentType(),getEndpoint(),getHeader(),jsonBody);
-    System.out.println("Response --->  "+ response.asString());
+    ExtentCucumberAdapter.addTestStepLog("Response --->  "+ response.asString());
     setResponse(response);
     userID = jsonHelper.getIntegerFromJsonObj(response,"data","id");
     System.out.println(userID);
