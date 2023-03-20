@@ -7,14 +7,11 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 
 @CucumberOptions (features = "src/test/resources/features",
-        glue = {"org/redwind/testAuto/beluga/steps"},
+        glue = {"org.redwind.testAuto.beluga.steps", "org.redwind.testAuto.beluga.utils"},
         plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:reports/testResult.html"},
-        tags = "@WebServicesExample"
+        tags = "@WebServiceExample"
         )
 public class FeatureRunner extends AbstractTestNGCucumberTests
 {
-        @BeforeMethod
-        public void setup(ITestContext test) {
-                Reporter.startReport(test);
-        }
+
 }

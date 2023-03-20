@@ -33,12 +33,13 @@ private File jsonBody ;
 private int userID;
 private GenericFunctions genericFunctions = new GenericFunctions();
 private String createdUser;
+private PropertyReader propertyReader = new PropertyReader();
 
 
 @Given("User is fed with the correct authentications and endpoint details")
 public void collectInformation() throws IOException {
-   setEndpoint(new URL(PropertyReader.getApiProperty("base_url")+PropertyReader.getApiProperty("users_detail")));
-   setHeader(new Header("Authorization",PropertyReader.getApiProperty("authorization")));
+   setEndpoint(new URL(propertyReader.getApiProperty("base_url")+propertyReader.getApiProperty("users_detail")));
+   setHeader(new Header("Authorization",propertyReader.getApiProperty("authorization")));
    setContentType(ContentType.JSON);
 }
 @Then("User performs get calls")
@@ -58,11 +59,11 @@ public void validateResponse() {
 
 @Given("User is fed with the correct authentication, payload and endpoints")
 public void collectPostInformation() throws IOException {
-    setEndpoint(new URL(PropertyReader.getApiProperty("base_url")+PropertyReader.getApiProperty("create_user")));
-    setHeader(new Header("Authorization",PropertyReader.getApiProperty("authorization")));
+    setEndpoint(new URL(propertyReader.getApiProperty("base_url")+propertyReader.getApiProperty("create_user")));
+    setHeader(new Header("Authorization",propertyReader.getApiProperty("authorization")));
     setContentType(ContentType.JSON);
     updateCreateUserJson();
-    String body = System.getProperty("user.dir") + PropertyReader.getApiProperty("createUserPath");
+    String body = System.getProperty("user.dir") + propertyReader.getApiProperty("createUserPath");
     jsonBody = new File(body);
 }
 
@@ -98,12 +99,12 @@ public void verifyCreatedUser() {
 }
 
 public void updateCreateUserJson() throws IOException {
-    JSONObject jsonObject = new JSONObject(Files.readAllBytes(Paths.get(System.getProperty("user.dir") + PropertyReader.getApiProperty("createUserPath"))));
+    JSONObject jsonObject = new JSONObject(Files.readAllBytes(Paths.get(System.getProperty("user.dir") + propertyReader.getApiProperty("createUserPath"))));
     setCreatedUser(genericFunctions.getRandomString());
     jsonObject.put("name", getCreatedUser());
     jsonObject.put("salary", genericFunctions.getRandomNumber(10,10000));
     jsonObject.put("age",genericFunctions.getRandomNumber(1,99));
-    FileWriter file = new FileWriter(System.getProperty("user.dir") + PropertyReader.getApiProperty("createUserPath"));
+    FileWriter file = new FileWriter(System.getProperty("user.dir") + propertyReader.getApiProperty("createUserPath"));
     file.write(jsonObject.toString());
     file.close();
 }
