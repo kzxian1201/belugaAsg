@@ -11,25 +11,33 @@ public class PropertyReader
 
 public String getApiProperty(String propertyKey) throws IOException {
     String propertyFileLocation = System.getProperty("user.dir") + "/src/main/resources/apiConfig.properties";
-    Properties apiProperties = new Properties();
-    apiProperties.load(new FileInputStream(propertyFileLocation));
-    String value = apiProperties.getProperty(propertyKey);
+    String value = getPropertyValue(propertyFileLocation,propertyKey);
     return value;
 }
 
     public String getGuiProperty(String propertyKey) throws IOException {
         String propertyFileLocation = System.getProperty("user.dir") + "/src/main/resources/guiConfig.properties";
-        Properties apiProperties = new Properties();
-        apiProperties.load(new FileInputStream(propertyFileLocation));
-        String value = apiProperties.getProperty(propertyKey);
+        String value = getPropertyValue(propertyFileLocation,propertyKey);
         return value;
     }
 
     public String getGenericProperty(String propertyKey) throws IOException {
         String propertyFileLocation = System.getProperty("user.dir") + "/src/main/resources/genericConfig.properties";
-        Properties apiProperties = new Properties();
-        apiProperties.load(new FileInputStream(propertyFileLocation));
-        String value = apiProperties.getProperty(propertyKey);
+        String value = getPropertyValue(propertyFileLocation,propertyKey);
         return value;
+    }
+
+    public String getPropertyValue(String filePath, String propertyKey) throws IOException {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(filePath));
+    String value = properties.getProperty(propertyKey);
+    return value;
+    }
+
+    public Environment getEnvironment() throws IOException {
+    Environment platform;
+    String env = System.getProperty("PLATFORM");
+    platform = Environment.setPlatform(env);
+    return platform;
     }
 }

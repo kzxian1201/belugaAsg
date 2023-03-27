@@ -1,6 +1,5 @@
 package org.redwind.testAuto.beluga.utils;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GenericFunctions {

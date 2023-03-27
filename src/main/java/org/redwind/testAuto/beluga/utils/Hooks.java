@@ -13,10 +13,19 @@ import java.io.IOException;
 public class Hooks {
 
     private Scenario scenario;
-    private static Logger logger = LogManager.getFormatterLogger();
+    private Logger logger = LogManager.getFormatterLogger();
     DriverFactory driverFactory = new DriverFactory();
     private PropertyReader propertyReader = new PropertyReader();
     private ThreadLocal<WebDriver> currentDriver = new ThreadLocal<WebDriver>();
+    Environment environment;
+
+    {
+        try {
+            environment = propertyReader.getEnvironment();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public WebDriver getCurrentDriver() {
         WebDriver driver = currentDriver.get();
@@ -31,10 +40,9 @@ public class Hooks {
     @Before
     public void scenarioStartUp(Scenario scenario) throws IOException {
         startLogger(scenario);
-        if(propertyReader.getGenericProperty("gui").equalsIgnoreCase("Yes")) {
+        if(environment.getPlatform()!="Restful") {
             initializeBrowser();
         }
-
     }
 
     private void startLogger(Scenario scenario) {
@@ -52,13 +60,13 @@ public class Hooks {
     @After
     public void scenarioTailEnd(Scenario scenario) throws IOException {
         endLogger(scenario);
-        if(propertyReader.getGenericProperty("gui").equalsIgnoreCase("Yes")) {
+        if(environment.getPlatform()!="Restful") {
             getCurrentDriver().quit();
         }
     }
 
     public void initializeBrowser() throws IOException {
-       currentDriver.set(driverFactory.getDeskDriver(propertyReader.getGenericProperty("browser")));
+       currentDriver.set(driverFactory.getDeskDriver(environment.getPlatform()));
     }
 
 }
