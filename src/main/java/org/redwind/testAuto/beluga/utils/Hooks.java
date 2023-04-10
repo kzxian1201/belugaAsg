@@ -16,7 +16,7 @@ public class Hooks {
     private Logger logger = LogManager.getFormatterLogger();
     DriverFactory driverFactory = new DriverFactory();
     private PropertyReader propertyReader = new PropertyReader();
-    private ThreadLocal<WebDriver> currentDriver = new ThreadLocal<WebDriver>();
+
     Environment environment;
 
     {
@@ -27,21 +27,13 @@ public class Hooks {
         }
     }
 
-    public WebDriver getCurrentDriver() {
-        WebDriver driver = currentDriver.get();
-        if(driver!=null) {
-            return driver;
-        } else {
-            logger.info("Driver is not initiated");
-            return null;
-        }
-    }
+
 
     @Before
     public void scenarioStartUp(Scenario scenario) throws IOException {
         startLogger(scenario);
         if(environment.getPlatform()!="Restful") {
-            initializeBrowser();
+            driverFactory.initializeBrowser();
         }
     }
 
@@ -61,12 +53,10 @@ public class Hooks {
     public void scenarioTailEnd(Scenario scenario) throws IOException {
         endLogger(scenario);
         if(environment.getPlatform()!="Restful") {
-            getCurrentDriver().quit();
+            driverFactory.getCurrentDriver().quit();
         }
     }
 
-    public void initializeBrowser() throws IOException {
-       currentDriver.set(driverFactory.getDeskDriver(environment.getPlatform()));
-    }
+
 
 }
