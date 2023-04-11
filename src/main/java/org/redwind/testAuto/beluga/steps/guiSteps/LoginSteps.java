@@ -2,12 +2,15 @@ package org.redwind.testAuto.beluga.steps.guiSteps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.WebElement;
 import org.redwind.testAuto.beluga.pages.webApp.LoginPage;
+import org.redwind.testAuto.beluga.pages.webApp.MainLandingPage;
 import org.redwind.testAuto.beluga.utils.Encryption;
 import org.redwind.testAuto.beluga.utils.PropertyReader;
 import org.redwind.testAuto.beluga.utils.WrapperMethods;
 
 import java.io.IOException;
+import java.util.List;
 
 public class LoginSteps extends WrapperMethods {
 
@@ -17,12 +20,18 @@ public class LoginSteps extends WrapperMethods {
         openApplication(propertyReader.getGuiProperty("appURL"));
     }
     @Then("User logs with {string}")
-    public void loginToApplication(String username) throws IOException {
+    public void loginToApplication(String username) throws IOException, InterruptedException {
         String name = username.replace(" ","_").toLowerCase();
         System.out.println(name);
         enterText(LoginPage.USERNAME,propertyReader.getGuiProperty(name));
         enterText(LoginPage.PASSWORD,new Encryption().decrypt(propertyReader.getGuiProperty("password")));
         clickOnElement(LoginPage.LOGIN_BUTTON);
+        String mainHeading = getTextFromElement(MainLandingPage.MAIN_HEADING);
+        System.out.println("Text "+ mainHeading);
+        List<WebElement> options = getAllDropdownValues(MainLandingPage.FILTER_VALUE);
+        for(int i=0;i<options.size();i++) {
+            System.out.println("Values are "+ options.get(i).getText());
+        }
     }
 
 }
