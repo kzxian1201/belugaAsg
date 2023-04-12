@@ -15,7 +15,7 @@ import java.util.List;
 
 public class WrapperMethods {
 
-    private static Logger logger = LogManager.getFormatterLogger();
+    public static Logger logger = LogManager.getFormatterLogger();
     private DriverFactory driverFactory = new DriverFactory();
 
 
@@ -29,7 +29,6 @@ public class WrapperMethods {
             logger.error("Failed to load the application because %s",getError);
         }
     }
-
     public void enterText(By locator, String value) {
         driver=driverFactory.getCurrentDriver();
         try {
@@ -38,7 +37,6 @@ public class WrapperMethods {
             logger.error("Failed to enter Text %s",getError);
         }
     }
-
     public void clickOnElement(By locator) {
         driver=driverFactory.getCurrentDriver();
         try {
@@ -47,8 +45,8 @@ public class WrapperMethods {
             logger.error("Failed to click on webElement %s", getError);
         }
     }
-
     public void zoom(int zoomPercentage) {
+        driver = driverFactory.getCurrentDriver();
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("document.body.style.zoom = '"+zoomPercentage+"%'");
     }
@@ -61,7 +59,6 @@ public class WrapperMethods {
             logger.error("Scroll to element failed %s",getException);
         }
     }
-
     public String getTextFromElement(By locator) {
         driver=driverFactory.getCurrentDriver();
         String text=null;
@@ -72,7 +69,6 @@ public class WrapperMethods {
         }
         return text;
     }
-
     public String getValueFromElement(By locator,String name) {
         driver=driverFactory.getCurrentDriver();
         String value=null;
@@ -94,7 +90,6 @@ public class WrapperMethods {
         }
         return text;
     }
-
     public void refreshThePage() {
         driver = driverFactory.getCurrentDriver();
         try {
@@ -103,7 +98,6 @@ public class WrapperMethods {
             logger.error("Cannot refresh the webpage",getException);
         }
     }
-
     public void navigateBack() {
         driver =driverFactory.getCurrentDriver();
         try {
@@ -112,7 +106,6 @@ public class WrapperMethods {
             logger.error("Cannot navigate back in webpage %s", getException);
         }
     }
-
     public void clearText(By locator) {
         driver=driverFactory.getCurrentDriver();
         try {
@@ -121,7 +114,6 @@ public class WrapperMethods {
             logger.error("Cannot clear the Text %s", getException);
         }
     }
-
     public void waitForPresenceOfElementLocated(By locator, Duration timeoutInSeconds) {
         driver=driverFactory.getCurrentDriver();
         try {
@@ -131,7 +123,6 @@ public class WrapperMethods {
             logger.error("Element is not loaded within the time", getException);
         }
     }
-
     public void waitForVisibilityOfElementLocated(By locator, Duration timeoutInSeconds) {
         driver=driverFactory.getCurrentDriver();
         try {
@@ -159,7 +150,6 @@ public class WrapperMethods {
             logger.error("Text is not present in dropdown", getException);
         }
     }
-
     public void selectByIndex(By locator, int index) {
         driver=driverFactory.getCurrentDriver();
         try{
@@ -169,7 +159,6 @@ public class WrapperMethods {
             logger.error("value is not present in dropdown", getException);
         }
     }
-
     public List<WebElement> getAllDropdownValues(By locator) {
         driver = driverFactory.getCurrentDriver();
         List<WebElement> options=null;
@@ -181,5 +170,77 @@ public class WrapperMethods {
         }
         return options;
     }
+    public void scrollToButtom() {
+        driver = driverFactory.getCurrentDriver();
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        javascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+    public void scrollToTop() {
+        driver = driverFactory.getCurrentDriver();
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        javascriptExecutor.executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+    }
+    public void mouseHover(By locator) {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            Actions action = new Actions(driver);
+            action.moveToElement(driver.findElement(locator)).build().perform();
+        } catch(WebDriverException getException) {
+            logger.error("mouse hover is not performed %s", getException);
+        }
+    }
+    public void performRightClick() {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            Actions action = new Actions(driver);
+            action.contextClick().build().perform();
+        } catch(WebDriverException getException) {
+            logger.error("right click cannot be performed %s", getException);
+        }
+    }
+    public void performRightClickOnWebElement(By locator) {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            Actions action = new Actions(driver);
+            action.contextClick(driver.findElement(locator)).build().perform();
+        } catch(WebDriverException getException) {
+            logger.error("right click on web element cannot be performed %s", getException);
+        }
+    }
+    public void openNewTab() {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            driver.switchTo().newWindow(WindowType.TAB);
+        } catch(WebDriverException getException) {
+            logger.error("Cannot open new tab %s", getException);
+        }
+    }
+    public void openNewWindow() {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            driver.switchTo().newWindow(WindowType.WINDOW);
+        } catch(WebDriverException getException) {
+            logger.error("Cannot open new window %s", getException);
+        }
+    }
+    public void maximizeWindow() {
+        driver = driverFactory.getCurrentDriver();
+        driver.manage().window().maximize();
+    }
+    public void minimizeWindow() {
+        driver = driverFactory.getCurrentDriver();
+        driver.manage().window().minimize();
+    }
+    public boolean isElementDisplayed(By locator) {
+        driver = driverFactory.getCurrentDriver();
+        try {
+            boolean flag=driver.findElement(locator).isDisplayed();
+            return flag;
+        } catch(WebDriverException getException) {
+            logger.error("Cannot open new window %s", getException);
+            return false;
+        }
+    }
+
 
 }

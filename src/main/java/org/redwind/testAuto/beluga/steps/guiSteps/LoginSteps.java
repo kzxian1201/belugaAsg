@@ -20,18 +20,19 @@ public class LoginSteps extends WrapperMethods {
         openApplication(propertyReader.getGuiProperty("appURL"));
     }
     @Then("User logs with {string}")
-    public void loginToApplication(String username) throws IOException, InterruptedException {
+    public void loginToApplication(String username) throws IOException{
         String name = username.replace(" ","_").toLowerCase();
-        System.out.println(name);
+        logger.info(name);
         enterText(LoginPage.USERNAME,propertyReader.getGuiProperty(name));
         enterText(LoginPage.PASSWORD,new Encryption().decrypt(propertyReader.getGuiProperty("password")));
         clickOnElement(LoginPage.LOGIN_BUTTON);
         String mainHeading = getTextFromElement(MainLandingPage.MAIN_HEADING);
-        System.out.println("Text "+ mainHeading);
+        logger.info("Text %s", mainHeading);
         List<WebElement> options = getAllDropdownValues(MainLandingPage.FILTER_VALUE);
         for(int i=0;i<options.size();i++) {
-            System.out.println("Values are "+ options.get(i).getText());
+            logger.info("Values are %s", options.get(i).getText());
         }
+        openNewWindow();
     }
 
 }
