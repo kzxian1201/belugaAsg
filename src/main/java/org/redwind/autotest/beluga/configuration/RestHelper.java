@@ -1,10 +1,10 @@
-package org.redwind.testAuto.beluga.configuration;
+package org.redwind.autotest.beluga.configuration;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
-import org.redwind.testAuto.beluga.utils.APIHelper;
+import org.redwind.autotest.beluga.utils.APIHelper;
 
 import java.io.File;
 import java.net.URL;

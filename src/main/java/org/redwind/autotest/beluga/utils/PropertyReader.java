@@ -1,7 +1,6 @@
-package org.redwind.testAuto.beluga.utils;
+package org.redwind.autotest.beluga.utils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -34,7 +33,7 @@ public String getApiProperty(String propertyKey) throws IOException {
     return value;
     }
 
-    public Environment getEnvironment() throws IOException {
+    public Environment getEnvironment() {
     Environment platform;
     String env = System.getProperty("PLATFORM");
     platform = Environment.setPlatform(env);

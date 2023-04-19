@@ -1,4 +1,4 @@
-package org.redwind.testAuto.beluga.utils;
+package org.redwind.autotest.beluga.utils;
 
 
 import io.restassured.http.ContentType;

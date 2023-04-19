@@ -1,4 +1,4 @@
-package org.redwind.testAuto.beluga.configuration;
+package org.redwind.autotest.beluga.configuration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,28 +9,25 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
-import org.redwind.testAuto.beluga.utils.Environment;
-import org.redwind.testAuto.beluga.utils.PropertyReader;
+import org.redwind.autotest.beluga.utils.Environment;
+import org.redwind.autotest.beluga.utils.PropertyReader;
 
 import java.io.IOException;
 
 public class DriverFactory {
-    private static ThreadLocal<WebDriver> currentDriver = new ThreadLocal<WebDriver>();
+    private static ThreadLocal<WebDriver> currentDriver = new ThreadLocal<>();
     public WebDriver driver = null;
     private Logger logger = LogManager.getFormatterLogger();
     private PropertyReader propertyReader = new PropertyReader();
     Environment environment;
 
-    {
-        try {
-            environment = propertyReader.getEnvironment();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public DriverFactory() {
+        environment = propertyReader.getEnvironment();
     }
 
+
     public WebDriver getCurrentDriver() {
-        WebDriver driver = currentDriver.get();
+        driver = currentDriver.get();
         if(driver!=null) {
             return driver;
         } else {
@@ -39,7 +36,7 @@ public class DriverFactory {
         }
     }
 
-    public void initializeBrowser() throws IOException {
+    public void initializeBrowser() {
         currentDriver.set(getDesktopDriver(environment.getPlatform()));
     }
     public WebDriver getDesktopDriver(String browser) {
@@ -59,5 +56,8 @@ public class DriverFactory {
             driver = new InternetExplorerDriver();
         }
         return driver;
+    }
+    public void cleanUpCurrentDriver() {
+        currentDriver.remove();
     }
 }

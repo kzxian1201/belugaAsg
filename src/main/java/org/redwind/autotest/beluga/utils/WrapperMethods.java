@@ -1,6 +1,8 @@
-package org.redwind.testAuto.beluga.utils;
+package org.redwind.autotest.beluga.utils;
 
 
+
+import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -8,18 +10,25 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.redwind.testAuto.beluga.configuration.DriverFactory;
+import org.redwind.autotest.beluga.configuration.DriverFactory;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
 public class WrapperMethods {
 
-    public static Logger logger = LogManager.getFormatterLogger();
-    private DriverFactory driverFactory = new DriverFactory();
+    public static final Logger logger = LogManager.getFormatterLogger();
+    private DriverFactory driverFactory;
+    private GenericFunctions genericFunctions;
 
 
     private WebDriver driver;
+
+    public WrapperMethods() throws IOException {
+        driverFactory = new DriverFactory();
+        genericFunctions = new GenericFunctions();
+    }
 
     public void openApplication(String url) {
         driver=driverFactory.getCurrentDriver();
@@ -241,6 +250,72 @@ public class WrapperMethods {
             return false;
         }
     }
+    public void closeWindow() {
+        driver = driverFactory.getCurrentDriver();
+        driver.close();
+    }
+    public void quitBrowser() {
+        driver=driverFactory.getCurrentDriver();
+        driver.quit();
+    }
+    public void waitForElementToBeClickable(By locator, Duration timeoutInSeconds) {
+        driver=driverFactory.getCurrentDriver();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+        } catch (WebDriverException getException) {
+            logger.error("Element is not clickable within the time %s", getException);
+        }
+    }
+    public void waitForTextToBePresent(By locator,String text, Duration timeoutInSeconds) {
+        driver=driverFactory.getCurrentDriver();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
+        } catch (WebDriverException getException) {
+            logger.error("Element is not loaded with text within the time $s", getException);
+        }
+    }
+    public void waitForAlertTPresentAndAccept(Duration timeoutInSeconds) {
+        driver=driverFactory.getCurrentDriver();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+        } catch (WebDriverException getException) {
+            logger.error("Alert is not present %s", getException);
+        }
+    }
+    public List<WebElement> getListOfElements(By locator) {
+        driver=driverFactory.getCurrentDriver();
+        List<WebElement> elements=null;
+        try {
+            elements = driver.findElements(locator);
+        } catch (WebDriverException getException) {
+            logger.error("List of web elements is not available %s", getException);
+        }
+        return elements;
+    }
+    public void waitForFrameToLoadAndSwitch(By locator, Duration timeoutInSeconds) {
+        driver= driverFactory.getCurrentDriver();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+        } catch (WebDriverException getException) {
+            logger.error("Frame is not available %s", getException);
+        }
+    }
+    public void takeScreenshotOfWebElement(By locator, Scenario scenario) {
+        driver= driverFactory.getCurrentDriver();
+        byte[] screenshot = driver.findElement(locator).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshot,"image/png", scenario.getName()+"_"+genericFunctions.getCurrentTimeStamp());
+    }
+    public void takeScreenshot(Scenario scenario) {
+        driver = driverFactory.getCurrentDriver();
+        byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshot,"image/png", scenario.getName()+"_"+genericFunctions.getCurrentTimeStamp());
+    }
+
 
 
 }

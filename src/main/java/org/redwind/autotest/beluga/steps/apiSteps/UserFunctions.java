@@ -1,6 +1,5 @@
-package org.redwind.testAuto.beluga.steps.apiSteps;
+package org.redwind.autotest.beluga.steps.apiSteps;
 
-import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -9,9 +8,14 @@ import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import org.redwind.testAuto.beluga.configuration.RestHelper;
-import org.redwind.testAuto.beluga.utils.*;
+import org.redwind.autotest.beluga.utils.APIHelper;
+import org.redwind.autotest.beluga.configuration.RestHelper;
+import org.redwind.autotest.beluga.utils.GenericFunctions;
+import org.redwind.autotest.beluga.utils.JsonHelper;
+import org.redwind.autotest.beluga.utils.PropertyReader;
 import org.testng.Assert;
 
 import java.io.File;
@@ -23,7 +27,7 @@ import java.nio.file.Paths;
 
 public class UserFunctions
 {
-private APIHelper  apiHelper = new RestHelper();
+private APIHelper apiHelper = new RestHelper();
 private URL endpoint;
 private ContentType contentType;
 private Header header;
@@ -34,6 +38,7 @@ private int userID;
 private GenericFunctions genericFunctions = new GenericFunctions();
 private String createdUser;
 private PropertyReader propertyReader = new PropertyReader();
+public static final Logger logger = LogManager.getFormatterLogger();
 
 
 @Given("User is fed with the correct authentications and endpoint details")
@@ -44,7 +49,7 @@ public void collectInformation() throws IOException {
 }
 @Then("User performs get calls")
 public void performGetCall() {
-   Response response = apiHelper.get(getContentType(),getEndpoint(),getHeader());
+   response = apiHelper.get(getContentType(),getEndpoint(),getHeader());
    ExtentCucumberAdapter.addTestStepLog("Response --->  "+ response.asString());
    setResponse(response);
 }
@@ -69,11 +74,11 @@ public void collectPostInformation() throws IOException {
 
 @When("User performs post call out")
 public void postCallOut() {
-    Response response = apiHelper.post(getContentType(),getEndpoint(),getHeader(),jsonBody);
+    response = apiHelper.post(getContentType(),getEndpoint(),getHeader(),jsonBody);
     ExtentCucumberAdapter.addTestStepLog("Response --->  "+ response.asString());
     setResponse(response);
     userID = jsonHelper.getIntegerFromJsonObj(response,"data","id");
-    System.out.println(userID);
+    logger.info(userID);
 }
 
 @And("Validates the post response")
@@ -104,9 +109,9 @@ public void updateCreateUserJson() throws IOException {
     jsonObject.put("name", getCreatedUser());
     jsonObject.put("salary", genericFunctions.getRandomNumber(10,10000));
     jsonObject.put("age",genericFunctions.getRandomNumber(1,99));
-    FileWriter file = new FileWriter(System.getProperty("user.dir") + propertyReader.getApiProperty("createUserPath"));
-    file.write(jsonObject.toString());
-    file.close();
+    try (FileWriter file = new FileWriter(System.getProperty("user.dir") + propertyReader.getApiProperty("createUserPath"))) {
+        file.write(jsonObject.toString());
+    }
 }
 
 public void setEndpoint(URL endpoint) {

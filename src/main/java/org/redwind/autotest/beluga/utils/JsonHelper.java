@@ -1,10 +1,7 @@
-package org.redwind.testAuto.beluga.utils;
+package org.redwind.autotest.beluga.utils;
 
 import io.restassured.response.Response;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
 
 public class JsonHelper {
 
