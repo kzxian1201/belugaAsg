@@ -9,6 +9,7 @@ public enum Environment {
     SAFARI("Safari"),
     ANDROID("Android"),
     IOS("iOS"),
+    IOS_SIMULATOR("iOSSimulator"),
     REST("Restful");
 
     Environment (String platform) {

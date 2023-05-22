@@ -23,10 +23,14 @@ public class Hooks {
     }
 
     @Before
-    public void scenarioStartUp(Scenario scenario) throws IOException {
+    public void scenarioStartUp(Scenario scenario) throws InterruptedException, IOException {
         sec=scenario;
         startLogger(scenario);
-        if(!environment.getPlatform().equals("Restful")) {
+        if(environment.getPlatform().equalsIgnoreCase("iOS") ||
+                environment.getPlatform().equalsIgnoreCase("android") ||
+                environment.getPlatform().contains("Simulator")) {
+            driverFactory.initializeMobileDriver();
+        } else if(!environment.getPlatform().equals("Restful")) {
             driverFactory.initializeBrowser();
         }
     }
@@ -46,7 +50,14 @@ public class Hooks {
     @After
     public void scenarioTailEnd(Scenario scenario) {
         endLogger(scenario);
-        if(!environment.getPlatform().equals("Restful")) {
+        if(environment.getPlatform().equalsIgnoreCase("iOS") ||
+                environment.getPlatform().equalsIgnoreCase("android") ||
+                environment.getPlatform().contains("Simulator")) {
+            if(!scenario.isFailed()) {
+                System.out.println("Failed");
+            }
+            driverFactory.getCurrentAppiumDriver().quit();
+        } else if(!environment.getPlatform().equals("Restful")) {
             if(!scenario.isFailed()) {
                 wrapperMethods.takeScreenshot(scenario);
             }

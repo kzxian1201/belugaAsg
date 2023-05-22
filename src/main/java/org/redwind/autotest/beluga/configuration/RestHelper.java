@@ -15,11 +15,11 @@ public class RestHelper implements APIHelper
     public Response get(ContentType contentType, URL endpoint, Header authorization) {
         Response response = null;
         response = RestAssured.given()
-                              .header(authorization)
-                              .when()
-                              .get(endpoint).then()
-                              .contentType(contentType)
-                              .extract().response();
+                .header(authorization)
+                .when()
+                .get(endpoint).then()
+                .contentType(contentType)
+                .extract().response();
         return response;
     }
 
@@ -41,11 +41,11 @@ public class RestHelper implements APIHelper
     public Response delete(URL endpoint, Header authorization) {
         Response response = null;
         response = RestAssured.given()
-                        .header(authorization)
-                        .when()
-                        .delete(endpoint)
-                        .then()
-                        .extract().response();
+                .header(authorization)
+                .when()
+                .delete(endpoint)
+                .then()
+                .extract().response();
         return response;
     }
 

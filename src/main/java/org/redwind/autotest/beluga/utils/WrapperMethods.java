@@ -2,11 +2,13 @@ package org.redwind.autotest.beluga.utils;
 
 
 
+import io.appium.java_client.AppiumDriver;
 import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,6 +16,7 @@ import org.redwind.autotest.beluga.configuration.DriverFactory;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 
 public class WrapperMethods {
@@ -24,6 +27,7 @@ public class WrapperMethods {
 
 
     private WebDriver driver;
+    private AppiumDriver appiumDriver;
 
     public WrapperMethods() throws IOException {
         driverFactory = new DriverFactory();
@@ -314,6 +318,33 @@ public class WrapperMethods {
         driver = driverFactory.getCurrentDriver();
         byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot,"image/png", scenario.getName()+"_"+genericFunctions.getCurrentTimeStamp());
+    }
+
+    public void tap(By locator) {
+        appiumDriver=driverFactory.getCurrentAppiumDriver();
+        try {
+            appiumDriver.findElement(locator).click();
+        } catch (WebDriverException getError) {
+            logger.error("Failed to click on webElement %s", getError);
+        }
+    }
+    public void scrollDownInMobile(By locator) {
+        appiumDriver = driverFactory.getCurrentAppiumDriver();
+        RemoteWebElement element = (RemoteWebElement) appiumDriver.findElement(locator);
+        HashMap<String, String> scrollObj = new HashMap<>();
+        scrollObj.put("element",element.getId());
+        scrollObj.put("direction", "down");
+        appiumDriver.executeScript("mobile:scroll",scrollObj);
+    }
+
+    public void waitForPresenceOfElementLocatedInMobile(By locator, Duration timeoutInSeconds) {
+        appiumDriver=driverFactory.getCurrentAppiumDriver();
+        try {
+            WebDriverWait wait = new WebDriverWait(appiumDriver,timeoutInSeconds);
+            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        } catch (WebDriverException getException) {
+            logger.error("Element is not loaded within the time", getException);
+        }
     }
 
 
