@@ -101,7 +101,7 @@ public class DriverFactory {
                     break;
                 case "iOSSimulator":
                     System.out.println("inside");
-                    capabilities.setCapability("deviceName","iPhone 14 Pro Max");
+                    capabilities.setCapability("deviceName","iPhone 14 Pro");
                     capabilities.setCapability("platformName","iOS");
                     capabilities.setCapability("platformVersion","16.4");
                     capabilities.setCapability("app","com.apple.Preferences");
