@@ -86,13 +86,13 @@ public class DriverFactory {
         if(appiumDriver==null) {
             switch(platform) {
                 case "iOS":
-                    capabilities.setCapability("deviceName","iOS");
-                    capabilities.setCapability("platformName","iOS");
-                    capabilities.setCapability("platformVersion","");
-                    capabilities.setCapability("app","");
-                    capabilities.setCapability("udid","");
+                    capabilities.setCapability("deviceName",propertyReader.getMobileProperty("APPLE_RD_DEVICENAME"));
+                    capabilities.setCapability("platformName",propertyReader.getMobileProperty("APPLE_PLATFORMNAME"));
+                    capabilities.setCapability("platformVersion",propertyReader.getMobileProperty("APPLE_RD_PLATFORMVERSION"));
+                    capabilities.setCapability("app",propertyReader.getMobileProperty("APPLE_SETTINGS"));
+                    capabilities.setCapability("udid",propertyReader.getMobileProperty("APPLE_RD_UDID"));
                     capabilities.setCapability("noReset",true);
-                    capabilities.setCapability("automationName","");
+                    capabilities.setCapability("automationName",propertyReader.getMobileProperty("APPLE_AUTOMATIONNAME"));
                     try {
                         appiumDriver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
                     } catch (MalformedURLException e) {
@@ -100,13 +100,12 @@ public class DriverFactory {
                     }
                     break;
                 case "iOSSimulator":
-                    System.out.println("inside");
-                    capabilities.setCapability("deviceName","iPhone 14 Pro");
-                    capabilities.setCapability("platformName","iOS");
-                    capabilities.setCapability("platformVersion","16.4");
-                    capabilities.setCapability("app","com.apple.Preferences");
+                    capabilities.setCapability("deviceName",propertyReader.getMobileProperty("APPLE_SD_DEVICENAME"));
+                    capabilities.setCapability("platformName",propertyReader.getMobileProperty("APPLE_PLATFORMNAME"));
+                    capabilities.setCapability("platformVersion",propertyReader.getMobileProperty("APPLE_SD_PLATFORMVERSION"));
+                    capabilities.setCapability("app",propertyReader.getMobileProperty("APPLE_SETTINGS"));
                     capabilities.setCapability("noReset",true);
-                    capabilities.setCapability("automationName","XCUITest");
+                    capabilities.setCapability("automationName",propertyReader.getMobileProperty("APPLE_AUTOMATIONNAME"));
                     try {
                         appiumDriver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
                     } catch (MalformedURLException e) {

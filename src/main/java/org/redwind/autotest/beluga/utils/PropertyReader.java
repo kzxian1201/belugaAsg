@@ -25,6 +25,11 @@ public class PropertyReader
         String value = getPropertyValue(propertyFileLocation,propertyKey);
         return value;
     }
+    public String getMobileProperty(String propertyKey) throws IOException {
+        String propertyFileLocation = System.getProperty("user.dir") + "/src/main/resources/mobileConfig.properties";
+        String value = getPropertyValue(propertyFileLocation,propertyKey);
+        return value;
+    }
 
     public String getPropertyValue(String filePath, String propertyKey) throws IOException {
         Properties properties = new Properties();

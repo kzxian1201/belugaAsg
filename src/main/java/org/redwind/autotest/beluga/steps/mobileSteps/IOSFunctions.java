@@ -1,6 +1,8 @@
 package org.redwind.autotest.beluga.steps.mobileSteps;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import org.redwind.autotest.beluga.pages.mobileApp.iOS.DeveloperPage;
 import org.redwind.autotest.beluga.pages.mobileApp.iOS.SettingsPage;
 import org.redwind.autotest.beluga.utils.WrapperMethods;
 
@@ -13,8 +15,17 @@ public class IOSFunctions extends WrapperMethods {
     }
     @Given("Open developer console")
     public void openDeveloperConsole() {
-        waitForPresenceOfElementLocatedInMobile(SettingsPage.SETTINGS_PAGELAYOUT, Duration.ofSeconds(120));
+        waitForPresenceOfElementLocated(SettingsPage.SETTINGS_PAGELAYOUT, Duration.ofSeconds(120));
         scrollDownInMobile(SettingsPage.SETTINGS_PAGELAYOUT);
-        tap(SettingsPage.DEVELOPER);
+        clickOnElement(SettingsPage.DEVELOPER);
+    }
+    @And("Turn on the dark mode")
+    public void darkMode() {
+        String value = getValueFromElement(DeveloperPage.DARKMODETOGGLE,"value");
+        if(value.equalsIgnoreCase("1")) {
+            logger.info("Dark mode is already turned on");
+        } else {
+            clickOnElement(DeveloperPage.DARKMODETOGGLE);
+        }
     }
 }

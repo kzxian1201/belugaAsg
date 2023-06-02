@@ -52,6 +52,10 @@ public class WrapperMethods {
     }
     public void clickOnElement(By locator) {
         driver=driverFactory.getCurrentDriver();
+        if(driver==null){
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }
         try {
             driver.findElement(locator).click();
         } catch (WebDriverException getError) {
@@ -83,7 +87,11 @@ public class WrapperMethods {
         return text;
     }
     public String getValueFromElement(By locator,String name) {
-        driver=driverFactory.getCurrentDriver();
+            driver=driverFactory.getCurrentDriver();
+            if(driver==null){
+                appiumDriver = driverFactory.getCurrentAppiumDriver();
+                driver = appiumDriver;
+            }
         String value=null;
         try {
             value = driver.findElement(locator).getAttribute(name);
@@ -128,7 +136,12 @@ public class WrapperMethods {
         }
     }
     public void waitForPresenceOfElementLocated(By locator, Duration timeoutInSeconds) {
-        driver=driverFactory.getCurrentDriver();
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
         try {
             WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
@@ -319,15 +332,6 @@ public class WrapperMethods {
         byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot,"image/png", scenario.getName()+"_"+genericFunctions.getCurrentTimeStamp());
     }
-
-    public void tap(By locator) {
-        appiumDriver=driverFactory.getCurrentAppiumDriver();
-        try {
-            appiumDriver.findElement(locator).click();
-        } catch (WebDriverException getError) {
-            logger.error("Failed to click on webElement %s", getError);
-        }
-    }
     public void scrollDownInMobile(By locator) {
         appiumDriver = driverFactory.getCurrentAppiumDriver();
         RemoteWebElement element = (RemoteWebElement) appiumDriver.findElement(locator);
@@ -336,17 +340,4 @@ public class WrapperMethods {
         scrollObj.put("direction", "down");
         appiumDriver.executeScript("mobile:scroll",scrollObj);
     }
-
-    public void waitForPresenceOfElementLocatedInMobile(By locator, Duration timeoutInSeconds) {
-        appiumDriver=driverFactory.getCurrentAppiumDriver();
-        try {
-            WebDriverWait wait = new WebDriverWait(appiumDriver,timeoutInSeconds);
-            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-        } catch (WebDriverException getException) {
-            logger.error("Element is not loaded within the time", getException);
-        }
-    }
-
-
-
 }
