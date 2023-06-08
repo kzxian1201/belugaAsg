@@ -34,7 +34,7 @@ public class UserFunctions
     private Response response;
     private JsonHelper jsonHelper = new JsonHelper();
     private File jsonBody ;
-    private int userID;
+    int userID;
     private GenericFunctions genericFunctions = new GenericFunctions();
     private String createdUser;
     private PropertyReader propertyReader = new PropertyReader();

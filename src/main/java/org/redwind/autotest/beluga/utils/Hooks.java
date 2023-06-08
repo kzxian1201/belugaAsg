@@ -54,7 +54,7 @@ public class Hooks {
                 environment.getPlatform().equalsIgnoreCase("android") ||
                 environment.getPlatform().contains("Simulator")) {
             if(!scenario.isFailed()) {
-                System.out.println("Failed");
+                logger.info("Scenario is failed");
             }
             driverFactory.getCurrentAppiumDriver().quit();
         } else if(!environment.getPlatform().equals("Restful")) {

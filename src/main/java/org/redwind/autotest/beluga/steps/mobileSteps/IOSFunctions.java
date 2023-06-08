@@ -7,7 +7,6 @@ import org.redwind.autotest.beluga.pages.mobileApp.iOS.SettingsPage;
 import org.redwind.autotest.beluga.utils.WrapperMethods;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.time.Duration;
 
 public class IOSFunctions extends WrapperMethods {
@@ -21,11 +20,11 @@ public class IOSFunctions extends WrapperMethods {
     }
     @And("Turn on the dark mode")
     public void darkMode() {
-        String value = getValueFromElement(DeveloperPage.DARKMODETOGGLE,"value");
+        String value = getValueFromElement(DeveloperPage.DARK_MODE_TOGGLE,"value");
         if(value.equalsIgnoreCase("1")) {
             logger.info("Dark mode is already turned on");
         } else {
-            clickOnElement(DeveloperPage.DARKMODETOGGLE);
+            clickOnElement(DeveloperPage.DARK_MODE_TOGGLE);
         }
     }
 }
