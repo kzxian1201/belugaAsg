@@ -63,13 +63,15 @@ _**Parameters accepted in -DPLATFORM**_
 1. **justEatTakeAwayCareers.feature**
 2. **justEatTakeAwayCRUDOps.feature**
 
+![beluga](image/FeatureFile.png)
+
 you can retrieve any tags from the above feature file to execute the desired test
 
 Once after updating run configuration, RUN the project
 
 ### TEST EXECUTION REPORT
 
-Once Test Execution is done, the extent report folder is generated under **_"reports"_** folder with TimeStamp.
+Once Test Execution is completed, the extent report folder is generated under **_"reports"_** folder with TimeStamp.
 
 Use **_testResult.html_** file as Test Report
 
