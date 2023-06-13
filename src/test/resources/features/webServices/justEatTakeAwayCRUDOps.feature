@@ -1,5 +1,5 @@
 Feature: Feature covers Create, Read, Update and Delete operations on environment
-@CRUD
+  @JustEatTakeAwayAssessment
   Scenario: Test to create, read, update and delete the bookings records
     Given Generate an access token
     When Create a new booking details

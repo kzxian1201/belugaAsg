@@ -1,4 +1,4 @@
-@JustEatTakeAwayCareers
+@JustEatTakeAwayAssessment
 Feature: Functionalities in Career page of Just Eat Take Away
 
   Description: Feature file covers test cases in Careers page of Just Eat Take Away

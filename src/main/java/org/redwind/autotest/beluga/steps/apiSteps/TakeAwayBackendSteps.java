@@ -53,7 +53,6 @@ public class TakeAwayBackendSteps {
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.post(ContentType.JSON,endpoint,header,body);
         accessToken += jsonHelper.getJsonString(response,"token");
-        logger.info(response.asString());
     }
     @And("Read all booking details")
     public void readAllBookingDetails() throws MalformedURLException {
