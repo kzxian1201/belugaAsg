@@ -13,11 +13,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.redwind.autotest.beluga.configuration.DriverFactory;
-
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class WrapperMethods {
 
@@ -29,7 +28,7 @@ public class WrapperMethods {
     private WebDriver driver;
     private AppiumDriver appiumDriver;
 
-    public WrapperMethods() throws IOException {
+    public WrapperMethods() {
         driverFactory = new DriverFactory();
         genericFunctions = new GenericFunctions();
     }
@@ -70,8 +69,9 @@ public class WrapperMethods {
     public void scrollToElement(By locator) {
         driver=driverFactory.getCurrentDriver();
         try {
+            WebElement element = driver.findElement(locator);
             Actions action = new Actions(driver);
-            action.scrollToElement((WebElement) locator).build().perform();
+            action.scrollToElement(element).build().perform();
         } catch (WebDriverException getException) {
             logger.error("Scroll to element failed %s",getException);
         }
@@ -339,5 +339,30 @@ public class WrapperMethods {
         scrollObj.put("element",element.getId());
         scrollObj.put("direction", "down");
         appiumDriver.executeScript("mobile:scroll",scrollObj);
+    }
+
+    public boolean isChecked(By locator) {
+        driver = driverFactory.getCurrentDriver();
+         WebElement element = driver.findElement(locator);
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        boolean isChecked = (boolean) javascriptExecutor.executeScript("return arguments[0].checked;", element);
+        return isChecked;
+    }
+    public void switchToLastOpenedWindow() {
+        driver = driverFactory.getCurrentDriver();
+        Set<String> windowHandles = driver.getWindowHandles();
+        for(String handle : windowHandles) {
+            driver.switchTo().window(handle);
+        }
+    }
+    public String getTitle() {
+        driver=driverFactory.getCurrentDriver();
+        String title = driver.getTitle();
+        return title;
+    }
+    public String getCurrentWindowID() {
+        driver = driverFactory.getCurrentDriver();
+        String windowID = driver.getWindowHandle();
+        return windowID;
     }
 }

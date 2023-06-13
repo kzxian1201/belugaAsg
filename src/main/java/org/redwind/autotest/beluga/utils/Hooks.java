@@ -53,12 +53,12 @@ public class Hooks {
         if(environment.getPlatform().equalsIgnoreCase("iOS") ||
                 environment.getPlatform().equalsIgnoreCase("android") ||
                 environment.getPlatform().contains("Simulator")) {
-            if(!scenario.isFailed()) {
+            if(scenario.isFailed()) {
                 logger.info("Scenario is failed");
             }
             driverFactory.getCurrentAppiumDriver().quit();
         } else if(!environment.getPlatform().equals("Restful")) {
-            if(!scenario.isFailed()) {
+            if(scenario.isFailed()) {
                 wrapperMethods.takeScreenshot(scenario);
             }
             driverFactory.getCurrentDriver().quit();

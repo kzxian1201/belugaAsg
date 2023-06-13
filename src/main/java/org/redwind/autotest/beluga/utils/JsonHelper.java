@@ -25,5 +25,11 @@ public class JsonHelper {
         result = jsonObject.getJSONObject(jsonObj).getString(jsonKey);
         return result;
     }
+    public Integer getJsonInteger(Response response, String jsonKey) {
+        int result;
+        jsonObject = new JSONObject(response.asString());
+        result = jsonObject.getInt(jsonKey);
+        return result;
+    }
 
 }

@@ -15,11 +15,7 @@ import java.util.List;
 
 public class LoginSteps extends WrapperMethods {
 
-    private PropertyReader propertyReader;
-
-    public LoginSteps() throws IOException {
-        propertyReader = new PropertyReader();
-    }
+    private PropertyReader propertyReader = new PropertyReader();
 
     @Given("Open the application in the browser")
     public void openTheApplication() throws IOException {
