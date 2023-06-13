@@ -73,6 +73,7 @@ public class DriverFactory {
             driver = new EdgeDriver();
         } else if(browser.equalsIgnoreCase("safari")) {
             driver = new SafariDriver();
+            driver.manage().window().maximize();
         } else if(browser.equalsIgnoreCase("ie")) {
             driver = new InternetExplorerDriver();
         }

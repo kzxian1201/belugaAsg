@@ -67,6 +67,9 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         scrollToElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));
         waitForElementToBeClickable(TakeAwayCareersPage.FILTER_BY_VALUE(country),Duration.ofSeconds(120));
         clickOnElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));
+        boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(country));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+country+" checkbox status is "+flag+"<------",ExtentColor.BLUE));
+        Assert.assertTrue(flag,"Country is not selected");
     }
     @And("Verify search result contains only jobs posted in {string}")
     public void verifyJobResultsDisplayedForSpecifiedCountry(String country) {

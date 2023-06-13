@@ -11,25 +11,34 @@ Cucumber is a testing tool that supports Behavior Driven Development (BDD) frame
 ## Getting Started
 To get started with Beluga Framework, you need to follow below steps:
 
-* Install Java on your system.
-* Install an Integrated Development Environment (IDE) like Eclipse or IntelliJ IDEA.
-* Clone the product from Github to your IDE.
+* Install Java(JDK 18 or above) on your system.
+* Install IntelliJ IDEA as IDE.
+* Clone the project from Github to your IDE.
 * Ensure dependencies from pom.xml file is downloaded into your .m2 folder.
 
 ## Execute Test Scripts
 
-To execute follow below steps
+To execute the test scripts, after completing above-mentioned steps
 
-If you are executing the Test from IntelliJ IDE, follow below steps
+In IntelliJ IDE, follow below steps
 * Click on Run --> Edit Configuration
+
 ![beluga](image/runConfig.png)
+
 * Add new TestNg configuration
+
 ![beluga](image/testNGConfig.png)
+
 * Add your desired Runner Name
+
 ![beluga](image/runnerName.png)
+
 * Add the Test runner(FeatureRunner) in the class
+
 ![beluga](image/addClass.png)
+
 * Set the VM options 
+
 ![beluga](image/addVMOptions.png)
 
 Set below parameter for VM Options to execute your Test Script
@@ -37,14 +46,34 @@ Set below parameter for VM Options to execute your Test Script
 1. [ ] **-DPLATFORM**="_Browser Name or App_" 
 2. [ ] **-Dcucumber.filter.tags**="_Tag for the Test case which needs to be executed_"
 
-### Example
-**-DPLATFORM="Chrome" -Dcucumber.filter.tags="@JustEatTakeAwayAssessment"**
+### How to set VM Options parameters
+
+`Example VM options` **-DPLATFORM="Chrome" -Dcucumber.filter.tags="@JustEatTakeAwayAssessment"**
 
 _**Parameters accepted in -DPLATFORM**_
 
-* Chrome, Firefox, Safari --> for GUI Testing
+* Chrome --> for GUI Testing
 * Restful --> for API Testing
 * iOS, iOSSimulator --> for mobile Testing
+
+**_Cucumber Tags_**
+
+2 feature files are created for assessment purpose
+
+1. **justEatTakeAwayCareers.feature**
+2. **justEatTakeAwayCRUDOps.feature**
+
+you can retrieve any tags from the above feature file to execute the desired test
+
+Once after updating run configuration, RUN the project
+
+### TEST EXECUTION REPORT
+
+Once Test Execution is done, the extent report folder is generated under **_"reports"_** folder with TimeStamp.
+
+Use **_testResult.html_** file as Test Report
+
+![beluga](image/reports.png)
 
 ## Software products used in Beluga
 
