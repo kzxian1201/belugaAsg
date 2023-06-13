@@ -75,7 +75,7 @@ Once Test Execution is completed, the extent report folder is generated under **
 
 Use **_testResult.html_** file as Test Report
 
-![beluga](image/reports.png)
+![beluga](image/reportPath.png)
 
 ## Software products used in Beluga
 

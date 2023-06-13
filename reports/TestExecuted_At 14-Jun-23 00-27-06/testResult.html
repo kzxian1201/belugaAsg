@@ -1,0 +1,1399 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Beluga Report</title>
+<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@d6562a79075e061305ccfdb82f01e5e195e2d307/spark/css/spark-style.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@7cc78ce/spark/js/jsontree.js"></script>
+<style type="text/css"></style></head><body class="spa bdd-report dark">
+  <div class="app">
+    <div class="layout">
+<div class="header navbar">
+<div class="vheader">
+<div class="nav-logo">
+<a href="#">
+<div class="logo" style="background-image: url('https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png')"></div>
+</a>
+</div>
+<ul class="nav-left">
+<li class="search-box">
+<a class="search-toggle" href="#">
+<i class="search-icon fa fa-search"></i>
+<i class="search-icon-close fa fa-close"></i>
+</a>
+</li>
+<li class="search-input"><input id="search-tests" class="form-control" type="text" placeholder="Search..."></li>
+</ul>
+<ul class="nav-right">
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Automation Test report</span></a>
+</li>
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Jun 14, 2023 12:27:06 am</span></a>
+</li>
+</ul>
+</div>
+</div><div class="side-nav">
+<div class="side-nav-inner">
+<ul class="side-nav-menu">
+<li class="nav-item dropdown" onclick="toggleView('test-view')">
+<a id="nav-test" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-list"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('exception-view')">
+<a id="nav-exception" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-bug"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('category-view')">
+<a id="nav-category" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-tag"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('dashboard-view')">
+<a id="nav-dashboard" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-bar-chart"></i></span>
+</a>
+</li>
+</ul>
+</div>
+</div>      <div class="vcontainer">
+        <div class="main-content">
+<div class="test-wrapper row view test-view">
+  <div class="test-list">
+    <div class="test-list-tools">
+<ul class="tools pull-left">
+<li><a href="#"><span class="font-size-14">Tests</span></a></li>
+</ul>
+<ul class="tools text-right">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
+<ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" status="pass" href="#"><span>Pass</span><span class="status success"></span></a>
+<a class="dropdown-item" status="fail" href="#"><span>Fail</span><span class="status danger"></span></a>
+<div class="dropdown-divider"></div>
+<a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
+</ul>
+</li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tag"></i></a>
+<ul id="tag-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" href="#">@Test2</a><a class="dropdown-item" href="#">@JustEatTakeAwayAssessment</a><a class="dropdown-item" href="#">@Test1</a><a class="dropdown-item" href="#">@Test3</a>
+</ul>
+</li>
+</ul>
+</div>    <div class="test-list-wrapper scrollable">
+      <ul class="test-list-item">
+        <li class="test-item"  status="fail" test-id="1"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Functionalities in Career page of Just Eat Take Away</p>
+            <p class="text-sm">
+              <span>12:27:06 am</span> / <span>00:01:50:848</span>
+              <span class="badge fail-bg log float-right">Fail</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-fail">Functionalities in Career page of Just Eat Take Away</h5>
+<span class='badge badge-success'>06.14.2023 12:27:06 am</span>
+<span class='badge badge-danger'>06.14.2023 12:28:57 am</span>
+<span class='badge badge-default'>00:01:50:848</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5"> Description: Feature file covers test cases in Careers page of Just Eat Take Away</div>
+</div>
+</div>
+<div class="accordion mt-4">
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="2"><span class="badge log pass-bg mr-2">Pass</span>Verify that custom job title search and country filter works as per functionality</div>
+      </div>
+    </div>
+        <div class="scenario_outline collapse">
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="3"><span class="badge log pass-bg mr-2">Pass</span>Verify that custom job title search and country filter works as per functionality</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When Job is searched globally for Job Title "Test"</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result matches the Job title "Test"</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, United Kingdom, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Refine the search for country "Netherlands"</span>
+      <div><span class='badge white-text blue'>------> Netherlands checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contains only jobs posted in "Netherlands"</span>
+      <div><span class='badge white-text blue'>------> Resulted jobs are posted in [Netherlands]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="12"><span class="badge log pass-bg mr-2">Pass</span>Check that Job Category dropdown and country filter displays correct data on selection</div>
+      </div>
+    </div>
+        <div class="scenario_outline collapse">
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="13"><span class="badge log pass-bg mr-2">Pass</span>Check that Job Category dropdown and country filter displays correct data on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Sales" is selected from Job Category dropdown</span>
+      <div><span class='badge white-text blue'>------> Job count for the category Sales is 122<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Sales" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Sales checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify number of search result matches the number of Job count section for "Sales"</span>
+      <div><span class='badge white-text blue'>------> Job count displayed for the category Sales in the list is 122 Jobs<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Refine the search for country "Germany"</span>
+      <div><span class='badge white-text blue'>------> Germany checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify number of search result matches the job count for "Germany"</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain only for job category as "Sales" in "Germany"</span>
+      <div><span class='badge white-text blue'>------> Job Category shown in the result is [Sales]<------</span>
+      </div>
+      <div><span class='badge white-text blue'>------> Job location posted in the result is [Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+  </div>
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="23"><span class="badge log fail-bg mr-2">Fail</span>Verify that Job Category widget displays correct information on selection</div>
+          <div class="status-avatar float-right mr-4">
+            <i class="fa fa-paperclip"></i>
+          </div>
+      </div>
+    </div>
+        <div class="scenario_outline ">
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="24"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Corporate" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Corporate" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Corporate checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, Poland, United Kingdom, Italy, France, Australia, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Corporate" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Corporate checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="33"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Customer Service" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Customer Service" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Customer Service checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, Belgium, Poland, Israel, Bulgaria, Switzerland, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Customer Service" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Customer Service checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="42"><span class="badge log fail-bg mr-2">Fail</span>Verify that Job Category widget displays correct information on selection</div>
+                    <div class="status-avatar float-right">
+                      <i class="fa fa-paperclip"></i>
+                    </div>
+                </div>
+              </div>
+              <div class="card-body mt-3 ">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Data & Analytics" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step fail-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+        <textarea disabled class="code-block">java.lang.AssertionError: Search result is not opened in new tab did not expect [6EEAE262B66F6CF3A252B45209E9928B] but found [6EEAE262B66F6CF3A252B45209E9928B]
+	at org.testng.Assert.fail(Assert.java:110)
+	at org.testng.Assert.failEquals(Assert.java:1581)
+	at org.testng.Assert.assertNotEqualsImpl(Assert.java:156)
+	at org.testng.Assert.assertNotEquals(Assert.java:2197)
+	at org.redwind.autotest.beluga.steps.guiSteps.TakeAwayCareersSteps.validateResultIsOpenedInNewWindow(TakeAwayCareersSteps.java:171)
+	at ✽.Verify search result is opened in new tab(file:///Users/mr.turtle/Workspace/Beluga/src/test/resources/features/webApp/justEatTakeAwayCareers.feature:36)
+</textarea>
+      
+      </div>
+                  </div>
+                  <div class="step skip-bg">
+                    <span>And Verify "Data & Analytics" is selected automatically in Refine your search section</span>
+      <div>Step skipped
+      </div>
+                  </div>
+                  <div class="step skip-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div>Step skipped
+      </div>
+                  </div>
+                  <div class="step skip-bg">
+                    <span>And Validate "Data & Analytics" is not selected after clicking clear filter</span>
+      <div>Step skipped
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>org.redwind.autotest.beluga.utils.Hooks.scenarioTailEnd(io.cucumber.java.Scenario)</span>
+      <div>Verify that Job Category widget displays correct information on selection_14-06-2023 00.27.49
+          <div class="row mb-3"><div class="col-md-3">
+<img data-featherlight='./Screenshots/embedded1.png' src="./Screenshots/embedded1.png">
+    
+    </div></div>
+</div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="51"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Finance" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Finance" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Finance checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, United Kingdom, Italy, Germany, Spain]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Finance" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Finance checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="60"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Human Resources" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Human Resources" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Human Resources checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Austria, Italy, United Kingdom, Bulgaria, France, Australia, Switzerland, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Human Resources" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Human Resources checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="69"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Marketing" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Marketing" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Marketing checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, United Kingdom, Israel]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Marketing" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Marketing checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="78"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Operations & Logistic" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Operations & Logistic" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Operations & Logistic checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [, Canada, Austria, Netherlands, Belgium, Ireland, Poland, Italy, United Kingdom, Switzerland, Germany, Spain]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Operations & Logistic" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Operations & Logistic checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="87"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Tech & Product" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Tech & Product" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Tech & Product checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [Canada, Netherlands, United Kingdom, Israel, Bulgaria, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Tech & Product" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Tech & Product checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="96"><span class="badge log pass-bg mr-2">Pass</span>Verify that Job Category widget displays correct information on selection</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Open career page of Takeaway</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When "Sales" is selected from Job Category widget</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then Verify search result is opened in new tab</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify "Sales" is selected automatically in Refine your search section</span>
+      <div><span class='badge white-text blue'>------> Sales checkbox status is true<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Verify search result contain jobs posted in different locations</span>
+      <div><span class='badge white-text blue'>------> List of counties where jobs are posted [United Kingdom, Switzerland, Spain, New Zealand, Canada, Austria, Netherlands, Belgium, Ireland, Poland, Denmark, Italy, Slovakia, France, Bulgaria, Australia, Germany]<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And Validate "Sales" is not selected after clicking clear filter</span>
+      <div><span class='badge white-text blue'>------> Sales checkbox status is false<------</span>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+  </div>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="105"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Feature covers Create, Read, Update and Delete operations on environment</p>
+            <p class="text-sm">
+              <span>12:28:57 am</span> / <span>00:00:06:095</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Feature covers Create, Read, Update and Delete operations on environment</h5>
+<span class='badge badge-success'>06.14.2023 12:28:57 am</span>
+<span class='badge badge-danger'>06.14.2023 12:29:03 am</span>
+<span class='badge badge-default'>00:00:06:095</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=105</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5"></div>
+</div>
+</div>
+<div class="accordion mt-4">
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="106"><span class="badge log pass-bg mr-2">Pass</span>Test to create, read, update and delete the bookings records</div>
+      </div>
+    </div>
+        <div class="collapse">
+          <div class="card-body">
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.generateAccessToken()">
+                <span>Given Generate an access token</span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.createNewBooking()">
+                <span>When Create a new booking details</span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.validateNewBookingIsCreated()">
+                <span>And Validate new booking is created</span>
+      <div><span class='badge white-text blue'>------> Status code is 200<------</span>
+      </div>
+      <div> <div class='json-tree' id='code-block-json-0'></div>
+ <script>
+  function jsonTreeCreate0() { 
+   document.getElementById('code-block-json-0').innerHTML = JSONTree.create({"bookingid":3655,"booking":{"firstname":"Deepak4247","lastname":"Mahalingam4247","totalprice":111,"depositpaid":true,"bookingdates":{"checkin":"2018-01-01","checkout":"2019-01-01"},"additionalneeds":"Breakfast"}}); 
+  }
+  jsonTreeCreate0();
+ </script>
+
+      </div>
+      <div><span class='badge white-text blue'>------> Generated booking ID 3655<------</span>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.readAllBookingDetails()">
+                <span>And Read all booking details</span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.validateNewBookingIsPresent()">
+                <span>And Validate newly created booking details present in the list</span>
+      <div><span class='badge white-text blue'>------> Status code is 200<------</span>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.updateExistingBooking()">
+                <span>And Update the details in newly created booking record</span>
+      <div><span class='badge white-text blue'>------> Status code is 200<------</span>
+      </div>
+      <div> <div class='json-tree' id='code-block-json-1'></div>
+ <script>
+  function jsonTreeCreate1() { 
+   document.getElementById('code-block-json-1').innerHTML = JSONTree.create({"firstname":"Deepak2145","lastname":"Mahalingam2145","totalprice":111,"depositpaid":true,"bookingdates":{"checkin":"2018-01-01","checkout":"2019-01-01"},"additionalneeds":"Breakfast"}); 
+  }
+  jsonTreeCreate1();
+ </script>
+
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.readSpecificBooking()">
+                <span>And Read booking details of newly created record</span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.validateUpdatedRecord()">
+                <span>And Validate details are modified in new record</span>
+      <div><span class='badge white-text blue'>------> Status code is 200<------</span>
+      </div>
+      <div> <div class='json-tree' id='code-block-json-2'></div>
+ <script>
+  function jsonTreeCreate2() { 
+   document.getElementById('code-block-json-2').innerHTML = JSONTree.create({"firstname":"Deepak2145","lastname":"Mahalingam2145","totalprice":111,"depositpaid":true,"bookingdates":{"checkin":"2018-01-01","checkout":"2019-01-01"},"additionalneeds":"Breakfast"}); 
+  }
+  jsonTreeCreate2();
+ </script>
+
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.deleteCreatedBooking()">
+                <span>Then Delete newly created record</span>
+      <div><span class='badge white-text blue'>------> Status code is 201<------</span>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="org.redwind.autotest.beluga.steps.apiSteps.TakeAwayBackendSteps.validateBookingDeleted()">
+                <span>And Validate newly created booking details are deleted from list</span>
+      <div><span class='badge white-text blue'>------> Response for deleted record is Not Found<------</span>
+      </div>
+      <div>
+      </div>
+              </div>
+          </div>
+        </div>
+  </div>
+</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="test-content scrollable">
+<div class="test-content-tools">
+<ul><li><a class="back-to-test" href="#"><i class="fa fa-arrow-left"></i></a></li></ul>
+</div>
+<div class="test-content-detail"><div class="detail-body"></div></div>
+</div></div>
+<div class="test-wrapper row view exception-view attributes-view">
+<div class="test-list">
+<div class="test-list-tools">
+<ul class="tools pull-left"><li><a href=""><span class="font-size-14">Exception</span></a></li></ul>
+<ul class="tools text-right"><li><a href="#"><span class="badge badge-primary">1</span></a></li></ul>
+</div>
+<div class="test-list-wrapper scrollable">
+<ul class="test-list-item">
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log badge-danger'>1</span>
+</span>
+<p class="name">java.lang.AssertionError</p>
+<p class="duration text-sm">1 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>java.lang.AssertionError</h4>
+<span status="fail" class='badge log badge-danger'>1 failed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="fail">
+<td><span class="badge log fail-bg">Fail</span></td>
+<td>00:27:49 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='46'>Then Verify search result is opened in new tab</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection.Then Verify search result is opened in new tab</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="test-content scrollable">
+<div class="test-content-detail">
+<div class="detail-body"></div>
+</div>
+</div>
+</div><div class="test-wrapper row view category-view attributes-view">
+<div class="test-list">
+<div class="test-list-tools">
+<ul class="tools pull-left"><li><a href=""><span class="font-size-14">Category</span></a></li></ul>
+<ul class="tools text-right"><li><a href="#"><span class="badge badge-primary">4</span></a></li></ul>
+</div>
+<div class="test-list-wrapper scrollable">
+<ul class="test-list-item">
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log pass-bg'>1</span>
+</span>
+<p class="name">@Test2</p>
+<p class="duration text-sm">1 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>@Test2</h4>
+<span status="pass" class='badge log pass-bg'>1 passed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:16 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='13'>Check that Job Category dropdown and country filter displays correct data on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Check that Job Category dropdown and country filter displays correct data on selection</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log pass-bg'>11</span>
+<span class='badge log badge-danger'>1</span>
+</span>
+<p class="name">@JustEatTakeAwayAssessment</p>
+<p class="duration text-sm">12 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>@JustEatTakeAwayAssessment</h4>
+<span status="pass" class='badge log pass-bg'>11 passed</span>
+<span status="fail" class='badge log badge-danger'>1 failed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:06 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='3'>Verify that custom job title search and country filter works as per functionality</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that custom job title search and country filter works as per functionality</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:16 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='13'>Check that Job Category dropdown and country filter displays correct data on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Check that Job Category dropdown and country filter displays correct data on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:26 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='24'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:36 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='33'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="fail">
+<td><span class="badge log fail-bg">Fail</span></td>
+<td>00:27:44 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='42'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:49 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='51'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:57 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='60'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:05 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='69'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:13 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='78'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:25 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='87'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:37 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='96'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:57 am</td>
+<td>
+<a href="#" class="linked" test-id='105' id='106'>Test to create, read, update and delete the bookings records</a>
+<div class="">
+<span class="badge badge-default">Feature covers Create, Read, Update and Delete operations on environment.Test to create, read, update and delete the bookings records</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log pass-bg'>1</span>
+</span>
+<p class="name">@Test1</p>
+<p class="duration text-sm">1 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>@Test1</h4>
+<span status="pass" class='badge log pass-bg'>1 passed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:06 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='3'>Verify that custom job title search and country filter works as per functionality</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that custom job title search and country filter works as per functionality</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log pass-bg'>8</span>
+<span class='badge log badge-danger'>1</span>
+</span>
+<p class="name">@Test3</p>
+<p class="duration text-sm">9 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>@Test3</h4>
+<span status="pass" class='badge log pass-bg'>8 passed</span>
+<span status="fail" class='badge log badge-danger'>1 failed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:26 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='24'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:36 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='33'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="fail">
+<td><span class="badge log fail-bg">Fail</span></td>
+<td>00:27:44 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='42'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:49 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='51'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:27:57 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='60'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:05 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='69'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:13 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='78'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:25 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='87'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>00:28:37 am</td>
+<td>
+<a href="#" class="linked" test-id='1' id='96'>Verify that Job Category widget displays correct information on selection</a>
+<div class="">
+<span class="badge badge-default">Functionalities in Career page of Just Eat Take Away.Verify that Job Category widget displays correct information on selection</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="test-content scrollable">
+<div class="test-content-detail">
+<div class="detail-body"></div>
+</div>
+</div>
+</div><div class="container-fluid p-4 view dashboard-view">
+<div class="row">
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Started</p>
+<h3>Jun 14, 2023 12:27:06 am</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Ended</p>
+<h3>Jun 14, 2023 12:29:03 am</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-pass">Features Passed</p>
+<h3>1</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-fail">Features Failed</p>
+<h3>1</h3>
+</div></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Features</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='parent-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='50%'>
+<b>1</b> features passed
+</small>
+</div>
+<div>
+<small data-tooltip='50%'><b>1</b> features failed,
+<b>0</b> skipped, <b data-tooltip='0%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Scenarios</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='child-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='91%'><b>11</b> scenarios passed</small></div>
+<div>
+<small data-tooltip='8%'><b>1</b> scenarios failed,
+<b>0</b> skipped, <b data-tooltip='%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Steps</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='grandchild-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='94%'><b>74</b> steps passed</small></div>
+<div>
+<small data-tooltip='1%'><b>1</b> steps failed,
+<b>3</b> skipped, <b data-tooltip='%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><div class="col-md-12">
+<div class="card"><div class="card-header"><p>Timeline</p></div>
+<div class="card-body pt-0"><div>
+<canvas id="timeline" height="120"></canvas>
+</div></div>
+</div>
+</div></div>
+<script>
+var timeline = {
+"Functionalities in Career page of Just Eat Take Away":110.848,"Feature covers Create, Read, Update and Delete operations on environment":6.095
+};
+</script>
+<div class="row">
+<div class="col-lg-6 col-md-12 category-container">
+<div class="card">
+<div class="card-header"><p>Tags</p></div>
+<div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
+<thead><tr class="bg-gray"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Others</th><th>Passed %</th></tr></thead><tbody>
+<tr>
+<td>@Test2</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>@JustEatTakeAwayAssessment</td>
+<td>11</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>91.667%</td>
+</tr>
+<tr>
+<td>@Test1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>@Test3</td>
+<td>8</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>88.889%</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+var statusGroup = {
+parentCount: 5,
+passParent: 1,
+failParent: 1,
+warningParent: 0,
+skipParent: 0,
+childCount: 5,
+passChild: 11,
+failChild: 1,
+warningChild: 0,
+skipChild: 0,
+infoChild: 0,
+grandChildCount: 5,
+passGrandChild: 74,
+failGrandChild: 1,
+warningGrandChild: 0,
+skipGrandChild: 3,
+infoGrandChild: 0,
+eventsCount: 5,
+};
+</script>        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@d6562a79075e061305ccfdb82f01e5e195e2d307/spark/js/spark-script.js"></script>
+<script type="text/javascript"></script></body>
+</html>
