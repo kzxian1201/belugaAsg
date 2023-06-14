@@ -13,6 +13,8 @@ To get started with Beluga Framework, you need to follow below steps:
 
 * Install Java(JDK 18 or above) on your system.
 * Install IntelliJ IDEA as IDE.
+* Install below plugins in IDE for better user friendliness
+  ![beluga](image/plugins.png)
 * Clone the project from Github to your IDE.
 * Ensure dependencies from pom.xml file is downloaded into your .m2 folder.
 
