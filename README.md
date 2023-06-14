@@ -67,7 +67,7 @@ _**Parameters accepted in -DPLATFORM**_
 
 ![beluga](image/FeatureFile.png)
 
-you can retrieve any tags from the above feature file to execute the desired test
+you can retrieve any tags from the above feature file to execute the desired test or you can use global tab **`"@JustEatTakeAwayAssessment"`** to execute all test cases at once
 
 Once after updating run configuration, RUN the project
 
