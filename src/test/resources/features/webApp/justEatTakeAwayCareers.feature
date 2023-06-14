@@ -6,7 +6,7 @@ Feature: Functionalities in Career page of Just Eat Take Away
     Given Open career page of Takeaway
 
   @Test1
-  Scenario Outline: Verify that custom job title search and country filter works as per functionality
+  Scenario Outline: Verify that custom job title search and country filter works as expected
   When Job is searched globally for Job Title "<Job Title>"
   Then Verify search result matches the Job title "<Job Title>"
   And Verify search result contain jobs posted in different locations

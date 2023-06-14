@@ -1,6 +1,7 @@
+@JustEatTakeAwayAssessment
 Feature: Feature covers Create, Read, Update and Delete operations on environment
-  @JustEatTakeAwayAssessment
-  Scenario: Test to create, read, update and delete the bookings records
+  @Test4
+  Scenario: Test to create, read, update and delete the booking records
     Given Generate an access token
     When Create a new booking details
     And Validate new booking is created
