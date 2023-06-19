@@ -14,6 +14,7 @@ import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -53,6 +54,7 @@ public class TakeAwayBackendSteps {
         File body = new File(System.getProperty("user.dir") + propertyReader.getApiProperty("takeAwayAuth"));
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.post(ContentType.JSON,endpoint,header,body);
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Assess token is not created since response code do not match");
         accessToken += jsonHelper.getJsonString(response,"token");
     }
     /**
@@ -64,6 +66,7 @@ public class TakeAwayBackendSteps {
         URL endpoint = new URL(propertyReader.getApiProperty("takeAway_base_url")+propertyReader.getApiProperty("booking"));
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.get(ContentType.JSON,endpoint,header,new Header("Cookie",accessToken));
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "booking details are not fetched since response code do not match");
     }
     /**
      *
@@ -83,12 +86,11 @@ public class TakeAwayBackendSteps {
      */
     @And("Validate new booking is created")
     public void validateNewBookingIsCreated() {
-        int statusCode = 200;
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Status code is "+response.getStatusCode()+"<------",ExtentColor.BLUE));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createCodeBlock(response.asString(), CodeLanguage.JSON));
-        Assert.assertEquals(response.getStatusCode(), statusCode, "Response code does not match");
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "New booking might not be created since status code do not match");
         generatedID = jsonHelper.getJsonInteger(response,"bookingid");
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Generated booking ID "+generatedID+"<------",ExtentColor.BLUE));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Generated booking ID is "+generatedID+"<------",ExtentColor.BLUE));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Newly created booking record <------",ExtentColor.BLUE));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createCodeBlock(response.asString(), CodeLanguage.JSON));
         Assert.assertFalse(jsonHelper.getJsonInteger(response,"bookingid").describeConstable().isEmpty(),"Booking ID is not generated");
     }
     /**
@@ -97,9 +99,7 @@ public class TakeAwayBackendSteps {
      */
     @And("Validate newly created booking details present in the list")
     public void validateNewBookingIsPresent() {
-        int statusCode = 200;
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Status code is "+response.getStatusCode()+"<------",ExtentColor.BLUE));
-        Assert.assertEquals(response.getStatusCode(), statusCode, "Response code does not match");
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "created is not present since status code do not match");
         JSONArray jsonArray = new JSONArray(response.asString());
         ArrayList<Integer> listOfBookingID = new ArrayList<>();
         for(int i=0;i<jsonArray.length();i++){
@@ -107,6 +107,7 @@ public class TakeAwayBackendSteps {
             listOfBookingID.add(jsonObject.getInt("bookingid"));
         }
         Assert.assertTrue(listOfBookingID.contains(generatedID),"Newly generated booking is not present in the list");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Newly created booking Id "+generatedID+" is present in the database<------",ExtentColor.BLUE));
     }
     /**
      *
@@ -117,6 +118,7 @@ public class TakeAwayBackendSteps {
         URL endpoint = new URL(propertyReader.getApiProperty("takeAway_base_url")+propertyReader.getApiProperty("booking")+generatedID);
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.get(ContentType.JSON,endpoint,header,new Header("Cookie",accessToken));
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "details for booking id is not fetched since status code do not match");
     }
     /**
      *
@@ -129,12 +131,11 @@ public class TakeAwayBackendSteps {
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         File body = new File(System.getProperty("user.dir") + propertyReader.getApiProperty("updateBooking"));
         response = apiHelper.patch(endpoint,header,new Header("Cookie",accessToken),ContentType.JSON,body);
-        int statusCode = 200;
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Status code is "+response.getStatusCode()+"<------",ExtentColor.BLUE));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createCodeBlock(response.asString(), CodeLanguage.JSON));
-        Assert.assertEquals(response.getStatusCode(), statusCode, "Response code does not match");
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "Response code does not match");
         Assert.assertEquals(jsonHelper.getJsonString(response,"firstname"),firstName,"First Name is not updated");
-        Assert.assertEquals(jsonHelper.getJsonString(response,"lastname"),lastName,"First Name is not updated");
+        Assert.assertEquals(jsonHelper.getJsonString(response,"lastname"),lastName,"Last Name is not updated");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> First Name is modified to "+firstName+"<------",ExtentColor.BLUE));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Last Name is modified to "+lastName+"<------",ExtentColor.BLUE));
     }
     /**
      *
@@ -142,10 +143,9 @@ public class TakeAwayBackendSteps {
      */
     @And("Validate details are modified in new record")
     public void validateUpdatedRecord() {
-        int statusCode = 200;
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Status code is "+response.getStatusCode()+"<------",ExtentColor.BLUE));
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "Response code does not match");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Modified booking record <------",ExtentColor.BLUE));
         ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createCodeBlock(response.asString(), CodeLanguage.JSON));
-        Assert.assertEquals(response.getStatusCode(), statusCode, "Response code does not match");
         Assert.assertEquals(jsonHelper.getJsonString(response,"firstname"),firstName,"First Name is not updated");
         Assert.assertEquals(jsonHelper.getJsonString(response,"lastname"),lastName,"First Name is not updated");
     }
@@ -158,9 +158,8 @@ public class TakeAwayBackendSteps {
         URL endpoint = new URL(propertyReader.getApiProperty("takeAway_base_url")+propertyReader.getApiProperty("booking")+generatedID);
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.delete(endpoint,header,new Header("Cookie",accessToken));
-        int responseCode = 201;
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Status code is "+response.getStatusCode()+"<------",ExtentColor.BLUE));
-        Assert.assertEquals(response.getStatusCode(),responseCode,"status code doesn't match and record is not deleted");
+        Assert.assertEquals(response.getStatusCode(),HttpStatus.SC_CREATED,"status code doesn't match and record is not deleted");
+
     }
     /**
      *
@@ -171,8 +170,8 @@ public class TakeAwayBackendSteps {
         URL endpoint = new URL(propertyReader.getApiProperty("takeAway_base_url")+propertyReader.getApiProperty("booking")+generatedID);
         Header header = new Header("Authorization",propertyReader.getApiProperty("authorization"));
         response = apiHelper.get(endpoint,header,new Header("Cookie",accessToken));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Response for deleted record is "+response.asString()+"<------",ExtentColor.BLUE));
-        Assert.assertEquals(response.getStatusCode(),404,"Booking details are not deleted");
+        Assert.assertEquals(response.getStatusCode(),HttpStatus.SC_NOT_FOUND,"Booking details are not deleted");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Response while trying to fetch deleted record is "+response.asString()+"<------",ExtentColor.BLUE));
         Assert.assertEquals(response.asString(),"Not Found", "Booking details are not deleted");
     }
     /**

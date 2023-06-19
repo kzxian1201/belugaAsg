@@ -18,7 +18,7 @@ public class LoginSteps extends WrapperMethods {
     private PropertyReader propertyReader = new PropertyReader();
 
     @Given("Open the application in the browser")
-    public void openTheApplication() throws IOException {
+    public void openTheApplication() {
         openApplication(propertyReader.getGuiProperty("appURL"));
     }
     @Then("User logs with {string}")

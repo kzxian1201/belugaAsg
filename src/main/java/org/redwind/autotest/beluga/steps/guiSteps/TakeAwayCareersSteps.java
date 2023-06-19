@@ -22,6 +22,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     private String jobCount;
     private String oldWindowID;
     private String oldPageTitle;
+    private String jobCountForCountry;
     /**
      *
      *This method opens the career page of Just Eat Take Away in browser
@@ -65,19 +66,9 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     @And("Verify search result contain jobs posted in different locations")
     public void verifyJobResultsDisplayedGlobally() {
         waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA,Duration.ofSeconds(120));
-        HashSet<String> setOfCountries = new HashSet<>();
-        for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
-            for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
-                setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
-            }
-            if(getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()){
-                logger.info("We are in last page of job search results");
-            } else {
-                clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);
-            }
-        }
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> List of counties where jobs are posted "+setOfCountries+"<------", ExtentColor.BLUE));
+        HashSet<String> setOfCountries = getSetOfCountriesInResult();
         Assert.assertTrue(setOfCountries.size()>1,"Job from different countries are not shown in the result");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> All searched jobs are posted in "+setOfCountries+"<------", ExtentColor.ORANGE));
     }
     /**
      *
@@ -87,14 +78,14 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     @And("Refine the search for country {string}")
     public void filterJobForSpecificCountry(String country) {
         scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);
-        waitForElementToBeClickable(TakeAwayCareersPage.FILTER_COUNTRY,Duration.ofSeconds(120));
-        clickOnElement(TakeAwayCareersPage.FILTER_COUNTRY);
+        waitForElementToBeClickable(TakeAwayCareersPage.filterBy("Country"),Duration.ofSeconds(120));
+        clickOnElement(TakeAwayCareersPage.filterBy("Country"));
         scrollToElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));
         waitForElementToBeClickable(TakeAwayCareersPage.FILTER_BY_VALUE(country),Duration.ofSeconds(120));
         clickOnElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));
         boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(country));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+country+" checkbox status is "+flag+"<------",ExtentColor.BLUE));
         Assert.assertTrue(flag,"Country is not selected");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+country+" checkbox status is "+flag+"<------",ExtentColor.ORANGE));
     }
     /**
      *
@@ -105,19 +96,9 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     public void verifyJobResultsDisplayedForSpecifiedCountry(String country) {
         waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA,Duration.ofSeconds(120));
         scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);
-        HashSet<String> setOfCountries = new HashSet<>();
-        for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
-            for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
-                setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
-            }
-            if(getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()){
-                logger.info("We are in last page of job search results");
-            } else {
-                clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);
-            }
-        }
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Resulted jobs are posted in "+setOfCountries+"<------",ExtentColor.BLUE));
+        HashSet<String> setOfCountries = getSetOfCountriesInResult();
         Assert.assertTrue(setOfCountries.size()==1 && setOfCountries.toString().contains(country) ,"Job from different countries are shown in the result");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> All searched jobs are posted in "+setOfCountries+"<------",ExtentColor.ORANGE));
     }
     /**
      *
@@ -143,13 +124,13 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     public void validateSelectionOfJobCategoryInFilterSection(String jobCategory) {
         waitForElementToBeClickable(TakeAwayCareersPage.REFINE_YOUR_SEARCH,Duration.ofSeconds(120));
         scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);
-        if(getValueFromElement(TakeAwayCareersPage.FILTER_CATEGORY,"aria-expanded").contains("false")){
-            clickOnElement(TakeAwayCareersPage.FILTER_CATEGORY);
+        if(getValueFromElement(TakeAwayCareersPage.filterBy("Category"),"aria-expanded").contains("false")){
+            clickOnElement(TakeAwayCareersPage.filterBy("Category"));
         }
         scrollToElement(TakeAwayCareersPage.FILTER_BY_VALUE(jobCategory));
         boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(jobCategory));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+jobCategory+" checkbox status is "+flag+"<------",ExtentColor.BLUE));
         Assert.assertTrue(flag,"Job category is not selected automatically in search section");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+jobCategory+" checkbox status is "+flag+"<------",ExtentColor.ORANGE));
     }
     /**
      *
@@ -172,7 +153,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     @And("Verify number of search result matches the job count for {string}")
     public void validateJobCountMatchesForCountry(String country) {
         scrollToElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));
-        String jobCountForCountry = getTextFromElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));
+        jobCountForCountry = getTextFromElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));
         jobCountForCountry = jobCountForCountry.replace("(","");
         jobCountForCountry = jobCountForCountry.replace(")","");
         jobCountForCountry=jobCountForCountry.trim();
@@ -186,16 +167,20 @@ public class TakeAwayCareersSteps extends WrapperMethods {
      * @param jobCategory - Job Category (passed from feature file)
      * @param country - country name for filter (passed from feature file)
      */
-    @And("Verify search result contain only for job category as {string} in {string}")
+    @And("Verify search result contain only for job category as {string} in {string} and matches the job count")
     public void validateSearchResultHasCorrectJobCategory(String jobCategory, String country) {
         waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA,Duration.ofSeconds(120));
         scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);
         HashSet<String> setOfJobCategories = new HashSet<>();
         HashSet<String> setOfLocation = new HashSet<>();
+        int jobCountInResult = 0;
         for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
             for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
+                //Below line gets all job title posted
+                //ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> "+getTextFromElement(TakeAwayCareersPage.getJobTitleFromSearchedResult(j))+" job title is posted in "+getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j))+"<------", ExtentColor.BLUE));
                 setOfJobCategories.add(getJobCategoryFromSearchedJob(TakeAwayCareersPage.getJobCategoryFromSearchResult(j)));
                 setOfLocation.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
+                jobCountInResult+=1;
             }
             if(getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()){
                 logger.info("We are in last page of job search results");
@@ -203,10 +188,11 @@ public class TakeAwayCareersSteps extends WrapperMethods {
                 clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);
             }
         }
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Job Category shown in the result is "+setOfJobCategories+"<------",ExtentColor.BLUE));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Job location posted in the result is "+setOfLocation+"<------",ExtentColor.BLUE));
         Assert.assertTrue(setOfJobCategories.size()==1 && setOfJobCategories.toString().contains(jobCategory) ,"Different job Categories are shown in the result");
         Assert.assertTrue(setOfLocation.size()==1 && setOfLocation.toString().contains(country) ,"Job from different countries are shown in the result");
+        Assert.assertTrue(jobCountForCountry.contains(Integer.toString(jobCountInResult)),"Resulted job Count for the country do not match");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> All jobs are posted for job category "+setOfJobCategories+" in "+setOfLocation+" <------",ExtentColor.ORANGE));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> Job count for "+setOfLocation+" is "+jobCountForCountry+" and it is matched the search result count "+jobCountInResult+" <------",ExtentColor.ORANGE));
     }
     /**
      *
@@ -246,13 +232,13 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         waitForElementToBeClickable(TakeAwayCareersPage.CLEAR_ALL, Duration.ofSeconds(120));
         clickOnElement(TakeAwayCareersPage.CLEAR_ALL);
         scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);
-        waitForElementToBeClickable(TakeAwayCareersPage.FILTER_CATEGORY, Duration.ofSeconds(120));
-        if(getValueFromElement(TakeAwayCareersPage.FILTER_CATEGORY,"aria-expanded").contains("false")){
-            clickOnElement(TakeAwayCareersPage.FILTER_CATEGORY);
+        waitForElementToBeClickable(TakeAwayCareersPage.filterBy("Category"), Duration.ofSeconds(120));
+        if(getValueFromElement(TakeAwayCareersPage.filterBy("Category"),"aria-expanded").contains("false")){
+            clickOnElement(TakeAwayCareersPage.filterBy("Category"));
         }
         boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(jobCategory));
-        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+jobCategory+" checkbox status is "+flag+"<------",ExtentColor.BLUE));
         Assert.assertFalse(flag,"Job category is selected after clicking clear all filter");
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createLabel("------> "+jobCategory+" checkbox status is "+flag+"<------",ExtentColor.ORANGE));
     }
     /**
      *
@@ -278,6 +264,27 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         if(category.contains("Category")){
             category = category.replace("Category","");}
         return category.trim();
+    }
+    /**
+     *
+     *Method help to get the set of countries found in search result
+     *
+     */
+    public HashSet<String> getSetOfCountriesInResult() {
+        HashSet<String> setOfCountries = new HashSet<>();
+        for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
+            for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
+                //Below line gets all job title posted
+                //ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> "+getTextFromElement(TakeAwayCareersPage.getJobTitleFromSearchedResult(j))+" job title is posted in "+getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j))+"<------", ExtentColor.BLUE));
+                setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
+            }
+            if(getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()){
+                logger.info("We are in last page of job search results");
+            } else {
+                clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);
+            }
+        }
+        return setOfCountries;
     }
 
 }

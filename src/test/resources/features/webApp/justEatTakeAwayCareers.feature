@@ -24,7 +24,7 @@ Feature: Functionalities in Career page of Just Eat Take Away
   And Verify number of search result matches the number of Job count section for "<Job Category>"
   Then Refine the search for country "<Country>"
   And Verify number of search result matches the job count for "<Country>"
-  And Verify search result contain only for job category as "<Job Category>" in "<Country>"
+  And Verify search result contain only for job category as "<Job Category>" in "<Country>" and matches the job count
 
   Examples:
     | Job Category |  Country     |

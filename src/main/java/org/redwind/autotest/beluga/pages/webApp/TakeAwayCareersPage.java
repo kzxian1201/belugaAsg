@@ -20,8 +20,18 @@ public class TakeAwayCareersPage {
         By replaceXpath = By.xpath("//li["+index+"]//span[@class='au-target category']");
         return replaceXpath;
     }
-    public static final By FILTER_COUNTRY=By.xpath("//button[contains(text(),'Country')]");
-    public static final By FILTER_CATEGORY=By.xpath("//button[contains(text(),'Category')]");
+
+    public static final By getJobTitleFromSearchedResult(int index) {
+        By replaceXpath = By.xpath("//li["+index+"]//a/div[@class='job-title']/span");
+        return replaceXpath;
+    }
+    //public static final By FILTER_COUNTRY=By.xpath("//button[contains(text(),'Country')]");
+    //public static final By FILTER_CATEGORY=By.xpath("//button[contains(text(),'Category')]");
+
+    public static final By filterBy(String filterKey) {
+        By replaceXpath = By.xpath("//button[contains(text(),'"+filterKey+"')]");
+        return replaceXpath;
+    }
     public static final By CHECKBOX_FOR_FILTER(String filterName) {
         By replaceXpath = By.xpath("//span[contains(text(),'"+filterName+"')]/preceding-sibling::input");
         return replaceXpath;
