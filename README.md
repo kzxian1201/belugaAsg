@@ -60,7 +60,7 @@ _**Parameters accepted in -DPLATFORM**_
 
 **_Cucumber Tags_**
 
-2 feature files are created for assessment purpose
+Sample Test cases 1. UI Test and 2. API test
 
 1. **justEatTakeAwayCareers.feature**
 2. **justEatTakeAwayCRUDOps.feature**
