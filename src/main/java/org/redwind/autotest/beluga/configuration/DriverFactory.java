@@ -113,14 +113,15 @@ public class DriverFactory {
                         throw new RuntimeException(e);
                     }
                     break;
-                case "android":
-                    capabilities.setCapability("deviceName","");
-                    capabilities.setCapability("platformName","");
-                    capabilities.setCapability("platformVersion","");
-                    capabilities.setCapability("appPackage", "");
-                    capabilities.setCapability("appActivity","");
-                    capabilities.setCapability("noReset",true);
-                    capabilities.setCapability("automationName","");
+                case "Android":
+                    String appLocation = System.getProperty("user.dir") + "/apkFiles/CottonTraders.apk";
+                    capabilities.setCapability("deviceName","ANDROID_DEVICE_NAME");
+                    capabilities.setCapability("platformName",propertyReader.getMobileProperty("ANDROID_PLATFORM_NAME"));
+                    capabilities.setCapability("platformVersion",propertyReader.getMobileProperty("ANDROID_VERSION"));
+                    capabilities.setCapability("app",appLocation);
+                    capabilities.setCapability("appPackage", propertyReader.getMobileProperty("ANDROID_APP_PACKAGE"));
+                    capabilities.setCapability("noReset",false);
+                    capabilities.setCapability("automationName",propertyReader.getMobileProperty("ANDROID_TEST_NAME"));
                     try {
                         appiumDriver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
                     } catch (MalformedURLException e) {

@@ -48,7 +48,7 @@ public class Hooks {
     }
 
     @After
-    public void scenarioTailEnd(Scenario scenario) {
+    public void scenarioTailEnd(Scenario scenario) throws IOException {
         endLogger(scenario);
         if(environment.getPlatform().equalsIgnoreCase("iOS") ||
                 environment.getPlatform().equalsIgnoreCase("android") ||
@@ -57,6 +57,7 @@ public class Hooks {
                 logger.info("Scenario is failed");
             }
             driverFactory.getCurrentAppiumDriver().quit();
+            Runtime.getRuntime().exec("killall node");
         } else if(!environment.getPlatform().equals("Restful")) {
             if(scenario.isFailed()) {
                 wrapperMethods.takeScreenshot(scenario);

@@ -2,7 +2,10 @@ package org.redwind.autotest.beluga.utils;
 
 
 
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.*;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.touch.offset.PointOption;
 import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +20,9 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static java.time.Duration.ofMillis;
 
 public class WrapperMethods {
 
@@ -42,7 +48,12 @@ public class WrapperMethods {
         }
     }
     public void enterText(By locator, String value) {
-        driver=driverFactory.getCurrentDriver();
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
         try {
             driver.findElement(locator).sendKeys(value);
         } catch (WebDriverException getError) {
@@ -86,6 +97,16 @@ public class WrapperMethods {
         }
         return text;
     }
+    public String getTextFromElement(WebElement locator) {
+        driver=driverFactory.getCurrentDriver();
+        String text=null;
+        try {
+            text = locator.getText();
+        }catch (WebDriverException getException) {
+            logger.error("Cannot get the Text %s",getException);
+        }
+        return text;
+    }
     public String getValueFromElement(By locator,String name) {
             driver=driverFactory.getCurrentDriver();
             if(driver==null){
@@ -95,6 +116,20 @@ public class WrapperMethods {
         String value=null;
         try {
             value = driver.findElement(locator).getAttribute(name);
+        } catch (WebDriverException getException) {
+            logger.error("Cannot get the attribute value %s",getException);
+        }
+        return value;
+    }
+    public String getValueFromElement(WebElement locator,String name) {
+        driver=driverFactory.getCurrentDriver();
+        if(driver==null){
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }
+        String value=null;
+        try {
+            value = locator.getAttribute(name);
         } catch (WebDriverException getException) {
             logger.error("Cannot get the attribute value %s",getException);
         }
@@ -258,7 +293,12 @@ public class WrapperMethods {
         driver.manage().window().minimize();
     }
     public boolean isElementDisplayed(By locator) {
-        driver = driverFactory.getCurrentDriver();
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
         try {
             boolean flag=driver.findElement(locator).isDisplayed();
             return flag;
@@ -304,7 +344,12 @@ public class WrapperMethods {
         }
     }
     public List<WebElement> getListOfElements(By locator) {
-        driver=driverFactory.getCurrentDriver();
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
         List<WebElement> elements=null;
         try {
             elements = driver.findElements(locator);
@@ -364,5 +409,59 @@ public class WrapperMethods {
         driver = driverFactory.getCurrentDriver();
         String windowID = driver.getWindowHandle();
         return windowID;
+    }
+    public void pressEnter(By locator){
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
+        driver.findElement(locator).sendKeys((CharSequence) new KeyEvent(AndroidKey.ENTER));
+    }
+
+    public void enterPress() {
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.RETURN).build().perform();
+    }
+
+    public void moveToMobileElements(Point locator1, Point locator2) {
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
+        TouchAction action = new TouchAction((PerformsTouchActions) driver);
+        action.press(PointOption.point(locator2)).waitAction(waitOptions(ofMillis(1000))).moveTo(PointOption.point(locator1)).release().perform();
+        //action.tap(TapOptions.tapOptions().withElement((ElementOption) locator2)).moveTo(scrollToElement((By) locator1)).release().perform();
+    }
+    public WebElement getElement(By locator) {
+        if(driverFactory.getCurrentDriver()==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }else {
+            driver=driverFactory.getCurrentDriver();
+        }
+        return driver.findElement(locator);
+    }
+
+    public void clickOnElement(WebElement locator) {
+        driver=driverFactory.getCurrentDriver();
+        if(driver==null){
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }
+        try {
+            locator.click();
+        } catch (WebDriverException getError) {
+            logger.error("Failed to click on webElement %s", getError);
+        }
     }
 }
