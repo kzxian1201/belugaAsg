@@ -3,9 +3,12 @@ package org.redwind.autotest.beluga.pages.mobileApp.android;
 import org.openqa.selenium.By;
 
 public class CottonTraderMainPage {
+
+    private CottonTraderMainPage() {
+
+    }
     public static final By  SKIP_ONBOARDING_BUTTON = By.id("com.cottontradersltd.cottontraders:id/onboarding_page_skip_button");
     public static final By SEARCH = By.id("com.cottontradersltd.cottontraders:id/action_search");
-    public static final By FILTER = By.id("com.cottontradersltd.cottontraders:id/toolbar_filter_button");
     public static final By SEARCH_INPUT_FIELD = By.id("com.cottontradersltd.cottontraders:id/search_toolbar_edit_text");
     public static final By RESULT_LIST = By.xpath("//*[contains(@class,'RecyclerView')]/android.widget.Button");
     public static final By COLOR = By.xpath("//*[contains(@class,'RecyclerView')]/android.widget.Button");
