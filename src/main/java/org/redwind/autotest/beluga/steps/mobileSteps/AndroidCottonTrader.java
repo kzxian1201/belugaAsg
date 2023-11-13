@@ -29,12 +29,10 @@ public class AndroidCottonTrader extends WrapperMethods {
     public void searchKeyword(String keyword) throws InterruptedException {
         waitForPresenceOfElementLocated(CottonTraderMainPage.SEARCH,Duration.ofSeconds(120));
         clickOnElement(CottonTraderMainPage.SEARCH);
-      //  clickOnElement(CottonTraderMainPage.SEARCH_LINER);
         waitForPresenceOfElementLocated(CottonTraderMainPage.SEARCH_INPUT_FIELD,Duration.ofSeconds(120));
         clickOnElement(CottonTraderMainPage.SEARCH_INPUT_FIELD);
         enterText(CottonTraderMainPage.SEARCH_INPUT_FIELD,keyword);
         enterPress();
-        //pressEnter(CottonTraderMainPage.SEARCH_INPUT_FIELD);
         Thread.sleep(10000);
     }
     @And("Select the {string} item from the list")
