@@ -156,7 +156,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         jobCountForCountry = getTextFromElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));
         jobCountForCountry = jobCountForCountry.replace("(","");
         jobCountForCountry = jobCountForCountry.replace(")","");
-        jobCountForCountry=jobCountForCountry.trim();
+        jobCountForCountry=jobCountForCountry.replace("\n"," ").trim();
         scrollToElement(TakeAwayCareersPage.JOB_LIST_COUNT);
         String jobCountInList = getTextFromElement(TakeAwayCareersPage.JOB_LIST_COUNT);
         Assert.assertTrue(jobCountForCountry.replace("Jobs","").contains(jobCountInList.replace("Jobs","")),"Search result does not matches the country count");
@@ -177,7 +177,6 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
             for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
                 //Below line gets all job title posted
-                //ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> "+getTextFromElement(TakeAwayCareersPage.getJobTitleFromSearchedResult(j))+" job title is posted in "+getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j))+"<------", ExtentColor.BLUE));
                 setOfJobCategories.add(getJobCategoryFromSearchedJob(TakeAwayCareersPage.getJobCategoryFromSearchResult(j)));
                 setOfLocation.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
                 jobCountInResult+=1;
@@ -186,6 +185,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
                 logger.info("We are in last page of job search results");
             } else {
                 clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);
+                implicitWait();
             }
         }
         Assert.assertTrue(setOfJobCategories.size()==1 && setOfJobCategories.toString().contains(jobCategory) ,"Different job Categories are shown in the result");
@@ -275,8 +275,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
         for(int i=1;i<=getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size();i++) {
             for(int j=1;j<=getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size();j++) {
                 //Below line gets all job title posted
-                //ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel("------> "+getTextFromElement(TakeAwayCareersPage.getJobTitleFromSearchedResult(j))+" job title is posted in "+getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j))+"<------", ExtentColor.BLUE));
-                setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
+               setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
             }
             if(getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()){
                 logger.info("We are in last page of job search results");

@@ -464,4 +464,13 @@ public class WrapperMethods {
             logger.error("Failed to click on webElement %s", getError);
         }
     }
+
+    public void implicitWait() {
+        driver = driverFactory.getCurrentDriver();
+        if(driver==null) {
+            appiumDriver = driverFactory.getCurrentAppiumDriver();
+            driver = appiumDriver;
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+    }
 }

@@ -5,19 +5,19 @@ import org.openqa.selenium.By;
 public class TakeAwayCareersPage {
     private TakeAwayCareersPage(){}
     public static final By ALLOW_COOKIES=By.xpath("//button[ppc-content[contains(text(),'Allow')]]");
-    public static final By SEARCH_JOB_INPUT_FIELD= By.xpath("//input[@id='keywordSearch']");
+    public static final By SEARCH_JOB_INPUT_FIELD= By.xpath("//input[@id='typehead']");
     public static final By SEARCH_BUTTON=By.xpath("//button[@type='submit']");
     public static final By SEARCH_RESULT_AREA=By.xpath("//div[contains(@class,'ph-search-results-area')]");
     public static final By SEARCH_KEYWORD_HEADING=By.xpath("//h2[@show.bind='searchKeyword']");
-    public static final By LIST_OF_JOB_SEARCHED=By.xpath("//div[@class='phs-jobs-list']/div[@class='content-block']/ul/li");
+    public static final By LIST_OF_JOB_SEARCHED=By.xpath("//div[contains(@class,'phs-jobs-list')]/div[contains(@class,'content-block')]/ul/li");
     public static final By SEARCH_RESULT_PAGES=By.xpath("//div[contains(@class,'search-bottom-count')]/following-sibling::ul/li/a[contains(@aria-label,'Page')]");
     public static final By NEXT_PAGE_IN_SEARCH_RESULT=By.xpath("//li[a[contains(@aria-label,'Page') and @aria-current='true']]/following-sibling::li[1]/a[contains(@aria-label,'Page')]");
     public static final By getJobLocationFromSearchResult(int index) {
-        By replaceXpath = By.xpath("//li["+index+"]//span[@class='job-location']");
+        By replaceXpath = By.xpath("//li["+index+"]//span[contains(@class,'job-location')]");
         return replaceXpath;
     }
     public static final By getJobCategoryFromSearchResult(int index) {
-        By replaceXpath = By.xpath("//li["+index+"]//span[@class='au-target category']");
+        By replaceXpath = By.xpath("//li["+index+"]//span[@class='job-category au-target']");
         return replaceXpath;
     }
 
@@ -33,11 +33,11 @@ public class TakeAwayCareersPage {
         return replaceXpath;
     }
     public static final By CHECKBOX_FOR_FILTER(String filterName) {
-        By replaceXpath = By.xpath("//span[contains(text(),'"+filterName+"')]/preceding-sibling::input");
+        By replaceXpath = By.xpath("//span[span[contains(text(),'"+filterName+"')]]/preceding-sibling::input");
         return replaceXpath;
     }
     public static final By FILTER_BY_VALUE(String name) {
-        By replaceXpath = By.xpath("//label[span[contains(text(),'"+name+"')]]");
+        By replaceXpath = By.xpath("//label[span[span[contains(text(),'"+name+"')]]]");
         return replaceXpath;
     }
     public static final By REFINE_YOUR_SEARCH=By.xpath("//h2//*[contains(text(),'Refine your search')]");
@@ -51,7 +51,7 @@ public class TakeAwayCareersPage {
     }
     public static final By JOB_CATEGORY_DROPDOWN_LABEL=By.xpath("//h2//*[contains(text(),'Job Categories')]");
     public static final By JOB_COUNT_IN_FILTER(String value) {
-        By replaceXpath = By.xpath("//span[contains(text(),'"+value+"')]/following-sibling::span[@class='result-jobs-count']");
+        By replaceXpath = By.xpath("//span[contains(text(),'"+value+"')]/following-sibling::span[contains(@class,'result-jobs-count')]");
         return replaceXpath;
     }
     public static final By JOB_LIST_COUNT=By.xpath("//div[contains(@class,'jobs-list-count')]");
