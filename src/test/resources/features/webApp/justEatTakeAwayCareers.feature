@@ -42,12 +42,5 @@ Feature: Functionalities in Career page of Just Eat Take Away
     | Job Category          |
     | Corporate             |
     | Customer Service      |
-    | Data & Analytics      |
-    | Finance               |
-    | Human Resources       |
-    | Marketing             |
-    | Operations & Logistic |
-    | Tech & Product        |
-    | Sales                 |
 
 

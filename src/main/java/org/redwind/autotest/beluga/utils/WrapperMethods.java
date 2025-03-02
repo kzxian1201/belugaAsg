@@ -12,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.redwind.autotest.beluga.configuration.DriverFactory;
 import java.time.Duration;
 import java.util.HashMap;
@@ -472,5 +470,16 @@ public class WrapperMethods {
             driver = appiumDriver;
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+    }
+
+    public void waitWithPoolingForElementToBePresent(By locator) {
+        driver = driverFactory.getCurrentDriver();
+        Wait<WebDriver> wait = new FluentWait<>(driver).
+                withTimeout(Duration.ofSeconds(30)).
+                pollingEvery(Duration.ofSeconds(5))
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
     }
 }
