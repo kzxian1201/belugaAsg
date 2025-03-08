@@ -38,15 +38,15 @@ jobs:
           java-version: '18'
 #          cache: maven
 
-#      - name: Install dependencies
-#        run: mvn install -DskipTests
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Install dependencies
+        run: mvn install -DskipTests
+#      - name: Cache
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-maven-
 
       - name: Run Tests
         run: 'mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}'
