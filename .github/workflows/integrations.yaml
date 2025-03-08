@@ -23,7 +23,6 @@ on:
         description: 'Tag_to_execute'
         type: string
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,10 +36,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '18'
-#          cache: maven
 
-#      - name: Install dependencies
-#        run: mvn install -DskipTests
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -49,11 +45,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: Kill Chrome instances
         run: pkill -f "chrome" || true
 
       - name: Run Tests
-        run: 'mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}'
+        run: |
+          mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}
+        env:
+          CHROME_OPTIONS: "--headless --no-sandbox --disable-dev-shm-usage --user-data-dir=/tmp/chrome-profile"
 
       - name: Upload Test Results
         if: always()
