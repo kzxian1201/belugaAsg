@@ -55,18 +55,19 @@ public class DriverFactory {
     }
 
     public void initializeBrowser() {
-        System.out.println(" Browser name "+environment.getPlatform());
         currentDriver.set(getDesktopDriver(environment.getPlatform()));
     }
     public void initializeMobileDriver() throws IOException, InterruptedException {
         currentAppiumDriver.set(getAppiumDriver(environment.getPlatform()));
     }
     public WebDriver getDesktopDriver(String browser) {
-        System.out.println(" inside get browser");
         if(browser.equalsIgnoreCase("Chrome")) {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--start-maximized");
             chromeOptions.addArguments("--remote-allow-origins=*");
+            chromeOptions.addArguments("--disable-dev-shm-usage");
+            chromeOptions.addArguments("--ignore-ssl-errors=yes");
+            chromeOptions.addArguments("--ignore-certificate-errors");
             driver = new ChromeDriver(chromeOptions);
             logger.info("************** Launching Chrome browser ****************");
         } else if(browser.equalsIgnoreCase("Firefox")) {
