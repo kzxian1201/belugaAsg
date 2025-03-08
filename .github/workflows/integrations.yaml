@@ -1,0 +1,59 @@
+name: Integration Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'PLATFORM'
+        type: choice
+        required: true
+        options:
+          - Chrome
+          - Restful
+          - iOS
+          - iOSSimulator
+      tags:
+        description: 'Tag_to_execute'
+        type: string
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+#          cache: maven
+
+#      - name: Install dependencies
+#        run: mvn install -DskipTests
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run Tests
+        run: 'mvn clean verify -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ input.tags }}'
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
