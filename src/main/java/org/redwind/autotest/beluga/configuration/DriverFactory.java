@@ -65,7 +65,6 @@ public class DriverFactory {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--start-maximized");
             chromeOptions.addArguments("--remote-allow-origins=*");
-            chromeOptions.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
             driver = new ChromeDriver(chromeOptions);
             logger.info("************** Launching Chrome browser ****************");
         } else if(browser.equalsIgnoreCase("Firefox")) {
