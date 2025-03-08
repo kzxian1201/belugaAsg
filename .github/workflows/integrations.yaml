@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run Tests
-        run: 'mvn clean verify -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}'
+        run: 'mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}'
 
       - name: Upload Test Results
         if: always()
