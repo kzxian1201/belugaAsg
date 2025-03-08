@@ -65,9 +65,7 @@ public class DriverFactory {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--start-maximized");
             chromeOptions.addArguments("--remote-allow-origins=*");
-            chromeOptions.addArguments("--disable-dev-shm-usage");
-            chromeOptions.addArguments("--ignore-ssl-errors=yes");
-            chromeOptions.addArguments("--ignore-certificate-errors");
+            chromeOptions.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
             driver = new ChromeDriver(chromeOptions);
             logger.info("************** Launching Chrome browser ****************");
         } else if(browser.equalsIgnoreCase("Firefox")) {
