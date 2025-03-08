@@ -53,8 +53,6 @@ jobs:
       - name: Run Tests
         run: |
           mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}
-#        env:
-#          CHROME_OPTIONS: "--headless --no-sandbox --disable-dev-shm-usage --user-data-dir=/tmp/chrome-profile"
 
       - name: Upload Test Results
         if: always()
