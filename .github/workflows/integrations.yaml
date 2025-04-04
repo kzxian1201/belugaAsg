@@ -50,6 +50,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
+      - name: Install Firefox
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y firefox
+
       - name: Run Tests
         run: |
           mvn test -DPLATFORM=${{ inputs.platform }} -Dcucumber.filter.tags=${{ inputs.tags }}
