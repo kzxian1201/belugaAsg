@@ -210,8 +210,8 @@ public class TakeAwayCareersSteps extends WrapperMethods {
      */
     @When("{string} is selected from Job Category widget")
     public void clickJobCategoryOnWidget(String jobCategory) {
-        //waitForPresenceOfElementLocated(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING, Duration.ofSeconds(120));
-        //scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING);
+        waitForPresenceOfElementLocated(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING, Duration.ofSeconds(120));
+        scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING);
         waitForElementToBeClickable(TakeAwayCareersPage.JOB_CATEGORY_WIDGET(jobCategory), Duration.ofSeconds(120));
         scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET(jobCategory));
         oldPageTitle = getTitle();
@@ -291,7 +291,6 @@ public class TakeAwayCareersSteps extends WrapperMethods {
                 try {
                     setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));
                 } catch (NullPointerException e) {
-                    System.out.println("inside catch");
                     j++;
                 }
             }
