@@ -34,6 +34,17 @@ jobs:
           distribution: 'temurin'
           java-version: '18'
 
+      - name: Set up Firefox
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: latest  # Or specify a version, e.g., '123.0'
+          install-chromedriver: true # Optional: Install ChromeDriver
+
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -42,25 +53,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Install Firefox
-        run: |
-          sudo add-apt-repository -y ppa:mozillateam/ppa
-          sudo apt update
-          sudo apt install -y firefox
-          sudo ln -s /usr/bin/firefox /usr/local/bin/firefox
-
-      - name: Install geckodriver
-        run: |
-          GECKO_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep "tag_name" | cut -d '"' -f 4)
-          wget "https://github.com/mozilla/geckodriver/releases/download/$GECKO_VERSION/geckodriver-$GECKO_VERSION-linux64.tar.gz"
-          tar -xzf "geckodriver-$GECKO_VERSION-linux64.tar.gz"
-          chmod +x geckodriver
-          sudo mv geckodriver /usr/local/bin/
+      #      - name: Install Chrome
+      #        run: |
+      #          sudo apt-get update
+      #          sudo apt-get install -y google-chrome-stable
+      #
+      #      - name: Install Firefox
+      #        run: |
+      #          sudo add-apt-repository -y ppa:mozillateam/ppa
+      #          sudo apt update
+      #          sudo apt install -y firefox
+      #          sudo ln -s /usr/bin/firefox /usr/local/bin/firefox
+      #
+      #      - name: Install geckodriver
+      #        run: |
+      #          GECKO_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep "tag_name" | cut -d '"' -f 4)
+      #          wget "https://github.com/mozilla/geckodriver/releases/download/$GECKO_VERSION/geckodriver-$GECKO_VERSION-linux64.tar.gz"
+      #          tar -xzf "geckodriver-$GECKO_VERSION-linux64.tar.gz"
+      #          chmod +x geckodriver
+      #          sudo mv geckodriver /usr/local/bin/
 
       - name: Run Tests
         run: |
