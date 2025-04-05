@@ -71,8 +71,8 @@ public class DriverFactory {
             logger.info("************** Launching Chrome browser ****************");
         } else if(browser.equalsIgnoreCase("Firefox")) {
             FirefoxOptions options = new FirefoxOptions();
-            //options.setBinary("/usr/bin/firefox");
-            //options.addArguments("--headless");
+            options.setBinary("/usr/bin/firefox");
+            options.addArguments("--headless");
             driver = new FirefoxDriver(options);
         } else if(browser.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
