@@ -55,6 +55,7 @@ public class TakeAwayCareersSteps extends WrapperMethods {
     @Then("Verify search result matches the Job title {string}")
     public void verifySearchResultHeading(String jobTitle) {
         String expectedSearchResultHeading = "Showing Search results for " + "\"" + jobTitle + "\"";
+        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA,Duration.ofSeconds(60));
         scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);
         waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_KEYWORD_HEADING, Duration.ofSeconds(120));
         String actualHeading = getTextFromElement(TakeAwayCareersPage.SEARCH_KEYWORD_HEADING);
