@@ -60,7 +60,7 @@ jobs:
           sudo ln -s /usr/bin/firefox /usr/local/bin/firefox
 
       - name: Fix GeckoDriver permissions
-        run: sudo chmod +x $(which geckodriver)
+        run: sudo apt-get install libdbus-glib-1-2
 
       #      - name: Install Chrome
       #        run: |
