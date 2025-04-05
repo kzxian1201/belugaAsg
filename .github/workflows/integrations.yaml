@@ -42,7 +42,7 @@ jobs:
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: google-chrome-stable # Optional: Install ChromeDriver
+          chrome-version: latest # Optional: Install ChromeDriver
 
       - name: Cache
         uses: actions/cache@v4
