@@ -52,10 +52,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install Firefox dependencies
+      - name: Install Firefox (official PPA)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb      
+          sudo add-apt-repository -y ppa:mozillateam/ppa
+          sudo apt update
+          sudo apt install -y firefox
+          sudo ln -s /usr/bin/firefox /usr/local/bin/firefox
+
+      - name: Install geckodriver
+        run: |
+          GECKO_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep "tag_name" | cut -d '"' -f 4)
+          wget "https://github.com/mozilla/geckodriver/releases/download/$GECKO_VERSION/geckodriver-$GECKO_VERSION-linux64.tar.gz"
+          tar -xzf "geckodriver-$GECKO_VERSION-linux64.tar.gz"
+          chmod +x geckodriver
+          sudo mv geckodriver /usr/local/bin/    
 
       #      - name: Install Chrome
       #        run: |
