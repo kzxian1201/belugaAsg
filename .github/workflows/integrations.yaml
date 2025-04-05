@@ -37,7 +37,7 @@ jobs:
       - name: Set up Firefox
         uses: browser-actions/setup-firefox@v1
         with:
-          firefox-version: latest
+          firefox-version: latest-esr
 
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
