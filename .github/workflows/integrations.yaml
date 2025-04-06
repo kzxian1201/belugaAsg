@@ -67,6 +67,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: integration-test
     steps:
      - name: "Checkout Repository"
