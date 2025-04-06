@@ -75,7 +75,7 @@ jobs:
        uses: actions/download-artifact@v4
        with:
          name: reports
-         path: reports
+         path: .
      - name: "Prepare report for GitHub Pages"
        run: |
          mv reports gh-pages
