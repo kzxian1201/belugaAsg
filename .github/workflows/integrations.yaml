@@ -74,8 +74,8 @@ jobs:
      - name: "Download Extent report"
        uses: actions/download-artifact@v4
        with:
-         name: test-results-${{ github.run_id }}
-         path: report
+         name: reports
+         path: reports
      - name: "Prepare report for GitHub Pages"
        run: |
          mv reports gh-pages
@@ -84,7 +84,7 @@ jobs:
      - name: "Upload Page Artifact"
        uses: actions/upload-pages-artifact@v1
        with:
-         name: test-results-${{ github.run_id }}
+         name: reports
          path: ./gh-pages
      - name: "Deploy to Github pages"
        id: deployment
