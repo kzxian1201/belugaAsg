@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reports
-          path: reports/*
+          path: reports/
   deploy-reports:
     environment:
       name: github-pages
@@ -70,7 +70,7 @@ jobs:
     needs: integration-test
     steps:
      - name: "Checkout Repository"
-       uses: actions/checkout@v3
+       uses: actions/checkout@v4
      - name: "Download Extent report"
        uses: actions/download-artifact@v4
        with:
@@ -84,7 +84,6 @@ jobs:
      - name: "Upload Page Artifact"
        uses: actions/upload-pages-artifact@v1
        with:
-         name: reports
          path: ./gh-pages
      - name: "Deploy to Github pages"
        id: deployment
