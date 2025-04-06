@@ -80,14 +80,14 @@ jobs:
        run: |
          mv reports gh-pages
      - name: "Setup Pages"
-       uses: actions/configure-pages@v2
+       uses: actions/configure-pages@v5
      - name: "Upload Page Artifact"
-       uses: actions/upload-pages-artifact@v1
+       uses: actions/upload-pages-artifact@v3
        with:
          path: ./gh-pages
      - name: "Deploy to Github pages"
        id: deployment
-       uses: actions/deploy-pages@v1
+       uses: actions/deploy-pages@v4
 
 #  deploy-reports:
 #   environment:
