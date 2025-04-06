@@ -79,6 +79,8 @@ Use **_testResult.html_** file as Test Report
 
 ![beluga](image/reportPath.png)
 
+Since framework is integrated with github action after each execution, test report is published to github pages https://deepanmahalingam.github.io/beluga/
+
 ## Software products used in Beluga
 
 - **Cucumber**
