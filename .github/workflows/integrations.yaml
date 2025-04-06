@@ -87,13 +87,13 @@ jobs:
 #       id: deployment
 #       uses: actions/deploy-pages@v1
 
-deploy-reports:
-  environment:
+  deploy-reports:
+   environment:
     name: github-pages
     url: ${{ steps.deployment.outputs.page_url }}
-  runs-on: ubuntu-latest
-  needs: integration-test
-  steps:
+   runs-on: ubuntu-latest
+   needs: integration-test
+   steps:
     - name: "Checkout Repository"
       uses: actions/checkout@v4
 
