@@ -78,7 +78,7 @@ jobs:
      - name: "Download Extent report"
        uses: actions/download-artifact@v4
        with:
-#         name: reports
+         name: reports
          path: .
      - name: "Setup Pages"
        uses: actions/configure-pages@v5
