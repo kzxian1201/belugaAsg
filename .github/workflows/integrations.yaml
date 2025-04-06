@@ -80,9 +80,9 @@ jobs:
        with:
          name: reports
          path: .
-     - name: "Prepare report for GitHub Pages"
-       run: |
-         mv reports gh-pages
+#     - name: "Prepare report for GitHub Pages"
+#       run: |
+#         mv reports gh-pages
      - name: "Setup Pages"
        uses: actions/configure-pages@v5
      - name: "Upload Page Artifact"
