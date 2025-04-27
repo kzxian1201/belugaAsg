@@ -7,3 +7,4 @@ COPY . .
 RUN mvn clean install
 
 CMD ["mvn", "test"]
+
