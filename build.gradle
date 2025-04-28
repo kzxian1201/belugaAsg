@@ -1,0 +1,94 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'jacoco' 
+}
+
+group = 'com.deepanmahalingam.beluga'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.jasypt:jasypt:1.9.3'
+
+    implementation 'tech.grasshopper:extentreports-cucumber7-adapter:1.6.0'
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.12.0'
+
+    implementation 'io.appium:java-client:8.5.1'
+
+    implementation 'io.rest-assured:rest-assured:5.3.0'
+
+    testImplementation 'org.testng:testng:7.8.0'
+
+    implementation 'io.cucumber:cucumber-java:7.14.0'
+    implementation 'io.cucumber:cucumber-testng:7.14.0'
+
+    implementation 'com.aventstack:extentreports:5.0.9'
+
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+
+    implementation 'org.json:json:20230618'
+
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-core:4.5.1'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.5.1'
+
+    // WireMock
+    testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+
+    // For Mockito annotations (@Mock, @InjectMocks, etc.)
+    testImplementation 'org.mockito:mockito-inline:4.5.1'
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
+
+    finalizedBy jacocoTestReport // run jacoco after tests
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it,
+                            exclude: ['**/config/**', '**/steps/apiSteps/**']) // you can customize excludes
+                })
+        )
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication){
+            from components.java
+        }
+    }
+}

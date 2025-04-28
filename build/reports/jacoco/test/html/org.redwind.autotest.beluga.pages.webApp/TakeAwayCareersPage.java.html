@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TakeAwayCareersPage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.pages.webApp</a> &gt; <span class="el_source">TakeAwayCareersPage.java</span></div><h1>TakeAwayCareersPage.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.pages.webApp;
+
+import org.openqa.selenium.By;
+
+public class TakeAwayCareersPage {
+    private TakeAwayCareersPage(){}
+<span class="nc" id="L7">    public static final By ALLOW_COOKIES=By.xpath(&quot;//button[ppc-content[contains(text(),'Allow')]]&quot;);</span>
+<span class="nc" id="L8">    public static final By SEARCH_JOB_INPUT_FIELD= By.xpath(&quot;//input[@id='typehead']&quot;);</span>
+<span class="nc" id="L9">    public static final By SEARCH_BUTTON=By.xpath(&quot;//button[@type='submit']&quot;);</span>
+<span class="nc" id="L10">    public static final By SEARCH_RESULT_AREA=By.xpath(&quot;//div[contains(@class,'ph-search-results-area')]&quot;);</span>
+<span class="nc" id="L11">    public static final By SEARCH_KEYWORD_HEADING=By.xpath(&quot;//h2[@show.bind='searchKeyword']&quot;);</span>
+<span class="nc" id="L12">    public static final By LIST_OF_JOB_SEARCHED=By.xpath(&quot;//div[contains(@class,'phs-jobs-list')]/div[contains(@class,'content-block')]/ul/li&quot;);</span>
+<span class="nc" id="L13">    public static final By SEARCH_RESULT_PAGES=By.xpath(&quot;//div[contains(@class,'search-bottom-count')]/following-sibling::ul/li/a[contains(@aria-label,'Page')]&quot;);</span>
+<span class="nc" id="L14">    public static final By NEXT_PAGE_IN_SEARCH_RESULT=By.xpath(&quot;//li[a[contains(@aria-label,'Page') and @aria-current='true']]/following-sibling::li[1]/a[contains(@aria-label,'Page')]&quot;);</span>
+    public static final By getJobLocationFromSearchResult(int index) {
+<span class="nc" id="L16">        By replaceXpath = By.xpath(&quot;//li[&quot;+index+&quot;]//span[contains(@class,'job-location')]&quot;);</span>
+<span class="nc" id="L17">        return replaceXpath;</span>
+    }
+    public static final By getJobCategoryFromSearchResult(int index) {
+<span class="nc" id="L20">        By replaceXpath = By.xpath(&quot;//li[&quot;+index+&quot;]//span[@class='job-category au-target']&quot;);</span>
+<span class="nc" id="L21">        return replaceXpath;</span>
+    }
+
+    public static final By getJobTitleFromSearchedResult(int index) {
+<span class="nc" id="L25">        By replaceXpath = By.xpath(&quot;//li[&quot;+index+&quot;]//a/div[@class='job-title']/span&quot;);</span>
+<span class="nc" id="L26">        return replaceXpath;</span>
+    }
+    //public static final By FILTER_COUNTRY=By.xpath(&quot;//button[contains(text(),'Country')]&quot;);
+    //public static final By FILTER_CATEGORY=By.xpath(&quot;//button[contains(text(),'Category')]&quot;);
+
+    public static final By filterBy(String filterKey) {
+<span class="nc" id="L32">        By replaceXpath = By.xpath(&quot;//button[contains(text(),'&quot;+filterKey+&quot;')]&quot;);</span>
+<span class="nc" id="L33">        return replaceXpath;</span>
+    }
+    public static final By CHECKBOX_FOR_FILTER(String filterName) {
+<span class="nc" id="L36">        By replaceXpath = By.xpath(&quot;//span[span[contains(text(),'&quot;+filterName+&quot;')]]/preceding-sibling::input&quot;);</span>
+<span class="nc" id="L37">        return replaceXpath;</span>
+    }
+    public static final By FILTER_BY_VALUE(String name) {
+<span class="nc" id="L40">        By replaceXpath = By.xpath(&quot;//label[span[span[contains(text(),'&quot;+name+&quot;')]]]&quot;);</span>
+<span class="nc" id="L41">        return replaceXpath;</span>
+    }
+<span class="nc" id="L43">    public static final By REFINE_YOUR_SEARCH=By.xpath(&quot;//h2//*[contains(text(),'Refine your search')]&quot;);</span>
+    public static final By JOB_CATEGORY_DROPDOWN(String value) {
+<span class="nc" id="L45">        By replaceXpath = By.xpath(&quot;//a[span[contains(text(),'&quot;+value+&quot;')]]&quot;);</span>
+<span class="nc" id="L46">        return replaceXpath;</span>
+    }
+    public static final By JOB_CATEGORY_DROPDOWN_COUNT(String value) {
+<span class="nc" id="L49">        By replaceXpath = By.xpath(&quot;//a[span[contains(text(),'&quot;+value+&quot;')]]/span[contains(@class,'count')]&quot;);</span>
+<span class="nc" id="L50">        return replaceXpath;</span>
+    }
+<span class="nc" id="L52">    public static final By JOB_CATEGORY_DROPDOWN_LABEL=By.xpath(&quot;//h2//*[contains(text(),'Job Categories')]&quot;);</span>
+    public static final By JOB_COUNT_IN_FILTER(String value) {
+<span class="nc" id="L54">        By replaceXpath = By.xpath(&quot;//span[contains(text(),'&quot;+value+&quot;')]/following-sibling::span[contains(@class,'result-jobs-count')]&quot;);</span>
+<span class="nc" id="L55">        return replaceXpath;</span>
+    }
+<span class="nc" id="L57">    public static final By JOB_LIST_COUNT=By.xpath(&quot;//div[contains(@class,'jobs-list-count')]&quot;);</span>
+<span class="nc" id="L58">    public static final By JOB_CATEGORY_WIDGET_HEADING=By.xpath(&quot;//h2//*[contains(text(),'Find your fit')]&quot;);</span>
+    public static final By JOB_CATEGORY_WIDGET(String value) {
+<span class="nc" id="L60">        By replaceXpath = By.xpath(&quot;//div[div[div[ppc-container[span[ppc-content[div[font[span[text()='&quot;+value+&quot;']]]]]]]]]/preceding-sibling::a&quot;);</span>
+<span class="nc" id="L61">        return replaceXpath;</span>
+    }
+<span class="nc" id="L63">    public static final By CLEAR_ALL=By.xpath(&quot;//a[contains(@class,'clearall')]&quot;);</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

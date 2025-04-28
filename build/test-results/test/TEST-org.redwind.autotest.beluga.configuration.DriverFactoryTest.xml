@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.redwind.autotest.beluga.configuration.DriverFactoryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-04-28T02:41:04" hostname="LAPTOP-GLCBVI39" time="10.671">
+  <properties/>
+  <testcase name="testGetDesktopDriver_WithInvalidBrowser_ShouldReturnNull()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="2.722"/>
+  <testcase name="testInitializeBrowser_ShouldSetDriver()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="0.402"/>
+  <testcase name="testCleanUpCurrentDriver_ShouldRemoveThreadLocal()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="0.041"/>
+  <testcase name="testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="7.233"/>
+  <testcase name="testGetAppiumDriver_WithPlatformAndroid_ShouldReturnAndroidDriver()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="0.257"/>
+  <testcase name="testGetCurrentAppiumDriver_WhenNotInitialized_ShouldReturnNull()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="0.002"/>
+  <testcase name="testGetCurrentDriver_WhenNotInitialized_ShouldReturnNull()" classname="org.redwind.autotest.beluga.configuration.DriverFactoryTest" time="0.002"/>
+  <system-out><![CDATA[Driver is not initiated
+************** Launching Chrome browser ****************
+Appium Driver is not initialized
+Driver is not initiated
+]]></system-out>
+  <system-err><![CDATA[Apr 28, 2025 10:41:10 AM org.openqa.selenium.manager.SeleniumManager lambda$runCommand$1
+INFO: Driver path: C:\Users\harpakira\.cache\selenium\chromedriver\win64\135.0.7049.114\chromedriver.exe
+Apr 28, 2025 10:41:10 AM org.openqa.selenium.manager.SeleniumManager lambda$runCommand$1
+INFO: Browser path: C:\Program Files\Google\Chrome\Application\chrome.exe
+Apr 28, 2025 10:41:14 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 135
+Apr 28, 2025 10:41:14 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 135.0.7049.115. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.12.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+[AsyncHttpClient-1-4] WARN org.asynchttpclient.netty.handler.WebSocketHandler - onError
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:254)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Apr 28, 2025 10:41:15 AM org.openqa.selenium.remote.http.WebSocket$Listener onError
+WARNING: Connection reset
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:254)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+
+]]></system-err>
+</testsuite>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TakeAwayCareersSteps.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.steps.guiSteps</a> &gt; <span class="el_source">TakeAwayCareersSteps.java</span></div><h1>TakeAwayCareersSteps.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.steps.guiSteps;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.redwind.autotest.beluga.pages.webApp.TakeAwayCareersPage;
+import org.redwind.autotest.beluga.utils.PropertyReader;
+import org.redwind.autotest.beluga.utils.WrapperMethods;
+import org.testng.Assert;
+
+import java.time.Duration;
+import java.util.HashSet;
+
+<span class="nc" id="L20">public class TakeAwayCareersSteps extends WrapperMethods {</span>
+<span class="nc" id="L21">    private PropertyReader propertyReader = new PropertyReader();</span>
+    private String jobCount;
+    private String oldWindowID;
+    private String oldPageTitle;
+    private String jobCountForCountry;
+
+    /**
+     * This method opens the career page of Just Eat Take Away in browser
+     * and accept the cookies
+     */
+    @Given(&quot;Open career page of Takeaway&quot;)
+    public void openCareersPage() {
+<span class="nc" id="L33">        openApplication(propertyReader.getGuiProperty(&quot;Takeaway_Career&quot;));</span>
+<span class="nc" id="L34">        waitForElementToBeClickable(TakeAwayCareersPage.ALLOW_COOKIES, Duration.ofSeconds(120));</span>
+<span class="nc" id="L35">        clickOnElement(TakeAwayCareersPage.ALLOW_COOKIES);</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Method enter the custom job in job category input field and searches it
+     *
+     * @param jobTitle - Custom job title(passed from feature file)
+     */
+    @When(&quot;Job is searched globally for Job Title {string}&quot;)
+    public void searchForCustomJob(String jobTitle) {
+<span class="nc" id="L45">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_JOB_INPUT_FIELD, Duration.ofSeconds(120));</span>
+<span class="nc" id="L46">        enterText(TakeAwayCareersPage.SEARCH_JOB_INPUT_FIELD, jobTitle);</span>
+<span class="nc" id="L47">        clickOnElement(TakeAwayCareersPage.SEARCH_BUTTON);</span>
+<span class="nc" id="L48">    }</span>
+
+    /**
+     * Function used to validate heading is updated as per the job title
+     *
+     * @param jobTitle - Custom job title(passed from feature file)
+     */
+    @Then(&quot;Verify search result matches the Job title {string}&quot;)
+    public void verifySearchResultHeading(String jobTitle) {
+<span class="nc" id="L57">        String expectedSearchResultHeading = &quot;Showing Search results for &quot; + &quot;\&quot;&quot; + jobTitle + &quot;\&quot;&quot;;</span>
+<span class="nc" id="L58">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA,Duration.ofSeconds(60));</span>
+<span class="nc" id="L59">        scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);</span>
+<span class="nc" id="L60">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_KEYWORD_HEADING, Duration.ofSeconds(120));</span>
+<span class="nc" id="L61">        String actualHeading = getTextFromElement(TakeAwayCareersPage.SEARCH_KEYWORD_HEADING);</span>
+<span class="nc" id="L62">        Assert.assertEquals(actualHeading, expectedSearchResultHeading, &quot;Search heading matches the custom search keyword&quot;);</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * Function used to validate the job search result contains jobs posted globally
+     */
+    @And(&quot;Verify search result contain jobs posted in different locations&quot;)
+    public void verifyJobResultsDisplayedGlobally() {
+<span class="nc" id="L70">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA, Duration.ofSeconds(120));</span>
+<span class="nc" id="L71">        HashSet&lt;String&gt; setOfCountries = getSetOfCountriesInResult();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        Assert.assertTrue(setOfCountries.size() &gt; 1, &quot;Job from different countries are not shown in the result&quot;);</span>
+<span class="nc" id="L73">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; All searched jobs are posted in &quot; + setOfCountries + &quot;&lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * Function used to filter the job for specific country
+     *
+     * @param country - Country to filter for search (passed from feature file)
+     */
+    @And(&quot;Refine the search for country {string}&quot;)
+    public void filterJobForSpecificCountry(String country) {
+<span class="nc" id="L83">        scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);</span>
+<span class="nc" id="L84">        waitForElementToBeClickable(TakeAwayCareersPage.filterBy(&quot;Country&quot;), Duration.ofSeconds(120));</span>
+<span class="nc" id="L85">        clickOnElement(TakeAwayCareersPage.filterBy(&quot;Country&quot;));</span>
+<span class="nc" id="L86">        scrollToElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));</span>
+<span class="nc" id="L87">        waitForElementToBeClickable(TakeAwayCareersPage.FILTER_BY_VALUE(country), Duration.ofSeconds(120));</span>
+<span class="nc" id="L88">        clickOnElement(TakeAwayCareersPage.FILTER_BY_VALUE(country));</span>
+<span class="nc" id="L89">        boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(country));</span>
+<span class="nc" id="L90">        Assert.assertTrue(flag, &quot;Country is not selected&quot;);</span>
+<span class="nc" id="L91">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; &quot; + country + &quot; checkbox status is &quot; + flag + &quot;&lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L92">    }</span>
+
+    /**
+     * Function used to validate the search result has a job posted in specific country
+     *
+     * @param country - Country to filter for search (passed from feature file)
+     */
+    @And(&quot;Verify search result contains only jobs posted in {string}&quot;)
+    public void verifyJobResultsDisplayedForSpecifiedCountry(String country) {
+<span class="nc" id="L101">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA, Duration.ofSeconds(120));</span>
+<span class="nc" id="L102">        scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);</span>
+<span class="nc" id="L103">        HashSet&lt;String&gt; setOfCountries = getSetOfCountriesInResult();</span>
+<span class="nc bnc" id="L104" title="All 4 branches missed.">        Assert.assertTrue(setOfCountries.size() == 1 &amp;&amp; setOfCountries.toString().contains(country), &quot;Job from different countries are shown in the result&quot;);</span>
+<span class="nc" id="L105">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; All searched jobs are posted in &quot; + setOfCountries + &quot;&lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L106">    }</span>
+
+    /**
+     * Function used to select the specific job category
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     */
+    @When(&quot;{string} is selected from Job Category dropdown&quot;)
+    public void selectJobCategoryFromDropdown(String jobCategory) {
+<span class="nc" id="L115">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_JOB_INPUT_FIELD, Duration.ofSeconds(120));</span>
+<span class="nc" id="L116">        clickOnElement(TakeAwayCareersPage.SEARCH_JOB_INPUT_FIELD);</span>
+<span class="nc" id="L117">        waitForElementToBeClickable(TakeAwayCareersPage.JOB_CATEGORY_DROPDOWN(jobCategory), Duration.ofSeconds(120));</span>
+<span class="nc" id="L118">        scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_DROPDOWN(jobCategory));</span>
+<span class="nc" id="L119">        jobCount = getTextFromElement(TakeAwayCareersPage.JOB_CATEGORY_DROPDOWN_COUNT(jobCategory));</span>
+<span class="nc" id="L120">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; Job count for the category &quot; + jobCategory + &quot; is &quot; + jobCount + &quot;&lt;------&quot;, ExtentColor.BLUE));</span>
+<span class="nc" id="L121">        clickOnElement(TakeAwayCareersPage.JOB_CATEGORY_DROPDOWN(jobCategory));</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * Method used to validate the selected job is selected in refine search section
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     */
+    @And(&quot;Verify {string} is selected automatically in Refine your search section&quot;)
+    public void validateSelectionOfJobCategoryInFilterSection(String jobCategory) {
+<span class="nc" id="L131">        waitForElementToBeClickable(TakeAwayCareersPage.REFINE_YOUR_SEARCH, Duration.ofSeconds(120));</span>
+<span class="nc" id="L132">        scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (getValueFromElement(TakeAwayCareersPage.filterBy(&quot;Category&quot;), &quot;aria-expanded&quot;).contains(&quot;false&quot;)) {</span>
+<span class="nc" id="L134">            clickOnElement(TakeAwayCareersPage.filterBy(&quot;Category&quot;));</span>
+        }
+<span class="nc" id="L136">        scrollToElement(TakeAwayCareersPage.FILTER_BY_VALUE(jobCategory));</span>
+<span class="nc" id="L137">        boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(jobCategory));</span>
+<span class="nc" id="L138">        Assert.assertTrue(flag, &quot;Job category is not selected automatically in search section&quot;);</span>
+<span class="nc" id="L139">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; &quot; + jobCategory + &quot; checkbox status is &quot; + flag + &quot;&lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L140">    }</span>
+
+    /**
+     * Function used verify number of search result matches the job count
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     */
+    @And(&quot;Verify number of search result matches the number of Job count section for {string}&quot;)
+    public void validateJobCountMatchesAsPerSelection(String jobCategory) {
+<span class="nc" id="L149">        String actualJobCountInFilter = getTextFromElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(jobCategory));</span>
+<span class="nc" id="L150">        Assert.assertTrue(actualJobCountInFilter.contains(jobCount), &quot;Job count does not matched in filter&quot;);</span>
+<span class="nc" id="L151">        String actualJobCountInList = getTextFromElement(TakeAwayCareersPage.JOB_LIST_COUNT);</span>
+<span class="nc" id="L152">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; Job count displayed for the category &quot; + jobCategory + &quot; in the list is &quot; + actualJobCountInList + &quot;&lt;------&quot;, ExtentColor.BLUE));</span>
+<span class="nc" id="L153">        Assert.assertTrue(actualJobCountInList.contains(jobCount), &quot;Job count does not matched in List&quot;);</span>
+<span class="nc" id="L154">    }</span>
+
+    /**
+     * Method used to validate job count matches in the list and the filter
+     *
+     * @param country - country name for filter (passed from feature file)
+     */
+    @And(&quot;Verify number of search result matches the job count for {string}&quot;)
+    public void validateJobCountMatchesForCountry(String country) {
+<span class="nc" id="L163">        scrollToElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));</span>
+<span class="nc" id="L164">        jobCountForCountry = getTextFromElement(TakeAwayCareersPage.JOB_COUNT_IN_FILTER(country));</span>
+<span class="nc" id="L165">        jobCountForCountry = jobCountForCountry.replace(&quot;(&quot;, &quot;&quot;);</span>
+<span class="nc" id="L166">        jobCountForCountry = jobCountForCountry.replace(&quot;)&quot;, &quot;&quot;);</span>
+<span class="nc" id="L167">        jobCountForCountry = jobCountForCountry.replace(&quot;\n&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L168">        scrollToElement(TakeAwayCareersPage.JOB_LIST_COUNT);</span>
+<span class="nc" id="L169">        String jobCountInList = getTextFromElement(TakeAwayCareersPage.JOB_LIST_COUNT);</span>
+<span class="nc" id="L170">        Assert.assertTrue(jobCountForCountry.replace(&quot;Jobs&quot;, &quot;&quot;).contains(jobCountInList.replace(&quot;Jobs&quot;, &quot;&quot;)), &quot;Search result does not matches the country count&quot;);</span>
+<span class="nc" id="L171">    }</span>
+
+    /**
+     * Function used to validate the search result contains job posted in specific country
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     * @param country     - country name for filter (passed from feature file)
+     */
+    @And(&quot;Verify search result contain only for job category as {string} in {string} and matches the job count&quot;)
+    public void validateSearchResultHasCorrectJobCategory(String jobCategory, String country) {
+<span class="nc" id="L181">        waitForPresenceOfElementLocated(TakeAwayCareersPage.SEARCH_RESULT_AREA, Duration.ofSeconds(120));</span>
+<span class="nc" id="L182">        scrollToElement(TakeAwayCareersPage.SEARCH_RESULT_AREA);</span>
+<span class="nc" id="L183">        HashSet&lt;String&gt; setOfJobCategories = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L184">        HashSet&lt;String&gt; setOfLocation = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L185">        int jobCountInResult = 0;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        for (int i = 1; i &lt;= getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size(); i++) {</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">            for (int j = 1; j &lt;= getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size(); j++) {</span>
+                //Below line gets all job title posted
+<span class="nc" id="L189">                setOfJobCategories.add(getJobCategoryFromSearchedJob(TakeAwayCareersPage.getJobCategoryFromSearchResult(j)));</span>
+<span class="nc" id="L190">                setOfLocation.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));</span>
+<span class="nc" id="L191">                jobCountInResult += 1;</span>
+            }
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()) {</span>
+<span class="nc" id="L194">                logger.info(&quot;We are in last page of job search results&quot;);</span>
+            } else {
+<span class="nc" id="L196">                clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);</span>
+<span class="nc" id="L197">                implicitWait();</span>
+            }
+        }
+<span class="nc bnc" id="L200" title="All 4 branches missed.">        Assert.assertTrue(setOfJobCategories.size() == 1 &amp;&amp; setOfJobCategories.toString().contains(jobCategory), &quot;Different job Categories are shown in the result&quot;);</span>
+<span class="nc bnc" id="L201" title="All 4 branches missed.">        Assert.assertTrue(setOfLocation.size() == 1 &amp;&amp; setOfLocation.toString().contains(country), &quot;Job from different countries are shown in the result&quot;);</span>
+<span class="nc" id="L202">        Assert.assertTrue(jobCountForCountry.contains(Integer.toString(jobCountInResult)), &quot;Resulted job Count for the country do not match&quot;);</span>
+<span class="nc" id="L203">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; All jobs are posted for job category &quot; + setOfJobCategories + &quot; in &quot; + setOfLocation + &quot; &lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L204">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; Job count for &quot; + setOfLocation + &quot; is &quot; + jobCountForCountry + &quot; and it is matched the search result count &quot; + jobCountInResult + &quot; &lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * Function used to select job category from widget
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     */
+    @When(&quot;{string} is selected from Job Category widget&quot;)
+    public void clickJobCategoryOnWidget(String jobCategory) {
+<span class="nc" id="L214">        waitForPresenceOfElementLocated(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING, Duration.ofSeconds(120));</span>
+<span class="nc" id="L215">        scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET_HEADING);</span>
+<span class="nc" id="L216">        waitForElementToBeClickable(TakeAwayCareersPage.JOB_CATEGORY_WIDGET(jobCategory), Duration.ofSeconds(120));</span>
+<span class="nc" id="L217">        scrollToElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET(jobCategory));</span>
+<span class="nc" id="L218">        oldPageTitle = getTitle();</span>
+<span class="nc" id="L219">        oldWindowID = getCurrentWindowID();</span>
+<span class="nc" id="L220">        clickOnElement(TakeAwayCareersPage.JOB_CATEGORY_WIDGET(jobCategory));</span>
+<span class="nc" id="L221">    }</span>
+
+    /**
+     * method validates search result opens in new tab
+     */
+    @Then(&quot;Verify search result is opened in new tab&quot;)
+    public void validateResultIsOpenedInNewWindow() {
+<span class="nc" id="L228">        switchToLastOpenedWindow();</span>
+<span class="nc" id="L229">        String newPageTitle = getTitle();</span>
+<span class="nc" id="L230">        String newWindowID = getCurrentWindowID();</span>
+<span class="nc" id="L231">        Assert.assertNotEquals(oldPageTitle, newPageTitle, &quot;Old Page title is same as of new&quot;);</span>
+<span class="nc" id="L232">        Assert.assertNotEquals(oldWindowID, newWindowID, &quot;Search result is not opened in new tab&quot;);</span>
+<span class="nc" id="L233">    }</span>
+
+    /**
+     * Method used to validate clear all button clears the filter
+     *
+     * @param jobCategory - Job Category (passed from feature file)
+     */
+    @And(&quot;Validate {string} is not selected after clicking clear filter&quot;)
+    public void validateClearAllFilter(String jobCategory) {
+<span class="nc" id="L242">        scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);</span>
+<span class="nc" id="L243">        waitForElementToBeClickable(TakeAwayCareersPage.CLEAR_ALL, Duration.ofSeconds(120));</span>
+<span class="nc" id="L244">        clickOnElement(TakeAwayCareersPage.CLEAR_ALL);</span>
+<span class="nc" id="L245">        scrollToElement(TakeAwayCareersPage.REFINE_YOUR_SEARCH);</span>
+<span class="nc" id="L246">        waitForElementToBeClickable(TakeAwayCareersPage.filterBy(&quot;Category&quot;), Duration.ofSeconds(120));</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        if (getValueFromElement(TakeAwayCareersPage.filterBy(&quot;Category&quot;), &quot;aria-expanded&quot;).contains(&quot;false&quot;)) {</span>
+<span class="nc" id="L248">            clickOnElement(TakeAwayCareersPage.filterBy(&quot;Category&quot;));</span>
+        }
+<span class="nc" id="L250">        boolean flag = isChecked(TakeAwayCareersPage.CHECKBOX_FOR_FILTER(jobCategory));</span>
+<span class="nc" id="L251">        Assert.assertFalse(flag, &quot;Job category is selected after clicking clear all filter&quot;);</span>
+<span class="nc" id="L252">        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, MarkupHelper.createLabel(&quot;------&gt; &quot; + jobCategory + &quot; checkbox status is &quot; + flag + &quot;&lt;------&quot;, ExtentColor.ORANGE));</span>
+<span class="nc" id="L253">    }</span>
+
+    /**
+     * Method help to get the country from search result
+     *
+     * @param locator - web element
+     */
+    public String getCountryNameFromSearchedJob(By locator) {
+<span class="nc" id="L261">        String location = getTextFromElement(locator);</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">        if (location.contains(&quot;Location&quot;)) {</span>
+<span class="nc" id="L263">            location = location.replace(&quot;Location&quot;, &quot;&quot;);</span>
+        }
+<span class="nc" id="L265">        String[] country = location.split(&quot;,&quot;);</span>
+<span class="nc" id="L266">        int index = country.length - 1;</span>
+<span class="nc" id="L267">        location = country[index];</span>
+<span class="nc" id="L268">        return location.trim();</span>
+    }
+
+    /**
+     * Method help to get the category from search result
+     *
+     * @param locator - web element
+     */
+    public String getJobCategoryFromSearchedJob(By locator) {
+<span class="nc" id="L277">        String category = getTextFromElement(locator);</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">        if (category.contains(&quot;Category&quot;)) {</span>
+<span class="nc" id="L279">            category = category.replace(&quot;Category&quot;, &quot;&quot;);</span>
+        }
+<span class="nc" id="L281">        return category.trim();</span>
+    }
+
+    /**
+     * Method help to get the set of countries found in search result
+     */
+    public HashSet&lt;String&gt; getSetOfCountriesInResult() {
+<span class="nc" id="L288">        HashSet&lt;String&gt; setOfCountries = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        for (int i = 1; i &lt;= getListOfElements(TakeAwayCareersPage.SEARCH_RESULT_PAGES).size(); i++) {</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">            for (int j = 1; j &lt;= getListOfElements(TakeAwayCareersPage.LIST_OF_JOB_SEARCHED).size(); j++) {</span>
+                //Below line gets all job title posted
+                try {
+<span class="nc" id="L293">                    setOfCountries.add(getCountryNameFromSearchedJob(TakeAwayCareersPage.getJobLocationFromSearchResult(j)));</span>
+<span class="nc" id="L294">                } catch (NullPointerException e) {</span>
+<span class="nc" id="L295">                    j++;</span>
+<span class="nc" id="L296">                }</span>
+            }
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            if (getListOfElements(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT).isEmpty()) {</span>
+<span class="nc" id="L299">                logger.info(&quot;We are in last page of job search results&quot;);</span>
+            } else {
+<span class="nc" id="L301">                clickOnElement(TakeAwayCareersPage.NEXT_PAGE_IN_SEARCH_RESULT);</span>
+            }
+        }
+<span class="nc" id="L304">        return setOfCountries;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

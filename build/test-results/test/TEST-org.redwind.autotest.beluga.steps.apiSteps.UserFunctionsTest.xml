@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.redwind.autotest.beluga.steps.apiSteps.UserFunctionsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-04-28T02:41:18" hostname="LAPTOP-GLCBVI39" time="0.013">
+  <properties/>
+  <testcase name="testSetAndGetEndpoint()" classname="org.redwind.autotest.beluga.steps.apiSteps.UserFunctionsTest" time="0.007"/>
+  <testcase name="testSetAndGetCreatedUser()" classname="org.redwind.autotest.beluga.steps.apiSteps.UserFunctionsTest" time="0.001"/>
+  <testcase name="testUpdateCreateUserJson()" classname="org.redwind.autotest.beluga.steps.apiSteps.UserFunctionsTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

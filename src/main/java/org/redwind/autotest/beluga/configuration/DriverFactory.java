@@ -35,6 +35,9 @@ public class DriverFactory {
         environment = propertyReader.getEnvironment();
     }
 
+    public DriverFactory(Environment mockEnv) {
+        this.environment = mockEnv;
+    }
 
     public WebDriver getCurrentDriver() {
         driver = currentDriver.get();
@@ -66,7 +69,7 @@ public class DriverFactory {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--start-maximized");
             chromeOptions.addArguments("--remote-allow-origins=*");
-            chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--user-data-dir=/tmp/chrome-profile");
+            chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage");
             driver = new ChromeDriver(chromeOptions);
             logger.info("************** Launching Chrome browser ****************");
         } else if(browser.equalsIgnoreCase("Firefox")) {
