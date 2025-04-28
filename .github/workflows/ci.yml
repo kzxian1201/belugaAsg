@@ -50,7 +50,6 @@ jobs:
 
     - name: Install Chrome and dependencies
       run: |
-      
         sudo apt-get install -y \
           wget \
           libx11-xcb1 \
@@ -63,11 +62,13 @@ jobs:
           libcups2 \
           libxss1 \
           libxrandr2 \
-          libasound2 \
           libatk1.0-0 \
           libgtk-3-0 \
           libgbm-dev
         
+        # Install libasound2 from a fallback if it's not available
+        sudo apt-get install -y libasound2 || echo "libasound2 not available, skipping..."
+
         wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
         echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
         sudo apt-get update
