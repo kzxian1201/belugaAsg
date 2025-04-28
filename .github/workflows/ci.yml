@@ -1,137 +1,68 @@
-name: Java CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
-    branches: [ main, enhancement/ci, feature/test_automation ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 env:
-  POSTGRES_DB: testdb
-  POSTGRES_USER: testuser
-  POSTGRES_PASSWORD: test
-  SPRING_PROFILES_ACTIVE: ci
-  DISPLAY: :99
+  GRADLE_VERSION: 8.7
 
 jobs:
-  build-test-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: 'gradle'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
 
-    - name: Prepare execution environment
-      run: |
-        chmod +x gradlew
-        sudo mkdir -p /usr/share/man/man1
-        sudo apt-get update -y
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
 
-    - name: Install Chrome and dependencies
-      run: |
-        # Install required libs for Chrome
-        sudo apt-get update
-        sudo apt-get install -y \
-          wget \
-          libx11-xcb1 \
-          libxcomposite1 \
-          libxcursor1 \
-          libxdamage1 \
-          libxi6 \
-          libxtst6 \
-          libnss3 \
-          libcups2 \
-          libxss1 \
-          libxrandr2 \
-          libatk1.0-0 \
-          libgtk-3-0 \
-          libgbm-dev \
-          libasound2t64
+      - name: Build and test with Gradle
+        run: ./gradlew build jacocoTestReport --info
 
-        # Install Chrome (stable)
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg
-        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+      - name: Upload test reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports
+          path: |
+            build/reports/tests
+            build/reports/jacoco
 
-        # Install matching Chromedriver
-        CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
-        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*}")
-        wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-        sudo unzip chromedriver_linux64.zip -d /usr/local/bin
-        sudo chmod +x /usr/local/bin/chromedriver
-        rm chromedriver_linux64.zip || true
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Verify installations
-      run: |
-        google-chrome-stable --version
-        chromedriver --version
-        javac -version
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    - name: Build application
-      run: ./gradlew clean build
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Run unit tests
-      run: ./gradlew test
-
-    - name: Setup Docker environment
-      run: |
-        sudo apt-get install -y docker-compose-plugin
-        sudo usermod -aG docker $USER
-        newgrp docker
-
-    - name: Build Docker image
-      run: docker build -t beluga-asg:latest .
-
-    - name: Start services
-      run: docker compose -f docker-compose.yml up -d
-
-    - name: Wait for services
-      run: |
-        echo "Waiting for all services..."
-        docker compose -f docker-compose.yml ps
-        timeout 60s bash -c 'while ! nc -z localhost 5432; do sleep 2; done'
-        docker compose -f docker-compose.yml logs app
-
-    - name: Run integration tests
-      run: |
-        Xvfb :99 -screen 0 1024x768x16 &
-        ./gradlew integrationTest -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}
-
-    - name: Push to Docker Hub
-      if: github.ref == 'refs/heads/main'
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker tag beluga-asg:latest $DOCKER_USERNAME/beluga-asg:latest
-        docker push $DOCKER_USERNAME/beluga-asg:latest
-
-    - name: Cleanup
-      if: always()
-      run: |
-        docker compose -f docker-compose.yml down -v
-        docker rmi beluga-asg:latest || true
-        docker system prune -af
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/beluga:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/beluga:${{ github.sha }}
