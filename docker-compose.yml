@@ -1,0 +1,15 @@
+version: '3'
+services:
+  beluga-test:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+
+  selenium-hub:
+    image: selenium/hub:4.0.0
+    ports:
+      - "4444:4444"
