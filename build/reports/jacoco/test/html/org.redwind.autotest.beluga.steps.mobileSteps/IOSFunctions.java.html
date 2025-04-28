@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IOSFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.steps.mobileSteps</a> &gt; <span class="el_source">IOSFunctions.java</span></div><h1>IOSFunctions.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.steps.mobileSteps;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import org.redwind.autotest.beluga.pages.mobileApp.iOS.DeveloperPage;
+import org.redwind.autotest.beluga.pages.mobileApp.iOS.SettingsPage;
+import org.redwind.autotest.beluga.utils.WrapperMethods;
+
+import java.io.IOException;
+import java.time.Duration;
+
+public class IOSFunctions extends WrapperMethods {
+<span class="nc" id="L13">    public IOSFunctions() throws IOException {</span>
+<span class="nc" id="L14">    }</span>
+    @Given(&quot;Open developer console&quot;)
+    public void openDeveloperConsole() {
+<span class="nc" id="L17">        waitForPresenceOfElementLocated(SettingsPage.SETTINGS_PAGELAYOUT, Duration.ofSeconds(120));</span>
+<span class="nc" id="L18">        scrollDownInMobile(SettingsPage.SETTINGS_PAGELAYOUT);</span>
+<span class="nc" id="L19">        clickOnElement(SettingsPage.DEVELOPER);</span>
+<span class="nc" id="L20">    }</span>
+    @And(&quot;Turn on the dark mode&quot;)
+    public void darkMode() {
+<span class="nc" id="L23">        String value = getValueFromElement(DeveloperPage.DARK_MODE_TOGGLE,&quot;value&quot;);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if(value.equalsIgnoreCase(&quot;1&quot;)) {</span>
+<span class="nc" id="L25">            logger.info(&quot;Dark mode is already turned on&quot;);</span>
+        } else {
+<span class="nc" id="L27">            clickOnElement(DeveloperPage.DARK_MODE_TOGGLE);</span>
+        }
+<span class="nc" id="L29">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -55,22 +55,33 @@ dependencies {
 }
 
 test {
-    useTestNG() // ✅ use TestNG instead of JUnit
+    useJUnitPlatform()
 
     testLogging {
         events "passed", "skipped", "failed"
     }
 
-    finalizedBy jacocoTestReport // ✅ generate coverage report after tests
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
+
+    finalizedBy jacocoTestReport // run jacoco after tests
 }
 
 jacocoTestReport {
-    dependsOn test // tests must run first
-
+    dependsOn test
     reports {
-        xml.required.set(true)
-        csv.required.set(false)
-        html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
+        xml.required = true
+        html.required = true
+    }
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it,
+                            exclude: ['**/config/**', '**/steps/apiSteps/**']) // you can customize excludes
+                })
+        )
     }
 }
 
