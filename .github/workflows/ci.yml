@@ -1,110 +1,68 @@
-name: CI Pipeline
+name: Java CI Pipeline
 
 on:
   push:
-    branches:
-      - main
-      - enhancement/ci
-      - feature/test_automation
+    branches: [ main, enhancement/ci, feature/test_automation ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    # Step 1: Check out the repository
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Step 2: Set up JDK (assuming you need Java for Gradle and Maven)
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'adoptopenjdk'
+        distribution: 'temurin'
 
-    # Step 3: Set up Docker (if needed for Docker Compose or Dockerfile)
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    - name: Grant gradlew permissions
+      run: chmod +x gradlew
 
-    # Step 4: Build Docker image (if applicable)
-    - name: Build Docker image using Dockerfile
-      run: |
-        docker build -t my-image-name .
-
-    # Step 5: Run Gradle build
-    - name: Build with Gradle
-      run: |
-        chmod +x gradlew
-        ./gradlew build
-
-    # Step 6: Run Docker Compose (if applicable)
-    - name: Run Docker Compose
-      run: |
-        docker-compose -f docker-compose.yml up -d
-
-    # Step 7: Run tests with Gradle
-    - name: Run tests with Gradle
-      run: |
-        chmod +x gradlew
-        ./gradlew test
-
-    # Step 8: Run Maven (if needed for Maven-based tasks)
-    - name: Run Maven build
-      run: |
-        mvn clean install
-
-    # Step 9: Optional: Clean up Docker containers after build
-    - name: Clean up Docker containers
-      run: |
-        docker-compose down
-
-    # Step 10: Upload artifacts (if needed)
-    - name: Upload test results
-      uses: actions/upload-artifact@v2
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v2
       with:
-        name: test-results
-        path: build/test-results
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Build with Gradle
+      run: ./gradlew clean build
 
-      - name: Set up Node.js for linting (if applicable)
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+    - name: Run Unit Tests
+      run: ./gradlew test
 
-      - name: Install dependencies
-        run: npm install
+    - name: Build Docker image
+      run: docker build -t beluga-asg .
 
-      - name: Run linting
-        run: npm run lint
+    - name: Start Docker Compose
+      run: docker-compose -f docker-compose.yml up -d
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Run Integration Tests
+      run: |
+        echo "Waiting for services to be ready..."
+        sleep 30
+        ./gradlew integrationTest
 
-      # Step 1: Build Docker image for deployment
-      - name: Build Docker image
-        run: |
-          docker build -t my-app-name .
-
-      # Step 2: Push Docker image to Docker Hub (if applicable)
-      - name: Push Docker image
-        run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push my-app-name
-
-      # Optional: Deploy to cloud provider (AWS, Azure, etc.)
-      - name: Deploy to cloud
-        run: |
-          # Example for AWS, use the appropriate commands for your cloud provider
-          aws ecs update-service --cluster my-cluster --service my-service --force-new-deployment
+    - name: Stop Docker Compose
+      if: always()
+      run: docker-compose -f docker-compose.yml down
