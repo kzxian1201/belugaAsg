@@ -1,4 +1,4 @@
-name: Java CI Pipeline
+name: Java CI/CD Pipeline
 
 on:
   push:
@@ -6,16 +6,23 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  POSTGRES_DB: testdb
+  POSTGRES_USER: testuser
+  POSTGRES_PASSWORD: test
+  SPRING_PROFILES_ACTIVE: ci
+  DISPLAY: :99
+
 jobs:
-  build-and-test:
+  build-test-deploy:
     runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: test
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
@@ -35,90 +42,85 @@ jobs:
         distribution: 'temurin'
         cache: 'gradle'
 
-    - name: Grant gradlew permissions
-      run: chmod +x gradlew
-
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Install dependencies for Chrome and headless browser
+    - name: Prepare execution environment
       run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          google-chrome-stable \
-          chromium-chromedriver \
-          libx11-xcb1 \
-          libfontconfig1 \
-          libxcomposite1 \
-          libxrandr2 \
-          libgtk-3-0 \
-          libgbm-dev \
-          wget
+        chmod +x gradlew
+        sudo mkdir -p /usr/share/man/man1
+        sudo apt-get update -y
 
-    - name: Verify Chrome and ChromeDriver installation
+    - name: Install Chrome and dependencies
+      run: |
+        sudo apt-get install -y \
+          wget \
+          libx11-xcb1 \
+          libxcomposite1 \
+          libxcursor1 \
+          libxdamage1 \
+          libxi6 \
+          libxtst6 \
+          libnss3 \
+          libcups2 \
+          libxss1 \
+          libxrandr2 \
+          libasound2 \
+          libatk1.0-0 \
+          libgtk-3-0 \
+          libgbm-dev
+        
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable chromium-chromedriver
+
+    - name: Verify installations
       run: |
         google-chrome-stable --version
         chromedriver --version
+        javac -version
 
-    - name: Build with Gradle
+    - name: Build application
       run: ./gradlew clean build
 
-    - name: Run Unit Tests
+    - name: Run unit tests
       run: ./gradlew test
 
-    - name: Install Docker Compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose-plugin
+    - name: Setup Docker environment
+      run: |
+        sudo apt-get install -y docker-compose-plugin
+        sudo usermod -aG docker $USER
+        newgrp docker
 
     - name: Build Docker image
-      run: docker build -t beluga-asg .
+      run: docker build -t beluga-asg:latest .
 
-    - name: Start Docker Compose
+    - name: Start services
       run: docker compose -f docker-compose.yml up -d
 
-    - name: Wait for PostgreSQL to be ready
+    - name: Wait for services
       run: |
-        echo "Waiting for PostgreSQL to be ready..."
-        until nc -z -v -w30 localhost 5432; do
-          echo "Waiting for PostgreSQL..."
-          sleep 5
-        done
-        echo "PostgreSQL is ready."
+        echo "Waiting for all services..."
+        docker compose -f docker-compose.yml ps
+        timeout 60s bash -c 'while ! nc -z localhost 5432; do sleep 2; done'
+        docker compose -f docker-compose.yml logs app
 
-    - name: Run Integration Tests
-      run: ./gradlew integrationTest
+    - name: Run integration tests
+      run: |
+        Xvfb :99 -screen 0 1024x768x16 &
+        ./gradlew integrationTest -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}
 
-    - name: Stop Docker Compose
+    - name: Push to Docker Hub
+      if: github.ref == 'refs/heads/main'
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker tag beluga-asg:latest $DOCKER_USERNAME/beluga-asg:latest
+        docker push $DOCKER_USERNAME/beluga-asg:latest
+
+    - name: Cleanup
       if: always()
-      run: docker compose -f docker-compose.yml down
-
-    - name: Clean up Docker images and containers
       run: |
+        docker compose -f docker-compose.yml down -v
+        docker rmi beluga-asg:latest || true
         docker system prune -af
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-24.04
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: Build Docker image
-      run: docker build -t beluga-asg .
-
-    - name: Deploy to Production (customize as needed)
-      run: |
-        # Your deployment commands here (e.g., push to DockerHub or deploy to server)
-        echo "Deploying application..."
