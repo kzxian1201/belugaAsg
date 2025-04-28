@@ -79,7 +79,7 @@ jacocoTestReport {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
                     fileTree(dir: it,
-                            exclude: ['**/config/**', '**/steps/apiSteps/**']) // you can customize excludes
+                            exclude: []) 
                 })
         )
     }
