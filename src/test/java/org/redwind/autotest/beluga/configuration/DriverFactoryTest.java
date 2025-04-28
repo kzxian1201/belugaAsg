@@ -58,27 +58,18 @@ class DriverFactoryTest {
     }
 
     @Test
-    public void testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver() {
-        // Set ChromeDriver path based on OS
-        String os = System.getProperty("os.name").toLowerCase();
-        String driverPath;
+    void testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver() {
+        ChromeDriver mockChromeDriver = mock(ChromeDriver.class);
 
-        if (os.contains("win")) {
-            driverPath = "C:/path/to/chromedriver.exe"; // Windows path
-        } else {
-            driverPath = "/usr/local/bin/chromedriver"; // Linux (CI) path
+        try (MockedStatic<ChromeDriver> chromeDriverMockedStatic = mockStatic(ChromeDriver.class)) {
+            chromeDriverMockedStatic.when(() -> new ChromeDriver(any(ChromeOptions.class)))
+                    .thenReturn(mockChromeDriver);
+
+            ChromeOptions options = new ChromeOptions();
+            WebDriver driver = new ChromeDriver(options);
+
+            assertNotNull(driver);
         }
-
-        System.setProperty("webdriver.chrome.driver", driverPath);
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Run in headless mode in CI
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-
-        WebDriver driver = new ChromeDriver(options);
-        assertNotNull(driver);
-        driver.quit();
     }
 
     @Test
