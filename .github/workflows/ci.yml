@@ -48,7 +48,7 @@ jobs:
         sudo mkdir -p /usr/share/man/man1
         sudo apt-get update -y
 
-    - name: Install Chrome and dependencies
+    - name: Install Chrome and dependencies (Skipping libasound2 if not found)
       run: |
         sudo apt-get install -y \
           wget \
@@ -65,9 +65,9 @@ jobs:
           libatk1.0-0 \
           libgtk-3-0 \
           libgbm-dev
-        
-        # Install libasound2 from a fallback if it's not available
-        sudo apt-get install -y libasound2 || echo "libasound2 not available, skipping..."
+
+        # Skipping libasound2 installation if not found
+        sudo apt-get install -y libasound2 || echo "libasound2 not found, skipping..."
 
         wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
         echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
