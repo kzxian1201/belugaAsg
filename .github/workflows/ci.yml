@@ -48,31 +48,40 @@ jobs:
         sudo mkdir -p /usr/share/man/man1
         sudo apt-get update -y
 
-    - name: Install Chrome and dependencies (Skipping libasound2 if not found)
+    - name: Install Chrome and dependencies
       run: |
-        sudo apt-get install -y \
-          wget \
-          libx11-xcb1 \
-          libxcomposite1 \
-          libxcursor1 \
-          libxdamage1 \
-          libxi6 \
-          libxtst6 \
-          libnss3 \
-          libcups2 \
-          libxss1 \
-          libxrandr2 \
-          libatk1.0-0 \
-          libgtk-3-0 \
-          libgbm-dev
-
-        # Skipping libasound2 installation if not found
-        sudo apt-get install -y libasound2 || echo "libasound2 not found, skipping..."
-
-        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+        # Install required libs for Chrome
         sudo apt-get update
-        sudo apt-get install -y google-chrome-stable chromium-chromedriver
+        sudo apt-get install -y \
+        wget \
+        libx11-xcb1 \
+        libxcomposite1 \
+        libxcursor1 \
+        libxdamage1 \
+        libxi6 \
+        libxtst6 \
+        libnss3 \
+        libcups2 \
+        libxss1 \
+        libxrandr2 \
+        libasound2 \
+        libatk1.0-0 \
+        libgtk-3-0 \
+        libgbm-dev
+
+        # Install Chrome (stable)
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+        # Install matching Chromedriver
+        CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
+        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*}")
+        wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+        sudo unzip chromedriver_linux64.zip -d /usr/local/bin
+        sudo chmod +x /usr/local/bin/chromedriver
+        rm chromedriver_linux64.zip || true
 
     - name: Verify installations
       run: |

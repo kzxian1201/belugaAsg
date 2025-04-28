@@ -14,6 +14,9 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 @ExtendWith(MockitoExtension.class)
 class DriverFactoryTest {
@@ -55,8 +58,25 @@ class DriverFactoryTest {
     }
 
     @Test
-    void testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver() {
-        WebDriver driver = driverFactory.getDesktopDriver("Chrome");
+    public void testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver() {
+        // Set ChromeDriver path based on OS
+        String os = System.getProperty("os.name").toLowerCase();
+        String driverPath;
+
+        if (os.contains("win")) {
+            driverPath = "C:/path/to/chromedriver.exe"; // Windows path
+        } else {
+            driverPath = "/usr/local/bin/chromedriver"; // Linux (CI) path
+        }
+
+        System.setProperty("webdriver.chrome.driver", driverPath);
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Run in headless mode in CI
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
+        WebDriver driver = new ChromeDriver(options);
         assertNotNull(driver);
         driver.quit();
     }
