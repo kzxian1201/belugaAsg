@@ -62,7 +62,7 @@ class DriverFactoryTest {
         ChromeDriver mockChromeDriver = mock(ChromeDriver.class);
 
         try (MockedStatic<ChromeDriver> chromeDriverMockedStatic = mockStatic(ChromeDriver.class)) {
-            chromeDriverMockedStatic.when(() -> new ChromeDriver(any(ChromeOptions.class)))
+            chromeDriverMockedStatic.when(() -> new ChromeDriver(new ChromeOptions()))
                     .thenReturn(mockChromeDriver);
 
             ChromeOptions options = new ChromeOptions();
@@ -71,6 +71,7 @@ class DriverFactoryTest {
             assertNotNull(driver);
         }
     }
+
 
     @Test
     void testGetDesktopDriver_WithInvalidBrowser_ShouldReturnNull() {
