@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-24.04 
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgres:13
@@ -26,14 +26,14 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4 
+      uses: actions/checkout@v4
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v4 
+      uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'gradle' 
+        cache: 'gradle'
 
     - name: Grant gradlew permissions
       run: chmod +x gradlew
@@ -48,6 +48,20 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    - name: Install dependencies for Chrome and headless browser
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          google-chrome-stable \
+          chromium-chromedriver \
+          libx11-xcb1 \
+          libfontconfig1 \
+          libxcomposite1 \
+          libxrandr2 \
+          libgtk-3-0 \
+          libgbm-dev \
+          wget
+
     - name: Build with Gradle
       run: ./gradlew clean build
 
@@ -55,13 +69,13 @@ jobs:
       run: ./gradlew test
 
     - name: Install Docker Compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose-plugin  
+      run: sudo apt-get update && sudo apt-get install -y docker-compose-plugin
 
     - name: Build Docker image
       run: docker build -t beluga-asg .
 
     - name: Start Docker Compose
-      run: docker compose -f docker-compose.yml up -d  
+      run: docker compose -f docker-compose.yml up -d
 
     - name: Run Integration Tests
       run: |
