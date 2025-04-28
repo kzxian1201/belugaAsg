@@ -101,3 +101,24 @@ jobs:
     - name: Clean up Docker images and containers
       run: |
         docker system prune -af
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Build Docker image
+      run: docker build -t beluga-asg .
+
+    - name: Deploy to Production (customize as needed)
+      run: |
+        # Your deployment commands here (e.g., push to DockerHub or deploy to server)
+        echo "Deploying application..."
