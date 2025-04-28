@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WrapperMethods.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.utils</a> &gt; <span class="el_source">WrapperMethods.java</span></div><h1>WrapperMethods.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.utils;
+
+
+
+import io.appium.java_client.*;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.touch.offset.PointOption;
+import io.cucumber.java.Scenario;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.*;
+import org.redwind.autotest.beluga.configuration.DriverFactory;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static java.time.Duration.ofMillis;
+
+public class WrapperMethods {
+
+<span class="nc" id="L27">    public static final Logger logger = LogManager.getFormatterLogger();</span>
+    private DriverFactory driverFactory;
+    private GenericFunctions genericFunctions;
+
+
+    private WebDriver driver;
+    private AppiumDriver appiumDriver;
+
+<span class="nc" id="L35">    public WrapperMethods() {</span>
+<span class="nc" id="L36">        driverFactory = new DriverFactory();</span>
+<span class="nc" id="L37">        genericFunctions = new GenericFunctions();</span>
+<span class="nc" id="L38">    }</span>
+
+    public void openApplication(String url) {
+<span class="nc" id="L41">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L43">            driver.get(url);</span>
+<span class="nc" id="L44">        } catch (WebDriverException getError) {</span>
+<span class="nc" id="L45">            logger.error(&quot;Failed to load the application because %s&quot;,getError);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+    public void enterText(By locator, String value) {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L50">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L51">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L53">            driver=driverFactory.getCurrentDriver();</span>
+        }
+        try {
+<span class="nc" id="L56">            driver.findElement(locator).sendKeys(value);</span>
+<span class="nc" id="L57">        } catch (WebDriverException getError) {</span>
+<span class="nc" id="L58">            logger.error(&quot;Failed to enter Text %s&quot;,getError);</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+    public void clickOnElement(By locator) {
+<span class="nc" id="L62">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if(driver==null){</span>
+<span class="nc" id="L64">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L65">            driver = appiumDriver;</span>
+        }
+        try {
+<span class="nc" id="L68">            driver.findElement(locator).click();</span>
+<span class="nc" id="L69">        } catch (WebDriverException getError) {</span>
+<span class="nc" id="L70">            logger.error(&quot;Failed to click on webElement %s&quot;, getError);</span>
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    }</span>
+    public void zoom(int zoomPercentage) {
+<span class="nc" id="L74">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L75">        JavascriptExecutor executor = (JavascriptExecutor)driver;</span>
+<span class="nc" id="L76">        executor.executeScript(&quot;document.body.style.zoom = '&quot;+zoomPercentage+&quot;%'&quot;);</span>
+<span class="nc" id="L77">    }</span>
+    public void scrollToElement(By locator) {
+<span class="nc" id="L79">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L81">            WebElement element = driver.findElement(locator);</span>
+<span class="nc" id="L82">            Actions action = new Actions(driver);</span>
+<span class="nc" id="L83">            action.scrollToElement(element).build().perform();</span>
+<span class="nc" id="L84">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L85">            logger.error(&quot;Scroll to element failed %s&quot;,getException);</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">    }</span>
+    public String getTextFromElement(By locator) {
+<span class="nc" id="L89">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L90">        String text=null;</span>
+        try {
+<span class="nc" id="L92">            text = driver.findElement(locator).getText();</span>
+<span class="nc" id="L93">        }catch (WebDriverException getException) {</span>
+<span class="nc" id="L94">            logger.error(&quot;Cannot get the Text %s&quot;,getException);</span>
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">        return text;</span>
+    }
+    public String getTextFromElement(WebElement locator) {
+<span class="nc" id="L99">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L100">        String text=null;</span>
+        try {
+<span class="nc" id="L102">            text = locator.getText();</span>
+<span class="nc" id="L103">        }catch (WebDriverException getException) {</span>
+<span class="nc" id="L104">            logger.error(&quot;Cannot get the Text %s&quot;,getException);</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">        return text;</span>
+    }
+    public String getValueFromElement(By locator,String name) {
+<span class="nc" id="L109">            driver=driverFactory.getCurrentDriver();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if(driver==null){</span>
+<span class="nc" id="L111">                appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L112">                driver = appiumDriver;</span>
+            }
+<span class="nc" id="L114">        String value=null;</span>
+        try {
+<span class="nc" id="L116">            value = driver.findElement(locator).getAttribute(name);</span>
+<span class="nc" id="L117">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L118">            logger.error(&quot;Cannot get the attribute value %s&quot;,getException);</span>
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">        return value;</span>
+    }
+    public String getValueFromElement(WebElement locator,String name) {
+<span class="nc" id="L123">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if(driver==null){</span>
+<span class="nc" id="L125">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L126">            driver = appiumDriver;</span>
+        }
+<span class="nc" id="L128">        String value=null;</span>
+        try {
+<span class="nc" id="L130">            value = locator.getAttribute(name);</span>
+<span class="nc" id="L131">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L132">            logger.error(&quot;Cannot get the attribute value %s&quot;,getException);</span>
+<span class="nc" id="L133">        }</span>
+<span class="nc" id="L134">        return value;</span>
+    }
+
+    public String getCurrentURL() {
+<span class="nc" id="L138">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L139">        String text = null;</span>
+        try {
+<span class="nc" id="L141">            text=driver.getCurrentUrl();</span>
+<span class="nc" id="L142">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L143">            logger.error(&quot;Cannot get the URL %s&quot;,getException);</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">        return text;</span>
+    }
+    public void refreshThePage() {
+<span class="nc" id="L148">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L150">            driver.navigate().refresh();</span>
+<span class="nc" id="L151">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L152">            logger.error(&quot;Cannot refresh the webpage&quot;,getException);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
+    public void navigateBack() {
+<span class="nc" id="L156">        driver =driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L158">            driver.navigate().back();</span>
+<span class="nc" id="L159">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L160">            logger.error(&quot;Cannot navigate back in webpage %s&quot;, getException);</span>
+<span class="nc" id="L161">        }</span>
+<span class="nc" id="L162">    }</span>
+    public void clearText(By locator) {
+<span class="nc" id="L164">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L166">            driver.findElement(locator).clear();</span>
+<span class="nc" id="L167">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L168">            logger.error(&quot;Cannot clear the Text %s&quot;, getException);</span>
+<span class="nc" id="L169">        }</span>
+<span class="nc" id="L170">    }</span>
+    public void waitForPresenceOfElementLocated(By locator, Duration timeoutInSeconds) {
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L173">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L174">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L176">            driver=driverFactory.getCurrentDriver();</span>
+        }
+        try {
+<span class="nc" id="L179">            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);</span>
+<span class="nc" id="L180">            wait.until(ExpectedConditions.presenceOfElementLocated(locator));</span>
+<span class="nc" id="L181">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L182">            logger.error(&quot;Element is not loaded within the time&quot;, getException);</span>
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">    }</span>
+    public void waitForVisibilityOfElementLocated(By locator, Duration timeoutInSeconds) {
+<span class="nc" id="L186">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L188">            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);</span>
+<span class="nc" id="L189">            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));</span>
+<span class="nc" id="L190">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L191">            logger.error(&quot;Element is not loaded within the time&quot;, getException);</span>
+<span class="nc" id="L192">        }</span>
+<span class="nc" id="L193">    }</span>
+    public void selectByValue(By locator, String value) {
+<span class="nc" id="L195">        driver=driverFactory.getCurrentDriver();</span>
+        try{
+<span class="nc" id="L197">            Select select= new Select(driver.findElement(locator));</span>
+<span class="nc" id="L198">            select.selectByValue(value);</span>
+<span class="nc" id="L199">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L200">            logger.error(&quot;value is not present in dropdown&quot;, getException);</span>
+<span class="nc" id="L201">        }</span>
+<span class="nc" id="L202">    }</span>
+    public void selectByVisibleText(By locator, String text) {
+<span class="nc" id="L204">        driver=driverFactory.getCurrentDriver();</span>
+        try{
+<span class="nc" id="L206">            Select select= new Select(driver.findElement(locator));</span>
+<span class="nc" id="L207">            select.selectByVisibleText(text);</span>
+<span class="nc" id="L208">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L209">            logger.error(&quot;Text is not present in dropdown&quot;, getException);</span>
+<span class="nc" id="L210">        }</span>
+<span class="nc" id="L211">    }</span>
+    public void selectByIndex(By locator, int index) {
+<span class="nc" id="L213">        driver=driverFactory.getCurrentDriver();</span>
+        try{
+<span class="nc" id="L215">            Select select= new Select(driver.findElement(locator));</span>
+<span class="nc" id="L216">            select.selectByIndex(index);</span>
+<span class="nc" id="L217">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L218">            logger.error(&quot;value is not present in dropdown&quot;, getException);</span>
+<span class="nc" id="L219">        }</span>
+<span class="nc" id="L220">    }</span>
+    public List&lt;WebElement&gt; getAllDropdownValues(By locator) {
+<span class="nc" id="L222">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L223">        List&lt;WebElement&gt; options=null;</span>
+        try {
+<span class="nc" id="L225">            Select select = new Select(driver.findElement(locator));</span>
+<span class="nc" id="L226">            options=select.getOptions();</span>
+<span class="nc" id="L227">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L228">            logger.error(&quot;options are not visible&quot;, getException);</span>
+<span class="nc" id="L229">        }</span>
+<span class="nc" id="L230">        return options;</span>
+    }
+    public void scrollToButtom() {
+<span class="nc" id="L233">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L234">        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;</span>
+<span class="nc" id="L235">        javascriptExecutor.executeScript(&quot;window.scrollTo(0, document.body.scrollHeight)&quot;);</span>
+<span class="nc" id="L236">    }</span>
+    public void scrollToTop() {
+<span class="nc" id="L238">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L239">        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;</span>
+<span class="nc" id="L240">        javascriptExecutor.executeScript(&quot;window.scrollTo(0, -document.body.scrollHeight)&quot;);</span>
+<span class="nc" id="L241">    }</span>
+    public void mouseHover(By locator) {
+<span class="nc" id="L243">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L245">            Actions action = new Actions(driver);</span>
+<span class="nc" id="L246">            action.moveToElement(driver.findElement(locator)).build().perform();</span>
+<span class="nc" id="L247">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L248">            logger.error(&quot;mouse hover is not performed %s&quot;, getException);</span>
+<span class="nc" id="L249">        }</span>
+<span class="nc" id="L250">    }</span>
+    public void performRightClick() {
+<span class="nc" id="L252">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L254">            Actions action = new Actions(driver);</span>
+<span class="nc" id="L255">            action.contextClick().build().perform();</span>
+<span class="nc" id="L256">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L257">            logger.error(&quot;right click cannot be performed %s&quot;, getException);</span>
+<span class="nc" id="L258">        }</span>
+<span class="nc" id="L259">    }</span>
+    public void performRightClickOnWebElement(By locator) {
+<span class="nc" id="L261">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L263">            Actions action = new Actions(driver);</span>
+<span class="nc" id="L264">            action.contextClick(driver.findElement(locator)).build().perform();</span>
+<span class="nc" id="L265">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L266">            logger.error(&quot;right click on web element cannot be performed %s&quot;, getException);</span>
+<span class="nc" id="L267">        }</span>
+<span class="nc" id="L268">    }</span>
+    public void openNewTab() {
+<span class="nc" id="L270">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L272">            driver.switchTo().newWindow(WindowType.TAB);</span>
+<span class="nc" id="L273">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L274">            logger.error(&quot;Cannot open new tab %s&quot;, getException);</span>
+<span class="nc" id="L275">        }</span>
+<span class="nc" id="L276">    }</span>
+    public void openNewWindow() {
+<span class="nc" id="L278">        driver = driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L280">            driver.switchTo().newWindow(WindowType.WINDOW);</span>
+<span class="nc" id="L281">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L282">            logger.error(&quot;Cannot open new window %s&quot;, getException);</span>
+<span class="nc" id="L283">        }</span>
+<span class="nc" id="L284">    }</span>
+    public void maximizeWindow() {
+<span class="nc" id="L286">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L287">        driver.manage().window().maximize();</span>
+<span class="nc" id="L288">    }</span>
+    public void minimizeWindow() {
+<span class="nc" id="L290">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L291">        driver.manage().window().minimize();</span>
+<span class="nc" id="L292">    }</span>
+    public boolean isElementDisplayed(By locator) {
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L295">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L296">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L298">            driver=driverFactory.getCurrentDriver();</span>
+        }
+        try {
+<span class="nc" id="L301">            boolean flag=driver.findElement(locator).isDisplayed();</span>
+<span class="nc" id="L302">            return flag;</span>
+<span class="nc" id="L303">        } catch(WebDriverException getException) {</span>
+<span class="nc" id="L304">            logger.error(&quot;Cannot open new window %s&quot;, getException);</span>
+<span class="nc" id="L305">            return false;</span>
+        }
+    }
+    public void closeWindow() {
+<span class="nc" id="L309">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L310">        driver.close();</span>
+<span class="nc" id="L311">    }</span>
+    public void quitBrowser() {
+<span class="nc" id="L313">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L314">        driver.quit();</span>
+<span class="nc" id="L315">    }</span>
+    public void waitForElementToBeClickable(By locator, Duration timeoutInSeconds) {
+<span class="nc" id="L317">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L319">            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);</span>
+<span class="nc" id="L320">            wait.until(ExpectedConditions.elementToBeClickable(locator));</span>
+<span class="nc" id="L321">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L322">            logger.error(&quot;Element is not clickable within the time %s&quot;, getException);</span>
+<span class="nc" id="L323">        }</span>
+<span class="nc" id="L324">    }</span>
+    public void waitForTextToBePresent(By locator,String text, Duration timeoutInSeconds) {
+<span class="nc" id="L326">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L328">            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);</span>
+<span class="nc" id="L329">            wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));</span>
+<span class="nc" id="L330">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L331">            logger.error(&quot;Element is not loaded with text within the time $s&quot;, getException);</span>
+<span class="nc" id="L332">        }</span>
+<span class="nc" id="L333">    }</span>
+    public void waitForAlertTPresentAndAccept(Duration timeoutInSeconds) {
+<span class="nc" id="L335">        driver=driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L337">            WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);</span>
+<span class="nc" id="L338">            wait.until(ExpectedConditions.alertIsPresent());</span>
+<span class="nc" id="L339">            driver.switchTo().alert().accept();</span>
+<span class="nc" id="L340">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L341">            logger.error(&quot;Alert is not present %s&quot;, getException);</span>
+<span class="nc" id="L342">        }</span>
+<span class="nc" id="L343">    }</span>
+    public List&lt;WebElement&gt; getListOfElements(By locator) {
+<span class="nc bnc" id="L345" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L346">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L347">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L349">            driver=driverFactory.getCurrentDriver();</span>
+        }
+<span class="nc" id="L351">        List&lt;WebElement&gt; elements=null;</span>
+        try {
+<span class="nc" id="L353">            elements = driver.findElements(locator);</span>
+<span class="nc" id="L354">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L355">            logger.error(&quot;List of web elements is not available %s&quot;, getException);</span>
+<span class="nc" id="L356">        }</span>
+<span class="nc" id="L357">        return elements;</span>
+    }
+    public void waitForFrameToLoadAndSwitch(By locator, Duration timeoutInSeconds) {
+<span class="nc" id="L360">        driver= driverFactory.getCurrentDriver();</span>
+        try {
+<span class="nc" id="L362">            WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);</span>
+<span class="nc" id="L363">            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));</span>
+<span class="nc" id="L364">        } catch (WebDriverException getException) {</span>
+<span class="nc" id="L365">            logger.error(&quot;Frame is not available %s&quot;, getException);</span>
+<span class="nc" id="L366">        }</span>
+<span class="nc" id="L367">    }</span>
+    public void takeScreenshotOfWebElement(By locator, Scenario scenario) {
+<span class="nc" id="L369">        driver= driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L370">        byte[] screenshot = driver.findElement(locator).getScreenshotAs(OutputType.BYTES);</span>
+<span class="nc" id="L371">        scenario.attach(screenshot,&quot;image/png&quot;, scenario.getName()+&quot;_&quot;+genericFunctions.getCurrentTimeStamp());</span>
+<span class="nc" id="L372">    }</span>
+    public void takeScreenshot(Scenario scenario) {
+<span class="nc" id="L374">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L375">        byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);</span>
+<span class="nc" id="L376">        scenario.attach(screenshot,&quot;image/png&quot;, scenario.getName()+&quot;_&quot;+genericFunctions.getCurrentTimeStamp());</span>
+<span class="nc" id="L377">    }</span>
+    public void scrollDownInMobile(By locator) {
+<span class="nc" id="L379">        appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L380">        RemoteWebElement element = (RemoteWebElement) appiumDriver.findElement(locator);</span>
+<span class="nc" id="L381">        HashMap&lt;String, String&gt; scrollObj = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L382">        scrollObj.put(&quot;element&quot;,element.getId());</span>
+<span class="nc" id="L383">        scrollObj.put(&quot;direction&quot;, &quot;down&quot;);</span>
+<span class="nc" id="L384">        appiumDriver.executeScript(&quot;mobile:scroll&quot;,scrollObj);</span>
+<span class="nc" id="L385">    }</span>
+
+    public boolean isChecked(By locator) {
+<span class="nc" id="L388">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L389">         WebElement element = driver.findElement(locator);</span>
+<span class="nc" id="L390">        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;</span>
+<span class="nc" id="L391">        boolean isChecked = (boolean) javascriptExecutor.executeScript(&quot;return arguments[0].checked;&quot;, element);</span>
+<span class="nc" id="L392">        return isChecked;</span>
+    }
+    public void switchToLastOpenedWindow() {
+<span class="nc" id="L395">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L396">        Set&lt;String&gt; windowHandles = driver.getWindowHandles();</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">        for(String handle : windowHandles) {</span>
+<span class="nc" id="L398">            driver.switchTo().window(handle);</span>
+<span class="nc" id="L399">        }</span>
+<span class="nc" id="L400">    }</span>
+    public String getTitle() {
+<span class="nc" id="L402">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L403">        String title = driver.getTitle();</span>
+<span class="nc" id="L404">        return title;</span>
+    }
+    public String getCurrentWindowID() {
+<span class="nc" id="L407">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L408">        String windowID = driver.getWindowHandle();</span>
+<span class="nc" id="L409">        return windowID;</span>
+    }
+    public void pressEnter(By locator){
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L413">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L414">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L416">            driver=driverFactory.getCurrentDriver();</span>
+        }
+<span class="nc" id="L418">        driver.findElement(locator).sendKeys((CharSequence) new KeyEvent(AndroidKey.ENTER));</span>
+<span class="nc" id="L419">    }</span>
+
+    public void enterPress() {
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L423">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L424">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L426">            driver=driverFactory.getCurrentDriver();</span>
+        }
+<span class="nc" id="L428">        Actions actions = new Actions(driver);</span>
+<span class="nc" id="L429">        actions.sendKeys(Keys.RETURN).build().perform();</span>
+<span class="nc" id="L430">    }</span>
+
+    public void moveToMobileElements(Point locator1, Point locator2) {
+<span class="nc bnc" id="L433" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L434">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L435">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L437">            driver=driverFactory.getCurrentDriver();</span>
+        }
+<span class="nc" id="L439">        TouchAction action = new TouchAction((PerformsTouchActions) driver);</span>
+<span class="nc" id="L440">        action.press(PointOption.point(locator2)).waitAction(waitOptions(ofMillis(1000))).moveTo(PointOption.point(locator1)).release().perform();</span>
+        //action.tap(TapOptions.tapOptions().withElement((ElementOption) locator2)).moveTo(scrollToElement((By) locator1)).release().perform();
+<span class="nc" id="L442">    }</span>
+    public WebElement getElement(By locator) {
+<span class="nc bnc" id="L444" title="All 2 branches missed.">        if(driverFactory.getCurrentDriver()==null) {</span>
+<span class="nc" id="L445">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L446">            driver = appiumDriver;</span>
+        }else {
+<span class="nc" id="L448">            driver=driverFactory.getCurrentDriver();</span>
+        }
+<span class="nc" id="L450">        return driver.findElement(locator);</span>
+    }
+
+    public void clickOnElement(WebElement locator) {
+<span class="nc" id="L454">        driver=driverFactory.getCurrentDriver();</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">        if(driver==null){</span>
+<span class="nc" id="L456">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L457">            driver = appiumDriver;</span>
+        }
+        try {
+<span class="nc" id="L460">            locator.click();</span>
+<span class="nc" id="L461">        } catch (WebDriverException getError) {</span>
+<span class="nc" id="L462">            logger.error(&quot;Failed to click on webElement %s&quot;, getError);</span>
+<span class="nc" id="L463">        }</span>
+<span class="nc" id="L464">    }</span>
+
+    public void implicitWait() {
+<span class="nc" id="L467">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">        if(driver==null) {</span>
+<span class="nc" id="L469">            appiumDriver = driverFactory.getCurrentAppiumDriver();</span>
+<span class="nc" id="L470">            driver = appiumDriver;</span>
+        }
+<span class="nc" id="L472">        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));</span>
+<span class="nc" id="L473">    }</span>
+
+    public void waitWithPoolingForElementToBePresent(By locator) {
+<span class="nc" id="L476">        driver = driverFactory.getCurrentDriver();</span>
+<span class="nc" id="L477">        Wait&lt;WebDriver&gt; wait = new FluentWait&lt;&gt;(driver).</span>
+<span class="nc" id="L478">                withTimeout(Duration.ofSeconds(30)).</span>
+<span class="nc" id="L479">                pollingEvery(Duration.ofSeconds(5))</span>
+<span class="nc" id="L480">                .ignoring(NoSuchElementException.class);</span>
+
+<span class="nc" id="L482">        wait.until(ExpectedConditions.presenceOfElementLocated(locator));</span>
+
+<span class="nc" id="L484">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

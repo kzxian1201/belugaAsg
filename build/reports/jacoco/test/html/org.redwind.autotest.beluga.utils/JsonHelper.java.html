@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.utils</a> &gt; <span class="el_source">JsonHelper.java</span></div><h1>JsonHelper.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.utils;
+
+import io.restassured.response.Response;
+import org.json.JSONObject;
+
+<span class="fc" id="L6">public class JsonHelper {</span>
+
+    private JSONObject jsonObject;
+    public String getJsonString(Response response, String jsonKey) {
+        String result;
+<span class="nc" id="L11">        jsonObject = new JSONObject(response.asString());</span>
+<span class="nc" id="L12">        result = jsonObject.getString(jsonKey);</span>
+<span class="nc" id="L13">        return result;</span>
+    }
+
+    public Integer getIntegerFromJsonObj(Response response, String jsonObj, String jsonKey) {
+        int result;
+<span class="nc" id="L18">        jsonObject = new JSONObject(response.asString());</span>
+<span class="nc" id="L19">        result = jsonObject.getJSONObject(jsonObj).getInt(jsonKey);</span>
+<span class="nc" id="L20">        return result;</span>
+    }
+    public String getStringFromJsonObj(Response response, String jsonObj, String jsonKey) {
+        String result;
+<span class="nc" id="L24">        jsonObject = new JSONObject(response.asString());</span>
+<span class="nc" id="L25">        result = jsonObject.getJSONObject(jsonObj).getString(jsonKey);</span>
+<span class="nc" id="L26">        return result;</span>
+    }
+    public Integer getJsonInteger(Response response, String jsonKey) {
+        int result;
+<span class="nc" id="L30">        jsonObject = new JSONObject(response.asString());</span>
+<span class="nc" id="L31">        result = jsonObject.getInt(jsonKey);</span>
+<span class="nc" id="L32">        return result;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

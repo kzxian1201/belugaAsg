@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Encryption.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.utils</a> &gt; <span class="el_source">Encryption.java</span></div><h1>Encryption.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.utils;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jasypt.util.text.StrongTextEncryptor;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Encryption {
+    private StrongTextEncryptor strongTextEncryptor;
+<span class="nc" id="L12">    private PropertyReader propertyReader = new PropertyReader();</span>
+<span class="nc" id="L13">    public static final Logger logger = LogManager.getFormatterLogger();</span>
+
+<span class="nc" id="L15">    public Encryption() throws IOException {</span>
+<span class="nc" id="L16">        strongTextEncryptor = new StrongTextEncryptor();</span>
+<span class="nc" id="L17">        strongTextEncryptor.setPassword(propertyReader.getGenericProperty(&quot;ENCRYPTION_PASSWORD&quot;));</span>
+<span class="nc" id="L18">    }</span>
+    public String encrypt() {
+
+<span class="nc" id="L21">        logger.info(&quot;Enter the password which needs to be encrypted: &quot;);</span>
+<span class="nc" id="L22">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L23">        String stringToEncrypt = scanner.nextLine();</span>
+<span class="nc" id="L24">        String result =strongTextEncryptor.encrypt(stringToEncrypt);</span>
+<span class="nc" id="L25">        return result;</span>
+    }
+
+    public String decrypt(String encryptedPassword) {
+<span class="nc" id="L29">        String decrptedString = strongTextEncryptor.decrypt(encryptedPassword);</span>
+<span class="nc" id="L30">        return decrptedString;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

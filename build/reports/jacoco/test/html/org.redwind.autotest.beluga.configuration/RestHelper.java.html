@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">belugaAsg</a> &gt; <a href="index.source.html" class="el_package">org.redwind.autotest.beluga.configuration</a> &gt; <span class="el_source">RestHelper.java</span></div><h1>RestHelper.java</h1><pre class="source lang-java linenums">package org.redwind.autotest.beluga.configuration;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
+import org.redwind.autotest.beluga.utils.APIHelper;
+
+import java.io.File;
+import java.net.URL;
+
+<span class="fc" id="L12">public class RestHelper implements APIHelper</span>
+{
+    @Override
+    public Response get(ContentType contentType, URL endpoint, Header authorization) {
+<span class="fc" id="L16">        Response response = null;</span>
+<span class="fc" id="L17">        response = RestAssured.given()</span>
+<span class="fc" id="L18">                .header(authorization)</span>
+<span class="fc" id="L19">                .when()</span>
+<span class="fc" id="L20">                .get(endpoint).then()</span>
+<span class="fc" id="L21">                .contentType(contentType)</span>
+<span class="fc" id="L22">                .extract().response();</span>
+<span class="fc" id="L23">        return response;</span>
+    }
+    @Override
+    public Response get(ContentType contentType, URL endpoint, Header authorization,Header cookie) {
+<span class="nc" id="L27">        Response response = null;</span>
+<span class="nc" id="L28">        response = RestAssured.given()</span>
+<span class="nc" id="L29">                .header(cookie)</span>
+<span class="nc" id="L30">                .header(authorization)</span>
+<span class="nc" id="L31">                .when()</span>
+<span class="nc" id="L32">                .get(endpoint).then()</span>
+<span class="nc" id="L33">                .contentType(contentType)</span>
+<span class="nc" id="L34">                .extract().response();</span>
+<span class="nc" id="L35">        return response;</span>
+    }
+    @Override
+    public Response get(URL endpoint, Header authorization,Header cookie) {
+<span class="nc" id="L39">        Response response = null;</span>
+<span class="nc" id="L40">        response = RestAssured.given()</span>
+<span class="nc" id="L41">                .header(cookie)</span>
+<span class="nc" id="L42">                .header(authorization)</span>
+<span class="nc" id="L43">                .when()</span>
+<span class="nc" id="L44">                .get(endpoint).then()</span>
+<span class="nc" id="L45">                .extract().response();</span>
+<span class="nc" id="L46">        return response;</span>
+    }
+    @Override
+    public Response post(ContentType contentType, URL endpoint, Header authorization, File filePath) {
+<span class="fc" id="L50">        Response response = null;</span>
+<span class="fc" id="L51">        response = RestAssured.given()</span>
+<span class="fc" id="L52">                .header(authorization)</span>
+<span class="fc" id="L53">                .contentType(contentType)</span>
+<span class="fc" id="L54">                .body(filePath)</span>
+<span class="fc" id="L55">                .when()</span>
+<span class="fc" id="L56">                .post(endpoint)</span>
+<span class="fc" id="L57">                .then()</span>
+<span class="fc" id="L58">                .extract().response();</span>
+<span class="fc" id="L59">        return response;</span>
+    }
+    public Response post(ContentType contentType, URL endpoint,Header authorization,Header cookie, File filePath){
+<span class="nc" id="L62">        Response response = null;</span>
+<span class="nc" id="L63">        response = RestAssured.given()</span>
+<span class="nc" id="L64">                .header(authorization)</span>
+<span class="nc" id="L65">                .header(cookie)</span>
+<span class="nc" id="L66">                .contentType(contentType)</span>
+<span class="nc" id="L67">                .body(filePath)</span>
+<span class="nc" id="L68">                .when()</span>
+<span class="nc" id="L69">                .post(endpoint)</span>
+<span class="nc" id="L70">                .then()</span>
+<span class="nc" id="L71">                .extract().response();</span>
+<span class="nc" id="L72">        return response;</span>
+    }
+
+    @Override
+    public Response delete(URL endpoint, Header authorization) {
+<span class="fc" id="L77">        Response response = null;</span>
+<span class="fc" id="L78">        response = RestAssured.given()</span>
+<span class="fc" id="L79">                .header(authorization)</span>
+<span class="fc" id="L80">                .when()</span>
+<span class="fc" id="L81">                .delete(endpoint)</span>
+<span class="fc" id="L82">                .then()</span>
+<span class="fc" id="L83">                .extract().response();</span>
+<span class="fc" id="L84">        return response;</span>
+    }
+    @Override
+    public Response delete(URL endpoint, Header authorization, Header cookie) {
+<span class="nc" id="L88">        Response response = null;</span>
+<span class="nc" id="L89">        response = RestAssured.given()</span>
+<span class="nc" id="L90">                .header(authorization)</span>
+<span class="nc" id="L91">                .header(cookie)</span>
+<span class="nc" id="L92">                .when()</span>
+<span class="nc" id="L93">                .delete(endpoint)</span>
+<span class="nc" id="L94">                .then()</span>
+<span class="nc" id="L95">                .extract().response();</span>
+<span class="nc" id="L96">        return response;</span>
+    }
+
+    @Override
+    public Response patch(URL endpoint, Header authorization, ContentType contentType, File body) {
+<span class="nc" id="L101">        Response response = null;</span>
+<span class="nc" id="L102">        response = RestAssured.given()</span>
+<span class="nc" id="L103">                .header(authorization)</span>
+<span class="nc" id="L104">                .contentType(contentType)</span>
+<span class="nc" id="L105">                .body(body)</span>
+<span class="nc" id="L106">                .when()</span>
+<span class="nc" id="L107">                .patch(endpoint)</span>
+<span class="nc" id="L108">                .then()</span>
+<span class="nc" id="L109">                .extract().response();</span>
+<span class="nc" id="L110">        return response;</span>
+    }
+    @Override
+    public Response patch(URL endpoint, Header authorization,Header cookies, ContentType contentType, File body) {
+<span class="nc" id="L114">        Response response = null;</span>
+<span class="nc" id="L115">        response = RestAssured.given()</span>
+<span class="nc" id="L116">                .header(authorization)</span>
+<span class="nc" id="L117">                .header(cookies)</span>
+<span class="nc" id="L118">                .contentType(contentType)</span>
+<span class="nc" id="L119">                .body(body)</span>
+<span class="nc" id="L120">                .when()</span>
+<span class="nc" id="L121">                .patch(endpoint)</span>
+<span class="nc" id="L122">                .then()</span>
+<span class="nc" id="L123">                .extract().response();</span>
+<span class="nc" id="L124">        return response;</span>
+    }
+
+    @Override
+    public Response put(URL endpoint, Header authorization, ContentType contentType, File body) {
+<span class="nc" id="L129">        Response response = null;</span>
+<span class="nc" id="L130">        response = RestAssured.given()</span>
+<span class="nc" id="L131">                .header(authorization)</span>
+<span class="nc" id="L132">                .contentType(contentType)</span>
+<span class="nc" id="L133">                .body(body)</span>
+<span class="nc" id="L134">                .when()</span>
+<span class="nc" id="L135">                .put(endpoint)</span>
+<span class="nc" id="L136">                .then().extract().response();</span>
+<span class="nc" id="L137">        return response;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
