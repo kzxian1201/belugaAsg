@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
 
     - name: Grant execute permission for Gradle Wrapper
       run: chmod +x gradlew
@@ -43,3 +46,11 @@ jobs:
       with:
         name: code-coverage-report
         path: build/reports/jacoco/test/html/
+
+    - name: Build Docker Image
+      run: |
+        docker build -t beluga-test:latest .
+
+    - name: Run Docker Container
+      run: |
+        docker run --rm beluga-test:latest
