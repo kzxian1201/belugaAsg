@@ -53,21 +53,21 @@ jobs:
         # Install required libs for Chrome
         sudo apt-get update
         sudo apt-get install -y \
-        wget \
-        libx11-xcb1 \
-        libxcomposite1 \
-        libxcursor1 \
-        libxdamage1 \
-        libxi6 \
-        libxtst6 \
-        libnss3 \
-        libcups2 \
-        libxss1 \
-        libxrandr2 \
-        libasound2 \
-        libatk1.0-0 \
-        libgtk-3-0 \
-        libgbm-dev
+          wget \
+          libx11-xcb1 \
+          libxcomposite1 \
+          libxcursor1 \
+          libxdamage1 \
+          libxi6 \
+          libxtst6 \
+          libnss3 \
+          libcups2 \
+          libxss1 \
+          libxrandr2 \
+          libatk1.0-0 \
+          libgtk-3-0 \
+          libgbm-dev \
+          libasound2t64
 
         # Install Chrome (stable)
         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg
