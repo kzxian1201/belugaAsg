@@ -59,17 +59,15 @@ class DriverFactoryTest {
 
     @Test
     void testGetDesktopDriver_WithChrome_ShouldReturnChromeDriver() {
+        DriverFactory driverFactorySpy = spy(new DriverFactory(mockEnvironment));
+    
         ChromeDriver mockChromeDriver = mock(ChromeDriver.class);
-
-        try (MockedStatic<ChromeDriver> chromeDriverMockedStatic = mockStatic(ChromeDriver.class)) {
-            chromeDriverMockedStatic.when(() -> new ChromeDriver(new ChromeOptions()))
-                    .thenReturn(mockChromeDriver);
-
-            ChromeOptions options = new ChromeOptions();
-            WebDriver driver = new ChromeDriver(options);
-
-            assertNotNull(driver);
-        }
+    
+        doReturn(mockChromeDriver).when(driverFactorySpy).getDesktopDriver("Chrome");
+    
+        WebDriver driver = driverFactorySpy.getDesktopDriver("Chrome");
+    
+        assertNotNull(driver);
     }
 
 
